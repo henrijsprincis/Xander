@@ -1,0 +1,5 @@
+1. SELECT singer.name, singer.country FROM singer WHERE singer.song_name LIKE '%Hey%';
+2. SELECT stadium.name, stadium.location FROM stadium JOIN concert ON stadium.stadium_id = concert.stadium_id WHERE concert.year = 2014 AND stadium.stadium_id IN (SELECT stadium_id FROM concert WHERE year = 2015);
+3. SELECT stadium.name, stadium.location FROM stadium JOIN concert ON stadium.stadium_id = concert.stadium_id WHERE concert.year = 2014 AND stadium.stadium_id IN (SELECT stadium_id FROM concert WHERE year = 2015);
+4. SELECT COUNT(concert_id) FROM concert WHERE stadium_id = (SELECT stadium_id FROM stadium ORDER BY capacity DESC LIMIT 1);
+5. SELECT COUNT(concert_id) FROM concert WHERE stadium_id = (SELECT stadium_id FROM stadium ORDER BY capacity DESC LIMIT 1);

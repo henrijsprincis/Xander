@@ -1,0 +1,25 @@
+1. 
+SELECT flightno 
+FROM flights 
+WHERE sourceairport = "APG";
+
+2. 
+SELECT flightno 
+FROM flights 
+WHERE sourceairport = "APG";
+
+3. 
+SELECT flightno 
+FROM flights 
+WHERE destairport = "APG";
+
+4. 
+SELECT flightno 
+FROM flights 
+WHERE destairport = "APG";
+
+5. 
+SELECT flightno 
+FROM flights 
+JOIN airports ON flights.sourceairport = airports.airportcode 
+WHERE airports.city = "Aberdeen";

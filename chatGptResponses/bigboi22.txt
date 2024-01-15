@@ -1,0 +1,37 @@
+1. 
+
+SELECT COUNT(model_list.modelid), car_makers.id, car_makers.fullname
+FROM car_makers
+JOIN model_list ON car_makers.maker = model_list.maker
+JOIN car_names ON model_list.modelid = car_names.modelid
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE car_makers.country = (SELECT countryid FROM countries WHERE countryname = 'France')
+GROUP BY car_makers.id;
+
+2. 
+
+SELECT cars_data.accelerate
+FROM car_names
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE car_names.model = 'amc hornet sportabout (sw)';
+
+3. 
+
+SELECT cars_data.accelerate
+FROM car_names
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE car_names.make = 'amc' AND car_names.model = 'hornet sportabout (sw)';
+
+4. 
+
+SELECT COUNT(*)
+FROM car_makers
+JOIN countries ON car_makers.country = countries.countryid
+WHERE countries.countryname = 'France';
+
+5. 
+
+SELECT COUNT(DISTINCT car_makers.id)
+FROM car_makers
+JOIN countries ON car_makers.country = countries.countryid
+WHERE countries.countryname = 'France';

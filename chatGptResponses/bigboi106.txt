@@ -1,0 +1,45 @@
+1. 
+
+SELECT s.semester_name, s.semester_id, se.degree_program_id
+FROM semesters s
+JOIN student_enrolment se ON s.semester_id = se.semester_id
+GROUP BY s.semester_id, se.degree_program_id
+HAVING COUNT(DISTINCT se.student_id) = (
+  SELECT MAX(student_count)
+  FROM (
+    SELECT COUNT(DISTINCT se.student_id) AS student_count
+    FROM student_enrolment se
+    WHERE se.semester_id = s.semester_id
+    GROUP BY se.degree_program_id
+  )
+);
+
+2. 
+
+SELECT department_description
+FROM departments
+WHERE department_name LIKE '%the computer%';
+
+3. 
+
+SELECT department_description
+FROM departments
+WHERE department_name LIKE '%computer%';
+
+4. 
+
+SELECT s.first_name, s.middle_name, s.last_name, s.student_id
+FROM students s
+JOIN student_enrolment se ON s.student_id = se.student_id
+WHERE se.semester_id = 1
+GROUP BY s.student_id
+HAVING COUNT(DISTINCT se.degree_program_id) = 2;
+
+5. 
+
+SELECT s.first_name, s.middle_name, s.last_name, s.student_id
+FROM students s
+JOIN student_enrolment se ON s.student_id = se.student_id
+WHERE se.semester_id = 1
+GROUP BY s.student_id
+HAVING COUNT(DISTINCT se.degree_program_id) = 2;

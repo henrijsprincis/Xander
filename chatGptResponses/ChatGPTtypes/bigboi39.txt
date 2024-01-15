@@ -1,0 +1,24 @@
+1. 
+SELECT COUNT(*) 
+FROM airlines 
+WHERE country = 'USA';
+
+2. 
+SELECT COUNT(*) 
+FROM airlines 
+WHERE country = 'USA';
+
+3. 
+SELECT city, country 
+FROM airports 
+WHERE airportcode = 'Alton';
+
+4. 
+SELECT city, country 
+FROM airports 
+WHERE airportcode = 'Alton';
+
+5. 
+SELECT airportname 
+FROM airports 
+WHERE airportcode = 'AKO';

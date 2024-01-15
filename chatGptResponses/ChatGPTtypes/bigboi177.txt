@@ -1,0 +1,27 @@
+1. 
+SELECT DISTINCT f1.student_id 
+FROM friend f1 
+JOIN friend f2 ON f1.friend_id = f2.student_id 
+JOIN likes l ON f2.friend_id = l.liked_id AND f1.student_id = l.student_id;
+
+2. 
+SELECT student_id, COUNT(*) 
+FROM likes 
+GROUP BY student_id;
+
+3. 
+SELECT student_id, SUM(1) 
+FROM likes 
+GROUP BY student_id;
+
+4. 
+SELECT h.name, COUNT(*) 
+FROM highschooler h 
+JOIN likes l ON h.id = l.student_id 
+GROUP BY h.name;
+
+5. 
+SELECT h.name, COUNT(*) 
+FROM highschooler h 
+JOIN likes l ON h.id = l.student_id 
+GROUP BY h.name;

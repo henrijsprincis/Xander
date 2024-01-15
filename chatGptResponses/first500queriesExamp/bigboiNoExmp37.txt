@@ -1,0 +1,11 @@
+
+
+1. SELECT airportcode, airportname FROM airports WHERE city = 'Anthony';
+
+2. SELECT airportcode, airportname FROM airports WHERE city = 'Anthony';
+
+3. SELECT COUNT(*) FROM airlines;
+
+4. SELECT COUNT(DISTINCT airline) FROM flights;
+
+5. SELECT COUNT(*) FROM airports;

@@ -1,0 +1,33 @@
+1. 
+
+SELECT owners.first_name, owners.last_name, sizes.size_description
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id
+JOIN sizes ON dogs.size_code = sizes.size_code;
+
+2. 
+
+SELECT owners.first_name, owners.last_name, sizes.size_description
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id
+JOIN sizes ON dogs.size_code = sizes.size_code;
+
+3. 
+
+SELECT owners.first_name, dogs.name
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id;
+
+4. 
+
+SELECT owners.first_name, dogs.name
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id;
+
+5. 
+
+SELECT dogs.name, treatments.date_of_treatment
+FROM dogs
+JOIN breeds ON dogs.breed_code = breeds.breed_code
+JOIN treatments ON dogs.dog_id = treatments.dog_id
+WHERE breeds.breed_name = (SELECT breed_name FROM breeds GROUP BY breed_name ORDER BY COUNT(*) LIMIT 1);

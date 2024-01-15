@@ -1,0 +1,46 @@
+1. 
+
+SELECT dogs.owner_id, owners.last_name
+FROM dogs
+JOIN owners ON dogs.owner_id = owners.owner_id
+JOIN treatments ON dogs.dog_id = treatments.dog_id
+GROUP BY dogs.owner_id
+ORDER BY SUM(treatments.cost_of_treatment) DESC
+LIMIT 1;
+
+2. 
+
+SELECT dogs.owner_id, owners.last_name
+FROM dogs
+JOIN owners ON dogs.owner_id = owners.owner_id
+JOIN treatments ON dogs.dog_id = treatments.dog_id
+GROUP BY dogs.owner_id
+ORDER BY SUM(treatments.cost_of_treatment) DESC
+LIMIT 1;
+
+3. 
+
+SELECT treatment_types.treatment_type_description
+FROM treatment_types
+JOIN treatments ON treatment_types.treatment_type_code = treatments.treatment_type_code
+GROUP BY treatments.treatment_type_code
+ORDER BY SUM(treatments.cost_of_treatment)
+LIMIT 1;
+
+4. 
+
+SELECT treatment_types.treatment_type_description
+FROM treatment_types
+JOIN treatments ON treatment_types.treatment_type_code = treatments.treatment_type_code
+GROUP BY treatments.treatment_type_code
+ORDER BY SUM(treatments.cost_of_treatment)
+LIMIT 1;
+
+5. 
+
+SELECT dogs.owner_id, owners.zip_code
+FROM dogs
+JOIN owners ON dogs.owner_id = owners.owner_id
+GROUP BY dogs.owner_id
+ORDER BY SUM(dogs.weight * 0.5) DESC
+LIMIT 1;

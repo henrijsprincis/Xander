@@ -1,0 +1,34 @@
+1. 
+SELECT language 
+FROM countrylanguage 
+GROUP BY language 
+ORDER BY COUNT(DISTINCT countrycode) DESC 
+LIMIT 1;
+
+2. 
+SELECT cl.language, cl.countrycode, cl.percentage 
+FROM countrylanguage cl 
+JOIN (SELECT countrycode, MAX(percentage) AS max_percentage 
+      FROM countrylanguage 
+      GROUP BY countrycode) cl2 
+ON cl.countrycode = cl2.countrycode AND cl.percentage = cl2.max_percentage;
+
+3. 
+SELECT cl.language, cl.countrycode, cl.percentage 
+FROM countrylanguage cl 
+JOIN (SELECT countrycode, MAX(percentage) AS max_percentage 
+      FROM countrylanguage 
+      GROUP BY countrycode) cl2 
+ON cl.countrycode = cl2.countrycode AND cl.percentage = cl2.max_percentage 
+GROUP BY cl.countrycode;
+
+4. 
+SELECT COUNT(DISTINCT cl.countrycode) AS num_countries, MAX(cl.percentage) AS max_percentage 
+FROM countrylanguage cl 
+WHERE cl.language = 'Spanish' 
+GROUP BY cl.language;
+
+5. 
+SELECT COUNT(DISTINCT cl.countrycode) AS num_countries, MAX(cl.percentage) AS max_percentage 
+FROM countrylanguage cl 
+WHERE cl.language = 'Spanish' AND cl.percentage > 50;

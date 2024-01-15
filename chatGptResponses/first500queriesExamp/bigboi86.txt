@@ -1,0 +1,16 @@
+
+
+1. 
+SELECT COUNT(*) FROM players;
+
+2. 
+SELECT COUNT(*) FROM matches;
+
+3. 
+SELECT COUNT(*) AS count FROM matches;
+
+4. 
+SELECT first_name, birth_date FROM players WHERE country_code = 'USA';
+
+5. 
+SELECT first_name, birth_date FROM players WHERE country_code = 'USA';

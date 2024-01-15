@@ -1,0 +1,5 @@
+1. SELECT COUNT(*) FROM cars_data WHERE cars_data.year = 1980;
+2. SELECT COUNT(*) FROM cars_data WHERE cars_data.year = 1980;
+3. SELECT COUNT(DISTINCT car_names.model) FROM car_names JOIN car_makers ON car_names.make = car_makers.id WHERE car_makers.fullname = 'American Motors Corporation';
+4. SELECT COUNT(DISTINCT car_names.model) FROM car_names JOIN car_makers ON car_names.make = car_makers.id WHERE car_makers.fullname = 'American Motors Corporation';
+5. SELECT car_makers.fullname, car_makers.id FROM car_makers JOIN car_names ON car_makers.id = car_names.makeid GROUP BY car_makers.id HAVING COUNT(DISTINCT car_names.model) > 3;

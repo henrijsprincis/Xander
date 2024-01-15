@@ -1,0 +1,31 @@
+1. 
+
+SELECT SUM(population), AVG(surfacearea)
+FROM country
+WHERE continent = 'North America' AND surfacearea > 3000;
+
+2. 
+
+SELECT SUM(population), AVG(surfacearea)
+FROM country
+WHERE continent = 'North America' AND surfacearea > 3000;
+
+3. 
+
+SELECT name
+FROM city
+WHERE population BETWEEN 160000 AND 900000;
+
+4. 
+
+SELECT name
+FROM city
+WHERE population BETWEEN 160000 AND 900000;
+
+5. 
+
+SELECT language
+FROM countrylanguage
+GROUP BY language
+ORDER BY COUNT(DISTINCT countrycode) DESC
+LIMIT 1;

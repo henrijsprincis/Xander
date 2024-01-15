@@ -1,0 +1,39 @@
+1. 
+
+SELECT DISTINCT s1.country
+FROM singer s1, singer s2, singer_in_concert sic1, singer_in_concert sic2, concert c
+WHERE s1.age > 40 AND s2.age < 30 AND s1.singer_id = sic1.singer_id AND s2.singer_id = sic2.singer_id AND sic1.concert_id = sic2.concert_id AND c.concert_id = sic1.concert_id
+
+2. 
+
+SELECT name
+FROM stadium
+WHERE stadium_id NOT IN (
+    SELECT stadium_id
+    FROM concert
+    WHERE year = 2014
+)
+
+3. 
+
+SELECT name
+FROM stadium
+WHERE stadium_id NOT IN (
+    SELECT stadium_id
+    FROM concert
+    WHERE year = 2014
+)
+
+4. 
+
+SELECT c.concert_name, c.theme, COUNT(sic.singer_id)
+FROM concert c, singer_in_concert sic
+WHERE c.concert_id = sic.concert_id
+GROUP BY c.concert_id
+
+5. 
+
+SELECT c.concert_name, c.theme, COUNT(sic.singer_id)
+FROM concert c, singer_in_concert sic
+WHERE c.concert_id = sic.concert_id
+GROUP BY c.concert_id

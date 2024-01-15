@@ -1,0 +1,44 @@
+1. 
+
+SELECT document_id 
+FROM paragraphs 
+GROUP BY document_id 
+HAVING COUNT(*) >= 2;
+
+2. 
+
+SELECT documents.document_id, documents.document_name 
+FROM documents 
+JOIN (SELECT document_id, COUNT(*) AS num_paragraphs 
+      FROM paragraphs 
+      GROUP BY document_id 
+      ORDER BY num_paragraphs DESC 
+      LIMIT 1) AS max_paragraphs 
+ON documents.document_id = max_paragraphs.document_id;
+
+3. 
+
+SELECT documents.document_id, documents.document_name 
+FROM documents 
+JOIN (SELECT document_id, COUNT(*) AS num_paragraphs 
+      FROM paragraphs 
+      GROUP BY document_id 
+      ORDER BY num_paragraphs DESC 
+      LIMIT 1) AS max_paragraphs 
+ON documents.document_id = max_paragraphs.document_id;
+
+4. 
+
+SELECT document_id 
+FROM paragraphs 
+GROUP BY document_id 
+ORDER BY COUNT(*) ASC 
+LIMIT 1;
+
+5. 
+
+SELECT document_id 
+FROM paragraphs 
+GROUP BY document_id 
+ORDER BY COUNT(*) ASC 
+LIMIT 1;

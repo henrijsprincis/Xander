@@ -1,0 +1,34 @@
+1. 
+SELECT MAX(accelerate), cylinders FROM cars_data;
+
+2. 
+SELECT model FROM model_list 
+WHERE modelid IN (
+    SELECT modelid FROM car_names 
+    GROUP BY modelid 
+    HAVING COUNT(DISTINCT makeid) = (
+        SELECT MAX(cnt) FROM (
+            SELECT COUNT(DISTINCT makeid) AS cnt FROM car_names 
+            GROUP BY modelid
+        )
+    )
+);
+
+3. 
+SELECT model FROM model_list 
+WHERE modelid IN (
+    SELECT modelid FROM car_names 
+    GROUP BY modelid 
+    HAVING COUNT(DISTINCT makeid) = (
+        SELECT MAX(cnt) FROM (
+            SELECT COUNT(DISTINCT makeid) AS cnt FROM car_names 
+            GROUP BY modelid
+        )
+    )
+);
+
+4. 
+SELECT COUNT(*) FROM cars_data WHERE cylinders > 4;
+
+5. 
+SELECT COUNT(*) FROM cars_data WHERE cylinders > 4;

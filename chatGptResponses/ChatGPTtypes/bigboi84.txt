@@ -1,0 +1,34 @@
+1. 
+SELECT museum.name
+FROM museum
+LEFT JOIN visit ON museum.museum_id = visit.museum_id
+WHERE visit.museum_id IS NULL;
+
+2. 
+SELECT visitor.name, visitor.age
+FROM visitor
+JOIN visit ON visitor.id = visit.visitor_id
+WHERE visit.num_of_ticket = (
+  SELECT MAX(num_of_ticket)
+  FROM visit
+);
+
+3. 
+SELECT AVG(num_of_ticket), MAX(num_of_ticket)
+FROM visit;
+
+4. 
+SELECT SUM(total_spent)
+FROM visit
+JOIN visitor ON visit.visitor_id = visitor.id
+WHERE visitor.level_of_membership = 1;
+
+5. 
+SELECT visitor.name
+FROM visitor
+JOIN visit ON visitor.id = visit.visitor_id
+JOIN museum ON visit.museum_id = museum.museum_id
+WHERE museum.open_year < 2009
+AND museum.open_year > 2011
+GROUP BY visitor.id
+HAVING COUNT(DISTINCT museum.museum_id) = 2;

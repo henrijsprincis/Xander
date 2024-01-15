@@ -1,0 +1,29 @@
+1. 
+SELECT version_number, template_type_code
+FROM templates
+WHERE version_number > 5
+ORDER BY version_number ASC
+LIMIT 1;
+
+2. 
+SELECT version_number, template_type_code
+FROM templates
+WHERE version_number > 5;
+
+3. 
+SELECT template_type_code, COUNT(template_id)
+FROM templates
+GROUP BY template_type_code;
+
+4. 
+SELECT template_type_code, COUNT(template_id)
+FROM templates
+GROUP BY template_type_code
+HAVING COUNT(template_id) = 3;
+
+5. 
+SELECT template_type_code
+FROM templates
+GROUP BY template_type_code
+ORDER BY COUNT(template_id) DESC
+LIMIT 1;

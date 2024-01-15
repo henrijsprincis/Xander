@@ -1,0 +1,32 @@
+
+
+1. 
+SELECT COUNT(*) 
+FROM concert 
+WHERE year = 2014 OR year = 2015;
+
+2. 
+SELECT COUNT(*) 
+FROM concert 
+WHERE year = 2014 OR year = 2015;
+
+3. 
+SELECT stadium.name, COUNT(concert.concert_id) 
+FROM stadium 
+JOIN concert ON stadium.stadium_id = concert.stadium_id 
+GROUP BY stadium.name;
+
+4. 
+SELECT stadium.name, COUNT(concert.concert_id) 
+FROM stadium 
+LEFT JOIN concert ON stadium.stadium_id = concert.stadium_id 
+GROUP BY stadium.name;
+
+5. 
+SELECT stadium.name, stadium.capacity 
+FROM stadium 
+JOIN concert ON stadium.stadium_id = concert.stadium_id 
+WHERE concert.year >= 2014 
+GROUP BY stadium.name 
+ORDER BY COUNT(concert.concert_id) DESC 
+LIMIT 1;

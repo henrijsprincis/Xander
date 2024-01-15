@@ -1,0 +1,30 @@
+1. 
+
+SELECT battle.name, battle.date
+FROM battle
+JOIN ship AS s1 ON battle.id = s1.lost_in_battle
+JOIN ship AS s2 ON battle.id = s2.lost_in_battle
+WHERE s1.name = 'Lettice' AND s2.name = 'HMS Atalanta';
+
+2. 
+
+SELECT battle.name, battle.result, battle.bulgarian_commander
+FROM battle
+LEFT JOIN ship ON battle.id = ship.lost_in_battle
+WHERE ship.location = 'English Channel' OR ship.location IS NULL;
+
+3. 
+
+SELECT note
+FROM death
+WHERE note LIKE '%East%';
+
+4. 
+
+SELECT line_1, line_2
+FROM addresses;
+
+5. 
+
+SELECT line_1, line_2
+FROM addresses;

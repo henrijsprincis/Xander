@@ -1,0 +1,39 @@
+1. 
+
+SELECT first_name
+FROM students
+ORDER BY first_name DESC;
+
+2. 
+
+SELECT *
+FROM sections
+WHERE section_name = 'h';
+
+3. 
+
+SELECT section_description
+FROM sections
+WHERE section_name = 'h';
+
+4. 
+
+SELECT first_name
+FROM students
+WHERE permanent_address_id IN (
+    SELECT address_id
+    FROM addresses
+    WHERE country = 'Haiti'
+)
+OR cell_mobile_number = '09700166582';
+
+5. 
+
+SELECT first_name
+FROM students
+WHERE permanent_address_id IN (
+    SELECT address_id
+    FROM addresses
+    WHERE country = 'Haiti'
+)
+OR cell_mobile_number = '09700166582';

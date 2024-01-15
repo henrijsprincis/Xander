@@ -1,0 +1,24 @@
+Here are the SQLite code snippets for the given questions:
+
+1. How many different winners both participated in the WTA Championships and were left handed?
+```
+SELECT COUNT(DISTINCT winner_id)
+FROM matches
+JOIN players ON matches.winner_id = players.player_id
+WHERE tourney_name = 'WTA Championships' AND hand = 'L';
+```
+
+2. Find the number of left handed winners who participated in the WTA Championships.
+```
+SELECT COUNT(DISTINCT winner_id)
+FROM matches
+JOIN players ON matches.winner_id = players.player_id
+WHERE tourney_name = 'WTA Championships' AND hand = 'L';
+```
+
+3. Find the first name, country code and birth date of the winner who has the highest rank points in all matches.
+```
+SELECT first_name, country_code, birth_date
+FROM players
+JOIN (
+    SELECT winner

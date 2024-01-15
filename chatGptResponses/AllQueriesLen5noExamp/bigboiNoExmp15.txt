@@ -1,0 +1,9 @@
+1. SELECT student.fname, student.age FROM student JOIN has_pet ON student.stuid = has_pet.stuid;
+
+2. SELECT DISTINCT student.fname, student.age FROM student JOIN has_pet ON student.stuid = has_pet.stuid;
+
+3. SELECT pets.petid FROM pets JOIN has_pet ON pets.petid = has_pet.petid JOIN student ON has_pet.stuid = student.stuid WHERE student.lname = 'Smith';
+
+4. SELECT pets.petid FROM pets JOIN has_pet ON pets.petid = has_pet.petid JOIN student ON has_pet.stuid = student.stuid WHERE student.lname = 'Smith';
+
+5. SELECT has_pet.stuid, COUNT(has_pet.petid) FROM has_pet GROUP BY has_pet.stuid;

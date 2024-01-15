@@ -1,0 +1,5 @@
+1. SELECT stadium.name, stadium.capacity FROM concert JOIN stadium ON concert.stadium_id = stadium.stadium_id WHERE year > 2013 GROUP BY stadium.name ORDER BY COUNT(*) DESC LIMIT 1;
+2. SELECT year, COUNT(*) FROM concert GROUP BY year ORDER BY COUNT(*) DESC LIMIT 1;
+3. SELECT year FROM concert GROUP BY year ORDER BY COUNT(*) DESC LIMIT 1;
+4. SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert);
+5. SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert);

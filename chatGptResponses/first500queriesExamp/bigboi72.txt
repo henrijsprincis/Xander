@@ -1,0 +1,43 @@
+
+
+1. 
+
+SELECT COUNT(paragraph_id) 
+FROM paragraphs 
+WHERE document_id = (
+  SELECT document_id 
+  FROM documents 
+  WHERE document_name = 'Summer Show'
+);
+
+2. 
+
+SELECT paragraph_id, other_details 
+FROM paragraphs 
+WHERE paragraph_text = 'Korea ';
+
+3. 
+
+SELECT * 
+FROM paragraphs 
+WHERE paragraph_text LIKE '%Korea %';
+
+4. 
+
+SELECT paragraph_id, paragraph_text 
+FROM paragraphs 
+WHERE document_id = (
+  SELECT document_id 
+  FROM documents 
+  WHERE document_name = 'Welcome to NY'
+);
+
+5. 
+
+SELECT paragraph_id, paragraph_text 
+FROM paragraphs 
+WHERE document_id = (
+  SELECT document_id 
+  FROM documents 
+  WHERE document_name = 'Welcome to NY'
+);

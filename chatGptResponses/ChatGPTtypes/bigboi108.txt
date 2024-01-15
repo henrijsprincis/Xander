@@ -1,0 +1,40 @@
+1. 
+SELECT semester_name 
+FROM semesters 
+WHERE semester_id NOT IN 
+    (SELECT semester_id 
+     FROM student_enrolment);
+     
+2. 
+SELECT DISTINCT course_name 
+FROM courses 
+WHERE course_id IN 
+    (SELECT course_id 
+     FROM student_enrolment_courses);
+
+3. 
+SELECT DISTINCT course_name 
+FROM courses 
+WHERE course_id IN 
+    (SELECT course_id 
+     FROM student_enrolment_courses);
+
+4. 
+SELECT course_name 
+FROM courses 
+WHERE course_id = 
+    (SELECT course_id 
+     FROM student_enrolment_courses 
+     GROUP BY course_id 
+     ORDER BY COUNT(student_course_id) DESC 
+     LIMIT 1);
+
+5. 
+SELECT course_name 
+FROM courses 
+WHERE course_id = 
+    (SELECT course_id 
+     FROM student_enrolment_courses 
+     GROUP BY course_id 
+     ORDER BY COUNT(DISTINCT student_id) DESC 
+     LIMIT 1);

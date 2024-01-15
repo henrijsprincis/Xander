@@ -1,0 +1,43 @@
+1. 
+
+SELECT COUNT(DISTINCT owner_id)
+FROM dogs
+WHERE owner_id NOT IN (
+    SELECT owner_id
+    FROM dogs
+    WHERE date_departed IS NULL
+);
+
+2. 
+
+SELECT COUNT(DISTINCT owner_id)
+FROM owners
+WHERE owner_id NOT IN (
+    SELECT owner_id
+    FROM dogs
+    WHERE date_departed IS NULL
+);
+
+3. 
+
+SELECT COUNT(DISTINCT professional_id)
+FROM professionals
+WHERE professional_id NOT IN (
+    SELECT professional_id
+    FROM treatments
+);
+
+4. 
+
+SELECT COUNT(DISTINCT professional_id)
+FROM treatments
+WHERE professional_id NOT IN (
+    SELECT professional_id
+    FROM dogs
+);
+
+5. 
+
+SELECT name, age, weight
+FROM dogs
+WHERE abandoned_yn = 1;

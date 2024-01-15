@@ -1,0 +1,5 @@
+1. SELECT flightno FROM flights WHERE destairport = 'APG';
+2. SELECT flightno FROM flights WHERE sourceairport IN (SELECT airportcode FROM airports WHERE city = 'Aberdeen');
+3. SELECT flightno FROM flights WHERE sourceairport IN (SELECT airportcode FROM airports WHERE city = 'Aberdeen');
+4. SELECT flightno FROM flights WHERE destairport IN (SELECT airportcode FROM airports WHERE city = 'Aberdeen');
+5. SELECT flightno FROM flights WHERE destairport IN (SELECT airportcode FROM airports WHERE city = 'Aberdeen');

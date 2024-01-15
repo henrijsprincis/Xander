@@ -1,0 +1,40 @@
+1. 
+
+SELECT conductor.name
+FROM conductor
+JOIN orchestra ON conductor.conductor_id = orchestra.conductor_id
+GROUP BY conductor.name
+HAVING COUNT(DISTINCT orchestra.orchestra_id) > 1;
+
+2. 
+
+SELECT conductor.name
+FROM conductor
+JOIN orchestra ON conductor.conductor_id = orchestra.conductor_id
+GROUP BY conductor.name
+HAVING COUNT(DISTINCT orchestra.orchestra_id) > 1;
+
+3. 
+
+SELECT conductor.name
+FROM conductor
+JOIN orchestra ON conductor.conductor_id = orchestra.conductor_id
+GROUP BY conductor.name
+ORDER BY COUNT(DISTINCT orchestra.orchestra_id) DESC
+LIMIT 1;
+
+4. 
+
+SELECT conductor.name
+FROM conductor
+JOIN orchestra ON conductor.conductor_id = orchestra.conductor_id
+GROUP BY conductor.name
+ORDER BY COUNT(DISTINCT orchestra.orchestra_id) DESC
+LIMIT 1;
+
+5. 
+
+SELECT conductor.name
+FROM conductor
+JOIN orchestra ON conductor.conductor_id = orchestra.conductor_id
+WHERE orchestra.year_of_founded > 2008;

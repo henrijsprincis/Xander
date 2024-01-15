@@ -1,0 +1,18 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What are the id, name and membership level of visitors who have spent the largest amount of money in total in all museum tickets?
+```
+SELECT visitor.id, visitor.name, visitor.level_of_membership
+FROM visitor
+JOIN visit ON visitor.id = visit.visitor_id
+GROUP BY visitor.id
+ORDER BY SUM(visit.total_spent) DESC
+LIMIT 1;
+```
+
+2. What are the id and name of the museum visited most times?
+```
+SELECT museum.museum_id, museum.name
+FROM museum
+JOIN visit ON museum.museum_id = visit.museum_id
+GROUP BY museum.museum_id

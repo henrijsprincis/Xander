@@ -1,0 +1,33 @@
+1. 
+
+SELECT grade, COUNT(DISTINCT student_id) 
+FROM highschooler 
+JOIN friend ON id = student_id 
+GROUP BY grade 
+HAVING COUNT(DISTINCT student_id) >= 4;
+
+2. 
+
+SELECT grade, COUNT(DISTINCT id) 
+FROM highschooler 
+GROUP BY grade 
+HAVING COUNT(DISTINCT id) >= 4;
+
+3. 
+
+SELECT student_id, COUNT(friend_id) 
+FROM friend 
+GROUP BY student_id;
+
+4. 
+
+SELECT student_id, COUNT(friend_id) 
+FROM friend 
+GROUP BY student_id;
+
+5. 
+
+SELECT highschooler.name, COUNT(DISTINCT friend.friend_id) 
+FROM highschooler 
+LEFT JOIN friend ON highschooler.id = friend.student_id 
+GROUP BY highschooler.name;

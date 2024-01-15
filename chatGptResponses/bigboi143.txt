@@ -1,0 +1,24 @@
+1. 
+SELECT population, lifeexpectancy
+FROM country
+WHERE name = 'Brazil';
+
+2. 
+SELECT population, region
+FROM country
+WHERE name = 'Angola';
+
+3. 
+SELECT population, region
+FROM country
+WHERE name = 'Angola';
+
+4. 
+SELECT AVG(lifeexpectancy)
+FROM country
+WHERE region = 'Central Africa';
+
+5. 
+SELECT AVG(lifeexpectancy)
+FROM country
+WHERE region = 'Central Africa';

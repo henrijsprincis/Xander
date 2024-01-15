@@ -1,0 +1,27 @@
+1. 
+SELECT nationality
+FROM people
+GROUP BY nationality
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+2. 
+SELECT DISTINCT p1.nationality
+FROM people p1
+JOIN people p2 ON p1.nationality = p2.nationality AND p1.people_id <> p2.people_id;
+
+3. 
+SELECT nationality
+FROM people
+GROUP BY nationality
+HAVING COUNT(*) >= 2;
+
+4. 
+SELECT name, birth_date
+FROM people
+ORDER BY name ASC;
+
+5. 
+SELECT name, birth_date
+FROM people
+ORDER BY name ASC;

@@ -1,0 +1,26 @@
+
+
+1. 
+SELECT airportname 
+FROM airports 
+WHERE airportcode = 'AKO';
+
+2. 
+SELECT airportname 
+FROM airports 
+WHERE city = 'Aberdeen';
+
+3. 
+SELECT airportname 
+FROM airports 
+WHERE city LIKE '%Aberdeen%';
+
+4. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE sourceairport = 'APG';
+
+5. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE sourceairport = 'APG';

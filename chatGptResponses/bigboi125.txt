@@ -1,0 +1,31 @@
+1. 
+SELECT tv_series.episode 
+FROM tv_series 
+JOIN tv_channel ON tv_series.channel = tv_channel.id 
+WHERE tv_channel.series_name = 'Sky Radio';
+
+2. 
+SELECT episode 
+FROM tv_series 
+JOIN tv_channel ON tv_series.channel = tv_channel.id 
+WHERE tv_channel.series_name = 'Sky Radio';
+
+3. 
+SELECT COUNT(cartoon.id), cartoon.directed_by 
+FROM cartoon 
+GROUP BY cartoon.directed_by;
+
+4. 
+SELECT COUNT(cartoon.id), cartoon.directed_by 
+FROM cartoon 
+GROUP BY cartoon.directed_by 
+HAVING COUNT(cartoon.id) = (SELECT MAX(count) 
+                            FROM (SELECT COUNT(id) as count 
+                                  FROM cartoon 
+                                  GROUP BY directed_by));
+
+5. 
+SELECT cartoon.production_code, cartoon.channel 
+FROM cartoon 
+WHERE cartoon.original_air_date = (SELECT MAX(original_air_date) 
+                                    FROM cartoon);

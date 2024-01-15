@@ -1,0 +1,31 @@
+
+
+1. 
+
+SELECT COUNT(*) 
+FROM templates 
+WHERE template_type_code = 'CV';
+
+2. 
+
+SELECT COUNT(*) 
+FROM templates 
+WHERE template_type_code = 'CV';
+
+3. 
+
+SELECT version_number, template_type_code 
+FROM templates 
+WHERE version_number > 5;
+
+4. 
+
+SELECT version_number, template_type_code 
+FROM templates 
+WHERE version_number > 5;
+
+5. 
+
+SELECT template_type_code, COUNT(*) 
+FROM templates 
+GROUP BY template_type_code;

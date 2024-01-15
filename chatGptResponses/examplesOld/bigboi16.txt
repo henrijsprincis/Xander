@@ -1,0 +1,5 @@
+1. SELECT COUNT(has_pet.petid), has_pet.stuid FROM has_pet GROUP BY has_pet.stuid;
+2. SELECT student.fname, student.sex FROM student JOIN has_pet ON student.stuid = has_pet.stuid GROUP BY has_pet.stuid HAVING COUNT(has_pet.petid) > 1;
+3. SELECT student.fname, student.sex FROM student JOIN has_pet ON student.stuid = has_pet.stuid GROUP BY has_pet.stuid HAVING COUNT(has_pet.petid) > 1;
+4. SELECT student.lname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat' AND pets.pet_age = 3;
+5. SELECT student.lname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat' AND pets.pet_age = 3;

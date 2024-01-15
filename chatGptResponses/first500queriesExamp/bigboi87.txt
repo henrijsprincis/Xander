@@ -1,0 +1,21 @@
+
+
+1. 
+SELECT AVG(loser_age) as avg_loser_age, AVG(winner_age) as avg_winner_age
+FROM matches;
+
+2. 
+SELECT AVG(loser_age) as avg_loser_age, AVG(winner_age) as avg_winner_age
+FROM matches;
+
+3. 
+SELECT AVG(winner_rank) as avg_winner_rank
+FROM matches;
+
+4. 
+SELECT AVG(winner_rank) as avg_winner_rank
+FROM matches;
+
+5. 
+SELECT MAX(loser_rank) as max_loser_rank
+FROM matches;

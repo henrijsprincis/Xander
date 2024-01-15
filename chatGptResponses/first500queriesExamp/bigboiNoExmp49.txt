@@ -1,0 +1,21 @@
+
+
+SELECT flightno 
+FROM flights 
+WHERE airline = "United Airlines";
+
+SELECT flightno 
+FROM flights 
+WHERE airline = "United Airlines";
+
+SELECT flightno 
+FROM flights 
+WHERE sourceairport = "APG";
+
+SELECT flightno 
+FROM flights 
+WHERE sourceairport = "APG";
+
+SELECT flightno 
+FROM flights 
+WHERE destairport = "APG";

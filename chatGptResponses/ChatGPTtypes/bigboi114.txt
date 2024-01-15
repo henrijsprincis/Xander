@@ -1,0 +1,59 @@
+1. 
+SELECT transcript_date, transcript_id
+FROM transcripts
+WHERE transcript_id IN (
+  SELECT transcript_id
+  FROM transcript_contents
+  GROUP BY transcript_id
+  ORDER BY COUNT(*) ASC
+  LIMIT 1
+);
+
+2. 
+SELECT semester_id
+FROM student_enrolment
+WHERE degree_program_id IN (
+  SELECT degree_program_id
+  FROM degree_programs
+  WHERE degree_summary_name LIKE '%Master%'
+) AND semester_id IN (
+  SELECT semester_id
+  FROM student_enrolment
+  WHERE degree_program_id IN (
+    SELECT degree_program_id
+    FROM degree_programs
+    WHERE degree_summary_name LIKE '%Bachelor%'
+  )
+)
+GROUP BY semester_id;
+
+3. 
+SELECT semester_id
+FROM student_enrolment
+WHERE degree_program_id IN (
+  SELECT degree_program_id
+  FROM degree_programs
+  WHERE degree_summary_name LIKE '%Master%'
+) AND semester_id IN (
+  SELECT semester_id
+  FROM student_enrolment
+  WHERE degree_program_id IN (
+    SELECT degree_program_id
+    FROM degree_programs
+    WHERE degree_summary_name LIKE '%Bachelor%'
+  )
+)
+GROUP BY semester_id
+HAVING COUNT(DISTINCT degree_program_id) = 2;
+
+4. 
+SELECT COUNT(DISTINCT current_address_id)
+FROM students;
+
+5. 
+SELECT DISTINCT line_1, line_2, line_3, city, zip_postcode, state_province_county, country, other_address_details
+FROM addresses
+WHERE address_id IN (
+  SELECT current_address_id
+  FROM students
+);

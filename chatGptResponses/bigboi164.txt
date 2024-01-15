@@ -1,0 +1,35 @@
+1. 
+
+SELECT countrycode, MAX(percentage) 
+FROM countrylanguage 
+WHERE language = 'Spanish' 
+GROUP BY countrycode 
+ORDER BY MAX(percentage) DESC 
+LIMIT 1;
+
+2. 
+
+SELECT countrycode, MAX(percentage) 
+FROM countrylanguage 
+WHERE language = 'Spanish' 
+GROUP BY countrycode 
+HAVING MAX(percentage) > 50 
+ORDER BY MAX(percentage) DESC 
+LIMIT 1;
+
+3. 
+
+SELECT COUNT(*) 
+FROM conductor;
+
+4. 
+
+SELECT COUNT(DISTINCT conductor_id) 
+FROM orchestra;
+
+5. 
+
+SELECT name 
+FROM conductor 
+ORDER BY age ASC 
+LIMIT 1;

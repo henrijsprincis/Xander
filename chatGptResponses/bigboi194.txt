@@ -1,0 +1,29 @@
+1. 
+
+SELECT role_code, street, city, state
+FROM professionals
+WHERE city LIKE '%West%';
+
+2. 
+
+SELECT role_code, street, city, state
+FROM professionals
+WHERE city LIKE '%West%';
+
+3. 
+
+SELECT first_name, last_name, email_address
+FROM owners
+WHERE state LIKE '%North%';
+
+4. 
+
+SELECT first_name, last_name, email_address
+FROM owners
+WHERE state LIKE '%North%';
+
+5. 
+
+SELECT COUNT(*)
+FROM dogs
+WHERE age < (SELECT AVG(age) FROM dogs);

@@ -1,0 +1,27 @@
+1. 
+
+SELECT documents.document_name, documents.template_id
+FROM documents
+WHERE documents.document_description LIKE '%w%';
+
+2. 
+
+SELECT documents.document_id, documents.template_id, documents.document_description
+FROM documents
+WHERE documents.document_name = 'Robbin CV';
+
+3. 
+
+SELECT documents.document_id, documents.template_id, documents.document_description
+FROM documents
+WHERE documents.document_name = 'Robbin CV';
+
+4. 
+
+SELECT COUNT(DISTINCT documents.template_id)
+FROM documents;
+
+5. 
+
+SELECT COUNT(DISTINCT documents.template_id)
+FROM documents;

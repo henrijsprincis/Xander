@@ -1,0 +1,24 @@
+1. 
+SELECT flightno 
+FROM flights 
+WHERE sourceairport = 'Aberdeen';
+
+2. 
+SELECT flightno 
+FROM flights 
+WHERE destairport = 'Aberdeen';
+
+3. 
+SELECT flightno 
+FROM flights 
+WHERE destairport = 'Aberdeen';
+
+4. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE destairport IN ('Aberdeen', 'Abilene');
+
+5. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE destairport IN ('Aberdeen', 'Abilene');

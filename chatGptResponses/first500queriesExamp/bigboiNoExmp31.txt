@@ -1,0 +1,20 @@
+
+
+1. SELECT horsepower FROM cars_data ORDER BY accelerate DESC LIMIT 1;
+
+2. SELECT horsepower FROM cars_data ORDER BY accelerate DESC LIMIT 1;
+
+3. SELECT cylinders FROM cars_data 
+   JOIN car_names ON cars_data.makeid = car_names.makeid 
+   JOIN model_list ON car_names.modelid = model_list.modelid 
+   WHERE model_list.model = 'volvo' 
+   ORDER BY accelerate ASC LIMIT 1;
+
+4. SELECT cylinders FROM cars_data 
+   JOIN car_names ON cars_data.makeid = car_names.makeid 
+   JOIN model_list ON car_names.modelid = model_list.modelid 
+   WHERE model_list.model = 'volvo' 
+   ORDER BY accelerate ASC LIMIT 1;
+
+5. SELECT COUNT(*) FROM cars_data 
+   WHERE accelerate > (SELECT accelerate FROM cars_data ORDER BY horsepower DESC LIMIT 1);

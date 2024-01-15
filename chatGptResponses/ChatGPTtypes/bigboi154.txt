@@ -1,0 +1,26 @@
+1. 
+SELECT c.code
+FROM country c
+WHERE c.continent = 'Asia'
+AND c.population > (SELECT MAX(population) FROM country WHERE continent = 'Africa');
+
+2. 
+SELECT c.code
+FROM country c
+WHERE c.continent = 'Asia'
+AND c.population > ALL(SELECT population FROM country WHERE continent = 'Africa');
+
+3. 
+SELECT DISTINCT cl.countrycode
+FROM countrylanguage cl
+WHERE cl.language != 'English';
+
+4. 
+SELECT DISTINCT cl.countrycode
+FROM countrylanguage cl
+WHERE cl.language != 'English';
+
+5. 
+SELECT DISTINCT cl.countrycode
+FROM countrylanguage cl
+WHERE cl.countrycode NOT IN (SELECT countrycode FROM countrylanguage WHERE language = 'English');

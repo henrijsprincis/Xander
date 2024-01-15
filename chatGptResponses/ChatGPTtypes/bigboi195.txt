@@ -1,0 +1,19 @@
+1. 
+SELECT MAX(charge_amount) 
+FROM charges;
+
+2. 
+SELECT email_address, cell_number, home_phone 
+FROM professionals;
+
+3. 
+SELECT email_address, cell_number, home_phone 
+FROM professionals;
+
+4. 
+SELECT DISTINCT breed_code, size_code 
+FROM dogs;
+
+5. 
+SELECT DISTINCT breed_code, size_code 
+FROM dogs;

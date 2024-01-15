@@ -1,0 +1,32 @@
+1. 
+
+SELECT p.first_name, p.country_code
+FROM players p
+JOIN matches m1 ON p.player_id = m1.winner_id
+JOIN matches m2 ON p.player_id = m2.loser_id
+WHERE m1.tourney_name = 'WTA Championships' AND m2.tourney_name = 'Australian Open';
+
+2. 
+
+SELECT p.first_name, p.country_code
+FROM players p
+WHERE p.birth_date = (SELECT MIN(birth_date) FROM players);
+
+3. 
+
+SELECT p.first_name, p.country_code
+FROM players p
+ORDER BY p.birth_date
+LIMIT 1;
+
+4. 
+
+SELECT p.first_name, p.last_name
+FROM players p
+ORDER BY p.birth_date;
+
+5. 
+
+SELECT p.first_name || ' ' || p.last_name AS full_name
+FROM players p
+ORDER BY p.birth_date;

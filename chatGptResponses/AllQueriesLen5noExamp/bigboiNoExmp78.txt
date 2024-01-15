@@ -1,0 +1,33 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What are the names of the teachers who are aged either 32 or 33?
+```
+SELECT name
+FROM teacher
+WHERE age IN (32, 33);
+```
+
+2. What is the hometown of the youngest teacher?
+```
+SELECT hometown
+FROM teacher
+ORDER BY age
+LIMIT 1;
+```
+
+3. Where is the youngest teacher from?
+```
+SELECT hometown
+FROM teacher
+ORDER BY age
+LIMIT 1;
+```
+
+4. Show different hometown of teachers and the number of teachers from each hometown.
+```
+SELECT hometown, COUNT(*) AS num_teachers
+FROM teacher
+GROUP BY hometown;
+```
+
+5. For each hometown, how many teachers are there

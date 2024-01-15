@@ -1,0 +1,5 @@
+1. SELECT COUNT(DISTINCT pettype) FROM pets;
+2. SELECT COUNT(DISTINCT pettype) FROM pets;
+3. SELECT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype IN ('cat', 'dog') GROUP BY student.fname;
+4. SELECT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype IN ('cat', 'dog') GROUP BY student.fname;
+5. SELECT student.fname FROM student JOIN has_pet ON student.stuid

@@ -1,0 +1,38 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What are the first names of all players, and their average rankings?
+```
+SELECT first_name, AVG(rankings.ranking) AS avg_ranking
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY players.player_id;
+```
+
+2. Find the total ranking points for each player and their first name.
+```
+SELECT first_name, SUM(rankings.ranking_points) AS total_ranking_points
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY players.player_id;
+```
+
+3. What are the first names of all players, and their total ranking points?
+```
+SELECT first_name, SUM(rankings.ranking_points) AS total_ranking_points
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY players.player_id;
+```
+
+4. Find the number of players for each country.
+```
+SELECT country_code, COUNT(*) AS num_players
+FROM players
+GROUP BY country_code;
+```
+
+5. How many players are from each country?
+```
+SELECT country_code, COUNT(*) AS num_players
+FROM players
+GROUP

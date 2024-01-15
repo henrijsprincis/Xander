@@ -1,0 +1,22 @@
+1. 
+SELECT name
+FROM singer
+ORDER BY net_worth_millions ASC;
+
+2. 
+SELECT birth_year, citizenship
+FROM singer;
+
+3. 
+SELECT birth_year, citizenship
+FROM singer;
+
+4. 
+SELECT name
+FROM singer
+WHERE citizenship != 'France';
+
+5. 
+SELECT name
+FROM singer
+WHERE citizenship != 'France';

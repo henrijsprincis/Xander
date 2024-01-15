@@ -1,0 +1,5 @@
+1. SELECT template_type_code FROM templates WHERE template_type_code NOT IN (SELECT template_type_code FROM documents);
+2. SELECT template_type_code FROM templates WHERE template_type_code NOT IN (SELECT template_type_code FROM documents);
+3. SELECT template_type_code, template_type_description FROM ref_template_types;
+4. SELECT template_type_code, template_type_description FROM ref_template_types;
+5. SELECT template_type_description FROM ref_template_types WHERE template_type_code = 'AD';

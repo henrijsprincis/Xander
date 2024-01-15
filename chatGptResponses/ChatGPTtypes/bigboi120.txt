@@ -1,0 +1,29 @@
+1. 
+SELECT COUNT(DISTINCT id) FROM tv_channel WHERE language = 'English';
+
+2. 
+SELECT language, COUNT(DISTINCT id) AS num_channels 
+FROM tv_channel 
+GROUP BY language 
+ORDER BY num_channels ASC 
+LIMIT 1;
+
+3. 
+SELECT language, COUNT(DISTINCT id) AS num_channels 
+FROM tv_channel 
+GROUP BY language 
+HAVING num_channels = (SELECT COUNT(DISTINCT id) 
+                      FROM tv_channel 
+                      GROUP BY language 
+                      ORDER BY COUNT(DISTINCT id) ASC 
+                      LIMIT 1);
+
+4. 
+SELECT language, COUNT(DISTINCT id) AS num_channels 
+FROM tv_channel 
+GROUP BY language;
+
+5. 
+SELECT language, COUNT(DISTINCT id) AS num_channels 
+FROM tv_channel 
+GROUP BY language;

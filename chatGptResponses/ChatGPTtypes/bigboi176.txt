@@ -1,0 +1,30 @@
+1. 
+
+SELECT student_id 
+FROM highschooler 
+WHERE student_id NOT IN (SELECT student_id FROM friend UNION SELECT friend_id FROM friend);
+
+2. 
+
+SELECT id 
+FROM highschooler 
+WHERE id NOT IN (SELECT student_id FROM friend UNION SELECT friend_id FROM friend);
+
+3. 
+
+SELECT name 
+FROM highschooler 
+WHERE id NOT IN (SELECT student_id FROM friend UNION SELECT friend_id FROM friend);
+
+4. 
+
+SELECT name 
+FROM highschooler 
+WHERE id NOT IN (SELECT student_id FROM friend UNION SELECT friend_id FROM friend);
+
+5. 
+
+SELECT DISTINCT student_id 
+FROM friend 
+INNER JOIN likes ON friend.friend_id = likes.liked_id 
+WHERE friend.student_id IN (SELECT student_id FROM friend);

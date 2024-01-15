@@ -1,0 +1,29 @@
+1. 
+
+SELECT MAX(mpg) 
+FROM cars_data 
+WHERE (cylinders = 8 OR year < 1980);
+
+2. 
+
+SELECT model 
+FROM car_names 
+WHERE weight < 3500 AND maker != 'Ford Motor Company';
+
+3. 
+
+SELECT DISTINCT model 
+FROM car_names 
+WHERE weight < 3500 AND maker != 'Ford Motor Company';
+
+4. 
+
+SELECT countryname 
+FROM countries 
+WHERE countryid NOT IN (SELECT DISTINCT country FROM car_makers);
+
+5. 
+
+SELECT countryname 
+FROM countries 
+WHERE countryid NOT IN (SELECT DISTINCT country FROM car_makers);

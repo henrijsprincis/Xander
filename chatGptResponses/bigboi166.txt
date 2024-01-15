@@ -1,0 +1,14 @@
+1. 
+SELECT AVG(attendance) FROM show;
+
+2. 
+SELECT AVG(attendance) FROM show;
+
+3. 
+SELECT MAX(share), MIN(share) FROM performance WHERE type != 'Live final';
+
+4. 
+SELECT MAX(share), MIN(share) FROM performance WHERE type != 'Live final';
+
+5. 
+SELECT COUNT(DISTINCT nationality) FROM conductor;

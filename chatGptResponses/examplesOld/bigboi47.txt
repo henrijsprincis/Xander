@@ -1,0 +1,5 @@
+1. SELECT DISTINCT airline FROM flights WHERE destairport = 'AHD';
+2. SELECT DISTINCT airline FROM flights WHERE destairport = 'AHD';
+3. SELECT airline FROM flights WHERE sourceairport = 'APG' OR sourceairport = 'CVO' GROUP BY airline HAVING COUNT(DISTINCT sourceairport) = 2;
+4. SELECT airline FROM flights WHERE sourceairport = 'APG' OR sourceairport = 'CVO' GROUP BY airline HAVING COUNT(DISTINCT sourceairport) = 2;
+5. SELECT DISTINCT airline FROM flights WHERE sourceairport = 'CVO' AND airline NOT IN (SELECT airline FROM flights WHERE sourceairport = 'APG');

@@ -1,0 +1,5 @@
+1. SELECT singer.name, COUNT(concert_id) FROM singer_in_concert JOIN singer ON singer_in_concert.singer_id = singer.singer_id GROUP BY singer.name;
+2. SELECT singer.name, COUNT(concert_id) FROM singer_in_concert JOIN singer ON singer_in_concert.singer_id = singer.singer_id GROUP BY singer.name;
+3. SELECT DISTINCT singer.name FROM singer_in_concert JOIN concert ON singer_in_concert.concert_id = concert.concert_id WHERE concert.year = 2014;
+4. SELECT DISTINCT singer.name FROM singer_in_concert JOIN concert ON singer_in_concert.concert_id = concert.concert_id JOIN singer ON singer_in_concert.singer_id = singer.singer_id WHERE concert.year = 2014;
+5. SELECT singer.name, singer.country FROM singer WHERE singer.song_name LIKE '%Hey%';

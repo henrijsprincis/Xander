@@ -1,0 +1,34 @@
+
+
+1. 
+SELECT first_name, last_name
+FROM players
+ORDER BY birth_date;
+
+2. 
+SELECT first_name || ' ' || last_name AS full_name
+FROM players
+ORDER BY birth_date;
+
+3. 
+SELECT first_name, last_name
+FROM players
+WHERE hand = 'L'
+ORDER BY birth_date;
+
+4. 
+SELECT first_name || ' ' || last_name AS full_name
+FROM players
+WHERE hand = 'L'
+ORDER BY birth_date;
+
+5. 
+SELECT first_name, country_code
+FROM players
+WHERE player_id = (
+  SELECT player_id
+  FROM rankings
+  GROUP BY player_id
+  ORDER BY SUM(tours) DESC
+  LIMIT 1
+);

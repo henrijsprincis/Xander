@@ -1,0 +1,5 @@
+1. SELECT template_id, COUNT(*) FROM documents GROUP BY template_id;
+2. SELECT template_id, template_type_code FROM templates WHERE template_id = (SELECT template_id FROM documents GROUP BY template_id ORDER BY COUNT(*) DESC LIMIT 1);
+3. SELECT template_id, template_type_code FROM templates WHERE template_id = (SELECT template_id FROM documents GROUP BY template_id ORDER BY COUNT(*) DESC LIMIT 1);
+4. SELECT template_id FROM documents GROUP BY template_id HAVING COUNT(*) > 1;
+5. SELECT template_id FROM documents GROUP BY template_id HAVING COUNT(*) > 1;

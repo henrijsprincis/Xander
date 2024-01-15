@@ -1,0 +1,30 @@
+
+
+1. 
+SELECT template_type_code 
+FROM ref_template_types 
+WHERE template_type_code NOT IN 
+    (SELECT template_type_code 
+     FROM templates 
+     JOIN documents ON templates.template_id = documents.template_id);
+
+2. 
+SELECT template_type_code 
+FROM ref_template_types 
+WHERE template_type_code NOT IN 
+    (SELECT template_type_code 
+     FROM templates 
+     JOIN documents ON templates.template_id = documents.template_id);
+
+3. 
+SELECT template_type_code, template_type_description 
+FROM ref_template_types;
+
+4. 
+SELECT template_type_code, template_type_description 
+FROM ref_template_types;
+
+5. 
+SELECT template_type_description 
+FROM ref_template_types 
+WHERE template_type_code = "AD";

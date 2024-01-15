@@ -1,0 +1,5 @@
+1. SELECT COUNT(*) FROM matches WHERE year IN (2013, 2016);
+2. SELECT DISTINCT players.country_code, players.first_name FROM players JOIN matches ON players.player_id = matches.winner_id WHERE matches.tourney_name = 'WTA Championships' AND EXISTS (SELECT * FROM matches WHERE matches.tourney_name = 'Australian Open' AND matches.winner_id = players.player_id);
+3. SELECT DISTINCT players.country_code, players.first_name FROM players JOIN matches ON players.player_id = matches.winner_id WHERE matches.tourney_name = 'WTA Championships' AND EXISTS (SELECT * FROM matches WHERE matches.tourney_name = 'Australian Open' AND matches.winner_id = players.player_id);
+4. SELECT players.first_name, players.country_code FROM players WHERE players.birth_date = (SELECT MIN(birth_date) FROM players);
+5. SELECT players.first_name,

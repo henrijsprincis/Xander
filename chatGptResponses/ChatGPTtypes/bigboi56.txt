@@ -1,0 +1,45 @@
+1. 
+SELECT employee.name
+FROM employee
+WHERE employee.employee_id NOT IN (
+  SELECT evaluation.employee_id
+  FROM evaluation
+);
+
+2. 
+SELECT shop.name
+FROM shop
+WHERE shop.shop_id = (
+  SELECT hiring.shop_id
+  FROM hiring
+  GROUP BY hiring.shop_id
+  ORDER BY COUNT(hiring.employee_id) DESC
+  LIMIT 1
+);
+
+3. 
+SELECT shop.name
+FROM shop
+WHERE shop.shop_id = (
+  SELECT hiring.shop_id
+  FROM hiring
+  GROUP BY hiring.shop_id
+  ORDER BY COUNT(hiring.employee_id) DESC
+  LIMIT 1
+);
+
+4. 
+SELECT shop.name
+FROM shop
+WHERE shop.shop_id NOT IN (
+  SELECT hiring.shop_id
+  FROM hiring
+);
+
+5. 
+SELECT shop.name
+FROM shop
+WHERE shop.shop_id NOT IN (
+  SELECT hiring.shop_id
+  FROM hiring
+);

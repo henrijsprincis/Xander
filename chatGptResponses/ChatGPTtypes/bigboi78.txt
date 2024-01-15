@@ -1,0 +1,36 @@
+1. 
+SELECT hometown 
+FROM teacher 
+ORDER BY age ASC 
+LIMIT 1;
+
+2. 
+SELECT hometown, COUNT(*) 
+FROM teacher 
+GROUP BY hometown;
+
+3. 
+SELECT hometown, COUNT(*) 
+FROM teacher 
+GROUP BY hometown 
+ORDER BY COUNT(*) DESC;
+
+4. 
+SELECT hometown 
+FROM teacher 
+GROUP BY hometown 
+ORDER BY COUNT(*) DESC 
+LIMIT 1;
+
+5. 
+SELECT hometown 
+FROM teacher 
+GROUP BY hometown 
+HAVING COUNT(*) = (
+  SELECT MAX(count) 
+  FROM (
+    SELECT COUNT(*) as count 
+    FROM teacher 
+    GROUP BY hometown
+  )
+);

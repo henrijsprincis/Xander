@@ -1,0 +1,29 @@
+1. 
+
+SELECT contestant_name
+FROM contestants
+WHERE contestant_name LIKE '%Al%';
+
+2. 
+
+SELECT name
+FROM country
+WHERE indepyear > 1950;
+
+3. 
+
+SELECT name
+FROM country
+WHERE indepyear > 1950;
+
+4. 
+
+SELECT COUNT(*)
+FROM country
+WHERE governmentform LIKE '%Republic%';
+
+5. 
+
+SELECT COUNT(*)
+FROM country
+WHERE governmentform LIKE '%Republic%';

@@ -1,0 +1,28 @@
+1. 
+SELECT p.name
+FROM poker_player pp
+JOIN people p ON pp.people_id = p.people_id
+ORDER BY pp.earnings DESC;
+
+2. 
+SELECT p.name
+FROM poker_player pp
+JOIN people p ON pp.people_id = p.people_id
+ORDER BY pp.earnings DESC;
+
+3. 
+SELECT p.nationality, COUNT(*)
+FROM people p
+GROUP BY p.nationality;
+
+4. 
+SELECT p.nationality, COUNT(*)
+FROM people p
+GROUP BY p.nationality;
+
+5. 
+SELECT p.nationality
+FROM people p
+GROUP BY p.nationality
+ORDER BY COUNT(*) DESC
+LIMIT 1;

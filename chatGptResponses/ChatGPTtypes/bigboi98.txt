@@ -1,0 +1,27 @@
+1. 
+SELECT MAX(killed + injured) AS max_death, MIN(killed + injured) AS min_death
+FROM death;
+
+2. 
+SELECT AVG(injured) AS avg_injuries
+FROM death;
+
+3. 
+SELECT SUM(killed) AS total_killed, SUM(injured) AS total_injured
+FROM death
+WHERE caused_by_ship_id IN (
+  SELECT id
+  FROM ship
+  WHERE tonnage = 't'
+);
+
+4. 
+SELECT name, result
+FROM battle
+WHERE bulgarian_commander != 'Boril';
+
+5. 
+SELECT DISTINCT battle.id, battle.name
+FROM battle
+JOIN ship ON battle.id = ship.id
+WHERE ship_type = 'Brig' AND lost_in_battle = 1;

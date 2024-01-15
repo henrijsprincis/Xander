@@ -1,0 +1,24 @@
+1. 
+SELECT SUM(surfacearea) 
+FROM country 
+WHERE region = 'Caribbean';
+
+2. 
+SELECT SUM(surfacearea) 
+FROM country 
+WHERE region = 'Caribbean';
+
+3. 
+SELECT continent 
+FROM country 
+WHERE name = 'Anguilla';
+
+4. 
+SELECT continent 
+FROM country 
+WHERE name = 'Anguilla';
+
+5. 
+SELECT region 
+FROM city 
+WHERE name = 'Kabul';

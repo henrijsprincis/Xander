@@ -1,0 +1,17 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What is the document id with least number of paragraphs?
+```
+SELECT documents.document_id
+FROM documents
+LEFT JOIN paragraphs ON documents.document_id = paragraphs.document_id
+GROUP BY documents.document_id
+ORDER BY COUNT(paragraphs.paragraph_id)
+LIMIT 1;
+```
+
+2. Return the id of the document with the fewest paragraphs.
+```
+SELECT documents.document_id
+FROM documents
+LEFT JOIN paragraphs ON documents.document_id =

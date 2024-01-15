@@ -1,0 +1,28 @@
+1. 
+SELECT ship.id, ship.name
+FROM ship
+JOIN death ON ship.id = death.caused_by_ship_id
+GROUP BY ship.id, ship.name
+ORDER BY SUM(death.injured) DESC
+LIMIT 1;
+
+2. 
+SELECT DISTINCT battle.name
+FROM battle
+WHERE battle.bulgarian_commander = 'Kaloyan' AND battle.latin_commander = 'Baldwin I';
+
+3. 
+SELECT COUNT(DISTINCT battle.result)
+FROM battle;
+
+4. 
+SELECT COUNT(DISTINCT battle.id)
+FROM battle
+LEFT JOIN ship ON battle.id = ship.lost_in_battle AND ship.tonnage = 225
+WHERE ship.id IS NULL;
+
+5. 
+SELECT battle.name, battle.date
+FROM battle
+JOIN ship ON battle.id = ship.lost_in_battle
+WHERE ship.name IN ('Lettice', 'HMS Atalanta');

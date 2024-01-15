@@ -1,0 +1,39 @@
+1. 
+SELECT country.name
+FROM country
+JOIN countrylanguage ON country.code = countrylanguage.countrycode
+WHERE countrylanguage.isofficial = 'T'
+GROUP BY country.name
+ORDER BY COUNT(countrylanguage.language) DESC
+LIMIT 1;
+
+2. 
+SELECT country.name
+FROM country
+JOIN countrylanguage ON country.code = countrylanguage.countrycode
+GROUP BY country.name
+ORDER BY COUNT(DISTINCT countrylanguage.language) DESC
+LIMIT 1;
+
+3. 
+SELECT country.continent
+FROM country
+JOIN countrylanguage ON country.code = countrylanguage.countrycode
+GROUP BY country.continent
+ORDER BY COUNT(DISTINCT countrylanguage.language) DESC
+LIMIT 1;
+
+4. 
+SELECT country.continent
+FROM country
+JOIN countrylanguage ON country.code = countrylanguage.countrycode
+GROUP BY country.continent
+ORDER BY COUNT(DISTINCT countrylanguage.language) DESC
+LIMIT 1;
+
+5. 
+SELECT COUNT(DISTINCT countrylanguage.countrycode)
+FROM countrylanguage
+WHERE language IN ('English', 'Dutch')
+GROUP BY countrylanguage.countrycode
+HAVING COUNT(DISTINCT language) = 2;

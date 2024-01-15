@@ -1,0 +1,36 @@
+1. 
+
+SELECT h.name
+FROM highschooler h
+JOIN friend f ON h.id = f.student_id
+WHERE h.grade > 5
+GROUP BY h.id
+HAVING COUNT(f.friend_id) >= 2;
+
+2. 
+
+SELECT COUNT(*)
+FROM likes
+WHERE student_id = (SELECT id FROM highschooler WHERE name = 'Kyle');
+
+3. 
+
+SELECT COUNT(*)
+FROM likes
+WHERE student_id = (SELECT id FROM highschooler WHERE name = 'Kyle');
+
+4. 
+
+SELECT AVG(h.grade)
+FROM highschooler h
+JOIN friend f ON h.id = f.student_id
+GROUP BY h.id
+HAVING COUNT(f.friend_id) > 0;
+
+5. 
+
+SELECT AVG(h.grade)
+FROM highschooler h
+JOIN friend f ON h.id = f.student_id
+GROUP BY h.id
+HAVING COUNT(f.friend_id) > 0;

@@ -1,0 +1,25 @@
+1. 
+SELECT DISTINCT area_code 
+FROM votes 
+WHERE contestant_number = (SELECT contestant_number FROM contestants WHERE contestant_name = 'Tabatha Gehling') 
+AND area_code IN (SELECT area_code FROM votes WHERE contestant_number = (SELECT contestant_number FROM contestants WHERE contestant_name = 'Kelly Clauss'));
+
+2. 
+SELECT contestant_name 
+FROM contestants 
+WHERE contestant_name LIKE '%Al%';
+
+3. 
+SELECT name 
+FROM country 
+WHERE indepyear > 1950;
+
+4. 
+SELECT name 
+FROM country 
+WHERE indepyear > 1950;
+
+5. 
+SELECT COUNT(*) 
+FROM country 
+WHERE governmentform LIKE '%Republic%';

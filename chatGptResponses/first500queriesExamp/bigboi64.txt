@@ -1,0 +1,23 @@
+
+
+1. 
+SELECT templates.template_id, templates.version_number, templates.template_type_code
+FROM templates;
+
+2. 
+SELECT DISTINCT templates.template_type_code
+FROM templates;
+
+3. 
+SELECT DISTINCT template_type_code
+FROM ref_template_types;
+
+4. 
+SELECT templates.template_id
+FROM templates
+WHERE templates.template_type_code IN ('PP', 'PPT');
+
+5. 
+SELECT templates.template_id
+FROM templates
+WHERE templates.template_type_code IN ('PP', 'PPT');

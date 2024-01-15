@@ -1,0 +1,3407 @@
+1. SELECT COUNT(*) FROM singer
+
+
+2. SELECT COUNT(DISTINCT singer_id) FROM singer_in_concert
+
+
+3. SELECT name, country, age FROM singer ORDER BY age ASC
+
+
+4. SELECT name, country, age FROM singer ORDER BY age DESC
+
+
+5. SELECT AVG(age), MIN(age), MAX(age) FROM singer WHERE country = 'France'
+
+
+1. SELECT AVG(age), MIN(age), MAX(age) FROM singer WHERE country = 'France'
+
+
+2. SELECT song_name, song_release_year FROM singer WHERE age = (SELECT MIN(age) FROM singer)
+
+
+3. SELECT song_name, song_release_year FROM singer WHERE age = (SELECT MIN(age) FROM singer)
+
+
+4. SELECT DISTINCT country FROM singer WHERE age > 20
+
+
+5. SELECT country FROM singer WHERE age > 20 GROUP BY country
+
+
+1. SELECT country, COUNT(*) FROM singer GROUP BY country
+
+
+2. SELECT country, COUNT(*) FROM singer GROUP BY country
+
+
+3. SELECT song_name FROM singer WHERE age > (SELECT AVG(age) FROM singer)
+
+
+4. SELECT song_name FROM singer WHERE age > (SELECT AVG(age) FROM singer)
+
+
+5. SELECT location, name FROM stadium WHERE capacity BETWEEN 5000 AND 10000
+
+
+1. SELECT location, name FROM stadium WHERE capacity BETWEEN 5000 AND 10000
+
+
+2. SELECT MAX(capacity), AVG(capacity) FROM stadium
+
+
+3. SELECT AVG(capacity), MAX(capacity) FROM stadium
+
+
+4. SELECT name, capacity FROM stadium WHERE average = (SELECT MAX(average) FROM stadium)
+
+
+5. SELECT name, capacity FROM stadium WHERE average = (SELECT MAX(average) FROM stadium)
+
+
+1. SELECT COUNT(*) FROM concert WHERE year = 2014 OR year = 2015
+
+
+2. SELECT COUNT(*) FROM concert WHERE year = 2014 OR year = 2015
+
+
+3. SELECT stadium.name, COUNT(*) FROM concert JOIN stadium ON concert.stadium_id = stadium.stadium_id GROUP BY stadium.name
+
+
+4. SELECT stadium.name, COUNT(*) FROM concert JOIN stadium ON concert.stadium_id = stadium.stadium_id GROUP BY stadium.name
+
+
+5. SELECT stadium.name, stadium.capacity FROM concert JOIN stadium ON concert.stadium_id = stadium.stadium_id WHERE year >= 2014 GROUP BY stadium.name ORDER BY COUNT(*) DESC LIMIT 1
+
+
+1. SELECT stadium.name, stadium.capacity FROM concert JOIN stadium ON concert.stadium_id = stadium.stadium_id WHERE year > 2013 GROUP BY stadium.name ORDER BY COUNT(*) DESC LIMIT 1
+
+
+2. SELECT year, COUNT(*) FROM concert GROUP BY year ORDER BY COUNT(*) DESC LIMIT 1
+
+
+3. SELECT year FROM concert GROUP BY year ORDER BY COUNT(*) DESC LIMIT 1
+
+
+4. SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)
+
+
+5. SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)
+
+
+1. SELECT DISTINCT s1.country FROM singer s1, singer s2 WHERE s1.age > 40 AND s2.age < 30 AND s1.country = s2.country
+
+
+2. SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert WHERE year = 2014)
+
+
+3. SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert WHERE year = 2014)
+
+
+4. SELECT concert.concert_name, concert.theme, COUNT(singer_in_concert.singer_id) FROM concert JOIN singer_in_concert ON concert.concert_id = singer_in_concert.concert_id GROUP BY concert.concert_name
+
+
+5. SELECT concert.concert_name, concert.theme, COUNT(singer_in_concert.singer_id) FROM concert JOIN singer_in_concert ON concert.concert_id = singer_in_concert.concert_id GROUP BY concert.concert_name
+
+
+Here are the SQLite code snippets for the given questions:
+
+1. List singer names and number of concerts for each singer.
+
+```
+
+SELECT singer.name, COUNT(concert.concert_id) AS num_concerts
+
+FROM singer
+
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+
+GROUP BY singer.name
+
+
+```
+
+2. What are the names of the singers and number of concerts for each person?
+
+```
+
+SELECT singer.name, COUNT(concert.concert_id) AS num_concerts
+
+FROM singer
+
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+
+GROUP BY singer.name
+
+
+```
+
+3. List all singer names in concerts in year 2014.
+
+```
+
+SELECT singer.name
+
+FROM singer
+
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+
+WHERE concert.year = 2014
+
+
+```
+
+4. What are the names of the singers who performed in a concert in 2014?
+
+```
+
+SELECT singer.name
+
+FROM singer
+
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+
+WHERE concert.year = 2014
+
+
+```
+
+5. What is the name and nation of the singer who have a song having 'Hey' in its name?
+
+```
+
+SELECT name, country
+
+FROM singer
+
+WHERE song_name LIKE '%Hey%'
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the name and country of origin of every singer who has a song with the word 'Hey' in its title?
+
+```
+
+SELECT name, country
+
+FROM singer
+
+WHERE song_name LIKE '%Hey%'
+
+
+```
+
+2. Find the name and location of the stadiums which some concerts happened in the years of both 2014 and 2015.
+
+```
+
+SELECT name, location
+
+FROM stadium
+
+WHERE stadium_id IN (
+
+    SELECT stadium_id
+
+    FROM concert
+
+    WHERE year = 2014
+
+    INTERSECT
+
+    SELECT stadium_id
+
+    FROM concert
+
+    WHERE year = 2015
+
+)
+
+
+```
+
+3. What are the names and locations of the stadiums that had concerts that occurred in both 2014 and 2015?
+
+```
+
+SELECT name, location
+
+FROM stadium
+
+WHERE stadium_id IN (
+
+    SELECT stadium_id
+
+    FROM concert
+
+    WHERE year = 2014
+
+    INTERSECT
+
+    SELECT stadium_id
+
+    FROM concert
+
+    WHERE year = 2015
+
+)
+
+
+```
+
+4. Find the number of concerts happened in the stadium with the highest capacity.
+
+```
+
+SELECT COUNT(*)
+
+FROM concert
+
+WHERE stadium_id = (
+
+    SELECT stadium_id
+
+    FROM stadium
+
+    ORDER BY capacity DESC
+
+    LIMIT 1
+
+)
+
+
+```
+
+5. What are the number of concerts that occurred in the stadium with the largest capacity?
+
+```
+
+SELECT COUNT(*)
+
+FROM concert
+
+WHERE stadium_id = (
+
+    SELECT stadium_id
+
+    FROM stadium
+
+    ORDER BY capacity DESC
+
+    LIMIT 1
+
+)
+
+
+```
+
+1. SELECT COUNT(*) FROM pets WHERE weight > 10
+
+
+2. SELECT COUNT(*) FROM pets WHERE weight > 10
+
+
+3. SELECT MIN(weight) FROM pets WHERE pettype = 'dog' AND pet_age = (SELECT MIN(pet_age) FROM pets WHERE pettype = 'dog')
+
+
+4. SELECT MIN(weight) FROM pets WHERE pettype = 'dog' AND pet_age = (SELECT MIN(pet_age) FROM pets WHERE pettype = 'dog')
+
+
+5. SELECT pettype, MAX(weight) FROM pets GROUP BY pettype
+
+
+1. SELECT pettype, MAX(weight) FROM pets GROUP BY pettype
+
+
+2. SELECT COUNT(*) FROM has_pet JOIN student ON has_pet.stuid = student.stuid WHERE student.age > 20
+
+
+3. SELECT COUNT(*) FROM has_pet JOIN student ON has_pet.stuid = student.stuid WHERE student.age > 20
+
+
+4. SELECT COUNT(*) FROM has_pet JOIN student ON has_pet.stuid = student.stuid WHERE student.sex = 'F' AND pets.pettype = 'dog'
+
+
+5. SELECT COUNT(*) FROM has_pet JOIN student ON has_pet.stuid = student.stuid WHERE student.sex = 'F' AND pets.pettype = 'dog'
+
+
+1. SELECT COUNT(DISTINCT pettype) FROM pets
+
+
+2. SELECT COUNT(DISTINCT pettype) FROM pets
+
+
+3. SELECT DISTINCT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype IN ('cat', 'dog')
+
+
+4. SELECT DISTINCT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype IN ('cat', 'dog')
+
+
+5. SELECT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat' AND student.stuid IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'dog')
+
+
+1. SELECT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat' AND student.stuid IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'dog')
+
+
+2. SELECT student.major, student.age FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat')
+
+
+3. SELECT student.major, student.age FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat')
+
+
+4. SELECT student.stuid FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat')
+
+
+5. SELECT student.stuid FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat')
+
+
+1. SELECT student.fname, student.age FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'dog' AND student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat')
+
+
+2. SELECT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'dog' AND student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat')
+
+
+3. SELECT pettype, weight FROM pets WHERE pet_age = (SELECT MIN(pet_age) FROM pets)
+
+
+4. SELECT pettype, weight FROM pets WHERE pet_age = (SELECT MIN(pet_age) FROM pets)
+
+
+5. SELECT pets.petid, pets.weight FROM pets WHERE pet_age > 1
+
+
+1. SELECT pets.petid, pets.weight FROM pets WHERE pet_age > 1
+
+
+2. SELECT pettype, AVG(pet_age), MAX(pet_age) FROM pets GROUP BY pettype
+
+
+3. SELECT pettype, AVG(pet_age), MAX(pet_age) FROM pets GROUP BY pettype
+
+
+4. SELECT pettype, AVG(weight) FROM pets GROUP BY pettype
+
+
+5. SELECT pettype, AVG(weight) FROM pets GROUP BY pettype
+
+
+1. SELECT student.fname, student.age FROM student JOIN has_pet ON student.stuid = has_pet.stuid
+
+
+2. SELECT DISTINCT student.fname, student.age FROM student JOIN has_pet ON student.stuid = has_pet.stuid
+
+
+3. SELECT pets.petid FROM pets JOIN has_pet ON pets.petid = has_pet.petid JOIN student ON has_pet.stuid = student.stuid WHERE student.lname = 'Smith'
+
+
+4. SELECT pets.petid FROM pets JOIN has_pet ON pets.petid = has_pet.petid JOIN student ON has_pet.stuid = student.stuid WHERE student.lname = 'Smith'
+
+
+5. SELECT has_pet.stuid, COUNT(has_pet.petid) FROM has_pet GROUP BY has_pet.stuid
+
+
+1. SELECT has_pet.stuid, COUNT(has_pet.petid) FROM has_pet GROUP BY has_pet.stuid
+
+
+2. SELECT student.fname, student.sex FROM student JOIN has_pet ON student.stuid = has_pet.stuid GROUP BY has_pet.stuid HAVING COUNT(has_pet.petid) > 1
+
+
+3. SELECT student.fname, student.sex FROM student JOIN has_pet ON student.stuid = has_pet.stuid GROUP BY has_pet.stuid HAVING COUNT(has_pet.petid) > 1
+
+
+4. SELECT student.lname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat' AND pets.pet_age = 3
+
+
+5. SELECT student.lname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets
+
+1. SELECT AVG(student.age) FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet)
+
+
+2. SELECT AVG(student.age) FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet)
+
+
+3. SELECT COUNT(*) FROM continents
+
+
+4. SELECT COUNT(*) FROM continents
+
+
+5. SELECT continents.contid, continents.continent, COUNT(countries.countryid) FROM continents JOIN countries ON continents.continent = countries.continent GROUP BY continents.contid
+
+
+1. SELECT continents.contid, continents.continent, COUNT(countries.countryid) FROM continents JOIN countries ON continents.continent = countries.continent GROUP BY continents.contid
+
+
+2. SELECT COUNT(*) FROM countries
+
+
+3. SELECT COUNT(*) FROM countries
+
+
+4. SELECT car_makers.id, car_makers.fullname, COUNT(model_list.modelid) FROM car_makers JOIN model_list ON car_makers.id = model_list.maker GROUP BY car_makers.id
+
+
+5. SELECT car_makers.id, car_makers.fullname, COUNT(model_list.modelid) FROM car_makers JOIN model_list ON car_makers.id = model_list.maker GROUP BY car_makers.id
+
+
+Here are the SQLite code snippets for the given questions:
+
+1. Which model of the car has the minimum horsepower?
+
+```
+
+SELECT model
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+ORDER BY horsepower ASC
+
+LIMIT 1
+
+
+```
+
+2. What is the model of the car with the smallest amount of horsepower?
+
+```
+
+SELECT model
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+ORDER BY horsepower ASC
+
+LIMIT 1
+
+
+```
+
+3. Find the model of the car whose weight is below the average weight.
+
+```
+
+SELECT model
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+WHERE weight < (
+
+    SELECT AVG(weight)
+
+    FROM cars_data
+
+)
+
+
+```
+
+4. What is the model for the car with a weight smaller than the average?
+
+```
+
+SELECT model
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+WHERE weight < (
+
+    SELECT AVG(weight)
+
+    FROM cars_data
+
+)
+
+
+```
+
+5. Find the name of the makers that produced some cars in the year of 1970?
+
+```
+
+SELECT DISTINCT maker
+
+FROM car_makers
+
+JOIN model_list ON car_makers.id = model_list.maker
+
+JOIN car_names ON model_list.modelid = car_names.modelid
+
+JOIN cars_data ON car_names.makeid = cars_data.id
+
+WHERE year = 1970
+
+
+```
+
+1. SELECT DISTINCT car_makers.fullname FROM car_makers JOIN cars_data ON car_makers.id = cars_data.id WHERE cars_data.year = 1970
+
+
+2. SELECT car_names.make, MIN(cars_data.year) FROM car_names JOIN cars_data ON car_names.makeid = cars_data.id
+
+
+3. SELECT car_makers.fullname, MIN(cars_data.year) FROM car_makers JOIN cars_data ON car_makers.id = cars_data.id
+
+
+4. SELECT DISTINCT model_list.model FROM model_list JOIN cars_data ON model_list.modelid = cars_data.id WHERE cars_data.year > 1980
+
+
+5. SELECT DISTINCT car_names.model FROM car_names JOIN cars_data ON car_names
+
+Here are the SQLite code snippets for the
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the number of car models that are produced by each maker and what is the id and full name of each maker?
+
+```
+
+SELECT car_makers.id, car_makers.fullname, COUNT(DISTINCT model_list.model) AS num_models
+
+FROM car_makers
+
+JOIN model_list ON car_makers.id = model_list.maker
+
+GROUP BY car_makers.id
+
+
+```
+
+2. What is the accelerate of the car make amc hornet sportabout (sw)?
+
+```
+
+SELECT accelerate
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+WHERE car_names.make = 'amc hornet sportabout (sw)'
+
+
+```
+
+3. How much does the car accelerate that makes amc hornet sportabout (sw)?
+
+```
+
+SELECT accelerate
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+WHERE car_names.make = 'amc hornet sportabout (sw)'
+
+
+```
+
+4. How many car makers are there in france?
+
+```
+
+SELECT COUNT(DISTINCT car_makers.id)
+
+FROM car_makers
+
+JOIN countries ON car_makers.country = countries.countryid
+
+WHERE countries.countryname = 'france'
+
+
+```
+
+5. What is the number of makers of care in France?
+
+```
+
+SELECT COUNT(DISTINCT car_makers.id)
+
+FROM car_makers
+
+JOIN countries ON car_makers.country = countries.countryid
+
+WHERE countries.countryname = 'france'
+
+
+```
+
+1. SELECT COUNT(model_list.modelid) FROM model_list JOIN car_makers ON model_list.maker = car_makers.id JOIN countries ON car_makers.country = countries.countryid WHERE countries.countryname = 'usa'
+
+
+2. SELECT COUNT(model_list.modelid) AS count FROM model_list JOIN car_makers ON model_list.maker = car_makers.id JOIN countries ON car_makers.country = countries.countryid WHERE countries.countryname = 'United States'
+
+
+3. SELECT AVG(mpg) FROM cars_data WHERE cylinders = 4
+
+
+4. SELECT AVG(mpg) FROM cars_data WHERE cylinders = 4
+
+
+5. SELECT MIN(weight)
+
+Here are the SQLite code snippets for the given questions:
+
+1
+
+1. SELECT COUNT(*) FROM cars_data WHERE horsepower > 150
+
+
+2. SELECT COUNT(*) AS count FROM cars_data WHERE horsepower > 150
+
+
+3. SELECT year, AVG(weight) FROM cars_data GROUP BY year
+
+
+4. SELECT year, AVG(weight) FROM cars_data GROUP BY year
+
+
+5. SELECT countries.countryid, countries.countryname FROM countries JOIN car_makers ON countries.countryid = car_makers.country JOIN continents ON countries.continent = continents.contid WHERE continents.continent = 'europe' GROUP BY countries.countryid HAVING COUNT(DISTINCT car_makers.id) >= 3
+
+
+1. SELECT countries.countryname FROM countries JOIN car_makers ON countries.countryid = car_makers.country JOIN continents ON countries.continent = continents.contid WHERE continents.continent = 'europe' GROUP BY countries.countryid HAVING COUNT(DISTINCT car_makers.id) >= 3
+
+
+2. SELECT MAX(horsepower), car_names.make FROM cars_data JOIN car_names ON cars_data.id = car_names.makeid WHERE cylinders = 3
+
+
+3. SELECT MAX(horsepower), car_names.make FROM cars_data JOIN car_names ON cars_data.id = car_names.makeid WHERE cylinders = 3
+
+
+4. SELECT model_list.model FROM model_list JOIN cars_data ON model_list.modelid = cars_data.id WHERE mpg = (SELECT MAX(mpg) FROM cars_data)
+
+
+5. SELECT model_list.model FROM model_list JOIN cars_data ON
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the average horsepower of the cars before 1980?
+
+```
+
+SELECT AVG(horsepower)
+
+FROM cars_data
+
+WHERE year < 1980
+
+
+```
+
+2. What is the average horsepower for all cars produced before 1980?
+
+```
+
+SELECT AVG(horsepower)
+
+FROM cars_data
+
+WHERE year < 1980
+
+
+```
+
+3. What is the average edispl of the cars of model volvo?
+
+```
+
+SELECT AVG(edispl)
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+WHERE model_list.maker = 'volvo'
+
+
+```
+
+4. What is the average edispl for all volvos?
+
+```
+
+SELECT AVG(edispl)
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+WHERE model_list.maker = 'volvo'
+
+
+```
+
+5. What is the maximum accelerate for different number of cylinders?
+
+```
+
+SELECT cylinders, MAX(accelerate)
+
+FROM cars_data
+
+GROUP BY cylinders
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the maximum accelerate for all the different cylinders?
+
+```
+
+SELECT cylinders, MAX(accelerate)
+
+FROM cars_data
+
+GROUP BY cylinders
+
+
+```
+
+2. Which model has the most version(make) of cars?
+
+```
+
+SELECT model_list.model, COUNT(DISTINCT car_names.make) AS num_makes
+
+FROM model_list
+
+JOIN car_names ON model_list.modelid = car_names.modelid
+
+GROUP BY model_list.model
+
+ORDER BY num_makes DESC
+
+LIMIT 1
+
+
+```
+
+3. What model has the most different versions?
+
+```
+
+SELECT model_list.model, COUNT(DISTINCT car_names.make) AS num_makes
+
+FROM model_list
+
+JOIN car_names ON model_list.modelid = car_names.modelid
+
+GROUP BY model_list.model
+
+ORDER BY num_makes DESC
+
+LIMIT 1
+
+
+```
+
+4. How many cars have more than 4 cylinders?
+
+```
+
+SELECT COUNT(*)
+
+FROM cars_data
+
+WHERE cylinders > 4
+
+
+```
+
+5. What is the number of cars with more than 4 cylinders?
+
+```
+
+SELECT COUNT(*)
+
+FROM cars_data
+
+WHERE cylinders > 4
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. how many cars were produced in 1980?
+
+```
+
+SELECT COUNT(*)
+
+FROM cars_data
+
+WHERE year = 1980
+
+
+```
+
+2. In 1980, how many cars were made?
+
+```
+
+SELECT COUNT(*)
+
+FROM cars_data
+
+WHERE year = 1980
+
+
+```
+
+3. How many car models were produced by the maker with full name American Motor Company?
+
+```
+
+SELECT COUNT(DISTINCT model_list.model) AS num_models
+
+FROM car_makers
+
+JOIN model_list ON car_makers.id = model_list.maker
+
+WHERE car_makers.fullname = 'American Motor Company'
+
+
+```
+
+4. What is the number of car models created by the car maker American Motor Company?
+
+```
+
+SELECT COUNT(DISTINCT model_list.model) AS num_models
+
+FROM car_makers
+
+JOIN model_list ON car_makers.id = model_list.maker
+
+WHERE car_makers.fullname = 'American Motor Company'
+
+
+```
+
+5. Which makers designed more than 3 car models? List full name and the id.
+
+```
+
+SELECT car_makers.id, car_makers.fullname, COUNT(DISTINCT model_list.model
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are the names and ids of all makers with more than 3 models?
+
+```
+
+SELECT id, maker
+
+FROM car_makers
+
+WHERE id IN (
+
+    SELECT maker
+
+    FROM model_list
+
+    GROUP BY maker
+
+    HAVING COUNT(*) > 3
+
+)
+
+
+```
+
+2. Which distinctive models are produced by maker with the full name General Motors or weighing more than 3500?
+
+```
+
+SELECT DISTINCT model
+
+FROM model_list
+
+JOIN car_makers ON model_list.maker = car_makers.id
+
+JOIN cars_data ON model_list.modelid = cars_data.id
+
+WHERE (car_makers.fullname = 'General Motors' OR cars_data.weight > 3500)
+
+
+```
+
+3. What are the different models created by either the car maker General Motors or weighed more than 3500?
+
+```
+
+SELECT DISTINCT model
+
+FROM model_list
+
+JOIN car_makers ON model_list.maker = car_makers.id
+
+JOIN cars_data ON model_list.modelid = cars_data.id
+
+WHERE (car_makers.fullname = 'General Motors' OR cars_data.weight > 3500)
+
+
+```
+
+4. In which years cars were produced weighing no less than 3000 and no more than 4000?
+
+```
+
+SELECT DISTINCT year
+
+FROM cars_data
+
+WHERE weight BETWEEN 3000 AND 4000
+
+
+```
+
+5. What are the different years in which there were cars produced that weighed less than 4000 and also cars that weighted more than 3000?
+
+```
+
+SELECT DISTINCT year
+
+FROM cars_data
+
+WHERE weight < 4000 AND year IN (
+
+    SELECT DISTINCT year
+
+    FROM cars_data
+
+    WHERE weight > 3000
+
+)
+
+
+```
+
+Here are the SQLite
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the number of cars with a greater accelerate than the one with the most horsepower?
+
+```
+
+SELECT COUNT(*)
+
+FROM cars_data
+
+WHERE accelerate > (SELECT MAX(accelerate) FROM cars_data WHERE horsepower = (SELECT MAX(horsepower) FROM cars_data))
+
+
+```
+
+2. How many countries has more than 2 car makers?
+
+```
+
+SELECT COUNT(DISTINCT country)
+
+FROM car_makers
+
+GROUP BY country
+
+HAVING COUNT(DISTINCT id) > 2
+
+
+```
+
+3. What is the number of countries with more than 2 car makers?
+
+```
+
+SELECT COUNT(DISTINCT country)
+
+FROM car_makers
+
+GROUP BY country
+
+HAVING COUNT(DISTINCT id) > 2
+
+
+```
+
+4. How many cars has over 6 cylinders?
+
+```
+
+SELECT COUNT(*)
+
+FROM cars_data
+
+WHERE cylinders > 6
+
+
+```
+
+5. What is the number of cars with over 6 cylinders?
+
+```
+
+SELECT COUNT(*)
+
+FROM cars_data
+
+WHERE cylinders > 6
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. For the cars with 4 cylinders, which model has the largest horsepower?
+
+```
+
+SELECT model_list.model, MAX(cars_data.horsepower) AS max_horsepower
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+WHERE cars_data.cylinders = 4
+
+GROUP BY model_list.model
+
+ORDER BY max_horsepower DESC
+
+LIMIT 1
+
+
+```
+
+2. For all of the 4 cylinder cars, which model has the most horsepower?
+
+```
+
+SELECT model_list.model, MAX(cars_data.horsepower) AS max_horsepower
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+WHERE cars_data.cylinders = 4
+
+GROUP BY model_list.model
+
+ORDER BY max_horsepower DESC
+
+LIMIT 1
+
+
+```
+
+3. Among the cars with more than
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the maximum mpg of the cars that had 8 cylinders or that were produced before 1980?
+
+```
+
+SELECT MAX(mpg)
+
+FROM cars_data
+
+WHERE cylinders = 8 OR year < 1980
+
+
+```
+
+2. Which models are lighter than 3500 but not built by the 'Ford Motor Company'?
+
+```
+
+SELECT DISTINCT model_list.model
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+JOIN car_makers ON model_list.maker = car_makers.id
+
+WHERE cars_data.weight < 3500 AND car_makers.fullname != 'Ford Motor Company'
+
+
+```
+
+3. What are the different models that are lighter than 3500 but were not built by the Ford Motor Company?
+
+```
+
+SELECT DISTINCT model_list.model
+
+FROM cars_data
+
+JOIN car_names ON cars_data.id = car_names.makeid
+
+JOIN model_list ON car_names.modelid = model_list.modelid
+
+JOIN car_makers ON model_list.maker = car_makers.id
+
+WHERE cars_data.weight < 3500 AND car_makers.fullname != 'Ford Motor Company'
+
+
+```
+
+4. What are the
+
+Here are the SQLite code snippets for the given questions:
+
+1. Which are the car makers which produce at least 2 models and more than 3 car makers? List the id and the maker.
+
+```
+
+SELECT car_makers.id, car_makers.maker
+
+FROM car_makers
+
+JOIN model_list ON car_makers.id = model_list.maker
+
+GROUP BY car_makers.id
+
+HAVING COUNT(DISTINCT model_list.model) >= 2 AND COUNT(DISTINCT car_makers.id) > 3
+
+
+```
+
+2. What are the ids and makers of all car makers that produce at least 2 models and make more than 3 cars?
+
+```
+
+SELECT car_makers.id, car_makers.maker
+
+FROM car_makers
+
+JOIN model_list ON car_makers.id = model_list.maker
+
+GROUP BY car_makers.id
+
+HAVING COUNT(DISTINCT model_list.model) >= 2 AND COUNT(DISTINCT car_makers.id) > 3
+
+
+```
+
+3. What are the id and names of the countries which have more than 3 car makers or produce the 'fiat' model?
+
+```
+
+SELECT DISTINCT countries.countryid, countries.countryname
+
+FROM countries
+
+JOIN car_makers
+
+1. SELECT airlines.country FROM airlines WHERE airlines.airline = 'JetBlue Airways'
+
+
+2. SELECT airlines.abbreviation FROM airlines WHERE airlines.airline = 'JetBlue Airways'
+
+
+3. SELECT airlines.abbreviation FROM airlines WHERE airlines.airline = 'JetBlue Airways'
+
+
+4. SELECT airlines.airline, airlines.abbreviation FROM airlines WHERE airlines.country = 'USA'
+
+
+5. SELECT airlines.airline, airlines.abbreviation FROM airlines WHERE airlines.country = 'USA'
+
+
+1. SELECT airports.airportcode, airports.airportname FROM airports WHERE airports.city = 'Anthony'
+
+
+2. SELECT airports.airportcode, airports.airportname FROM airports WHERE airports.city = 'Anthony'
+
+
+3. SELECT COUNT(*) FROM airlines
+
+
+4. SELECT COUNT(*) FROM airlines
+
+
+5. SELECT COUNT(*) FROM airports
+
+
+1. SELECT COUNT(*) FROM airports
+
+
+2. SELECT COUNT(*) FROM flights
+
+
+3. SELECT COUNT(*) FROM flights
+
+
+4. SELECT airlines.airline FROM airlines WHERE airlines.abbreviation = 'UAL'
+
+
+5. SELECT airlines.airline FROM airlines WHERE airlines.abbreviation = 'UAL'
+
+
+1. SELECT COUNT(*) FROM airlines WHERE airlines.country = 'USA'
+
+
+2. SELECT COUNT(*) FROM airlines WHERE airlines.country = 'USA'
+
+
+3. SELECT airports.city, airports.country FROM airports WHERE airports.airportcode = 'Alton'
+
+
+4. SELECT airports.city, airports.country FROM airports WHERE airports.airportcode = 'Alton'
+
+
+5. SELECT airports.airportname FROM airports WHERE airports.airportcode = 'AKO'
+
+
+1. SELECT airports.airportname FROM airports WHERE airports.airportcode = 'AKO'
+
+
+2. SELECT airports.airportname FROM airports WHERE airports.city = 'Aberdeen'
+
+
+3. SELECT airports.airportname FROM airports WHERE airports.city = 'Aberdeen'
+
+
+4. SELECT COUNT(*) FROM flights WHERE flights.sourceairport = 'APG'
+
+
+5. SELECT COUNT(*) FROM flights WHERE flights.sourceairport = 'APG'
+
+
+1. SELECT COUNT(*) FROM flights WHERE flights.destairport = 'ATO'
+
+
+2. SELECT COUNT(*) FROM flights WHERE flights.destairport = 'ATO'
+
+
+3. SELECT COUNT(*) FROM flights JOIN airports ON flights.sourceairport = airports.airportcode WHERE airports.city = 'Aberdeen'
+
+
+4. SELECT COUNT(*) FROM flights JOIN airports ON flights.sourceairport = airports.airportcode WHERE airports.city = 'Aberdeen'
+
+
+5. SELECT COUNT(*) FROM flights JOIN airports ON flights.destairport = airports.airportcode WHERE airports.city = 'Aberdeen'
+
+
+Here are the SQLite code snippets for the given questions:
+
+1. Return the number of flights arriving in Aberdeen.
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+WHERE airports.city = 'Aberdeen'
+
+
+```
+
+2. How many flights depart from City 'Aberdeen' and have destination City 'Ashley'?
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airports AS source ON flights.sourceairport = source.airportcode
+
+JOIN airports AS dest ON flights.destairport = dest.airportcode
+
+WHERE source.city = 'Aberdeen' AND dest.city = 'Ashley'
+
+
+```
+
+3. How
+
+Here are the SQLite code snippets for the given questions:
+
+1. How many 'United Airlines' flights go to Airport 'ASY'?
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE airlines.airline = 'United Airlines' AND flights.destairport = 'ASY'
+
+
+```
+
+2. Count the number of United Airlines flights arriving in ASY Airport.
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE airlines.airline = 'United Airlines' AND flights.destairport = 'ASY'
+
+
+```
+
+3. How many 'United Airlines' flights depart from Airport 'AHD'?
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE airlines.airline = 'United Airlines' AND flights.sourceairport = 'AHD'
+
+
+```
+
+4. Return the number of United Airlines flights leaving from AHD Airport.
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE airlines.airline = 'United Airlines' AND flights.sourceairport = 'AHD'
+
+
+```
+
+5. How many United Airlines flights go to City 'Aberdeen'?
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+WHERE airlines.airline = 'United Airlines' AND airports.city = 'Aberdeen'
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. Count the number of United Airlines flights that arrive in Aberdeen.
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+WHERE airlines.airline = 'United Airlines' AND airports.city = 'Aberdeen'
+
+
+```
+
+2. Which city has most number of arriving flights?
+
+```
+
+SELECT airports.city, COUNT(*) AS num_arrivals
+
+FROM flights
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+GROUP BY airports.city
+
+ORDER BY num_arrivals DESC
+
+LIMIT 1
+
+
+```
+
+3. Which city has the most frequent destination airport?
+
+```
+
+SELECT airports.city, COUNT(*) AS num_destinations
+
+FROM flights
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+GROUP BY airports.city
+
+ORDER BY num_destinations DESC
+
+LIMIT 1
+
+
+```
+
+4. Which city has most number of departing flights?
+
+```
+
+SELECT airports.city, COUNT(*) AS num_departures
+
+FROM flights
+
+JOIN airports ON flights.sourceairport = airports.airportcode
+
+GROUP BY airports.city
+
+ORDER BY num_departures DESC
+
+LIMIT 1
+
+
+```
+
+5. Which city is the most frequent source airport?
+
+```
+
+SELECT airports.city, COUNT(*) AS num_departures
+
+FROM flights
+
+JOIN airports ON flights.sourceairport = airports.airportcode
+
+GROUP BY airports.city
+
+ORDER BY num_departures DESC
+
+LIMIT 1
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the code of airport that has the highest number of flights?
+
+```
+
+SELECT destairport, COUNT(*) AS num_flights
+
+FROM flights
+
+GROUP BY destairport
+
+ORDER BY num_flights DESC
+
+LIMIT 1
+
+
+```
+
+2. What is the airport code of the airport with the most flights?
+
+```
+
+SELECT destairport, COUNT(*) AS num_flights
+
+FROM flights
+
+GROUP BY dest
+
+Here are the SQLite code snippets for the given questions:
+
+1. What airline serves the most flights?
+
+```
+
+SELECT airlines.airline, COUNT(*) AS num_flights
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+GROUP BY airlines.airline
+
+ORDER BY num_flights DESC
+
+LIMIT 1
+
+
+```
+
+2. Find the abbreviation and country of the airline that has fewest number of flights?
+
+```
+
+SELECT airlines.abbreviation, airlines.country
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+GROUP BY airlines.uid
+
+ORDER BY COUNT(*) ASC
+
+LIMIT 1
+
+
+```
+
+3. What is the abbreviation of the airline has the fewest flights and
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are airlines that have flights arriving at airport 'AHD'?
+
+```
+
+SELECT airlines.airline
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE flights.destairport = 'AHD'
+
+GROUP BY airlines.airline
+
+
+```
+
+2. Which airlines have a flight with destination airport AHD?
+
+```
+
+SELECT airlines.airline
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE flights.destairport = 'AHD'
+
+GROUP BY airlines.airline
+
+
+```
+
+3. Find all airlines that have flights from both airports 'APG' and 'CVO'.
+
+```
+
+SELECT airlines.airline
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE flights.sourceairport IN ('APG', 'CVO')
+
+GROUP BY airlines.airline
+
+HAVING COUNT(DISTINCT flights.sourceairport) = 2
+
+
+```
+
+4. Which airlines have departing flights from both APG and CVO airports?
+
+```
+
+SELECT airlines.airline
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE flights.sourceairport IN ('APG', '
+
+Here are the SQLite code snippets for the given questions:
+
+1. Which airlines have departures from CVO but not from APG airports?
+
+```
+
+SELECT airlines.airline
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+WHERE flights.sourceairport = 'CVO' AND airlines.airline NOT IN (
+
+    SELECT airlines.airline
+
+    FROM flights
+
+    JOIN airlines ON flights.airline = airlines.uid
+
+    WHERE flights.sourceairport = 'APG'
+
+)
+
+GROUP BY airlines.airline
+
+
+```
+
+2. Find all airlines that have at least 10 flights.
+
+```
+
+SELECT airlines.airline
+
+FROM flights
+
+JOIN airlines ON flights.airline = airlines.uid
+
+GROUP BY airlines.airline
+
+HAVING COUNT(*) >= 
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are flight numbers of Airline "United Airlines"?
+
+```
+
+SELECT flightno
+
+FROM flights
+
+WHERE airline = (
+
+    SELECT uid
+
+    FROM airlines
+
+    WHERE airline = 'United Airlines'
+
+)
+
+
+```
+
+2. Which flight numbers correspond to United Airlines flights?
+
+```
+
+SELECT flightno
+
+FROM flights
+
+WHERE airline = (
+
+    SELECT uid
+
+    FROM airlines
+
+    WHERE airline = 'United Airlines'
+
+)
+
+
+```
+
+3. What are flight numbers of flights departing from Airport "APG"?
+
+```
+
+SELECT flightno
+
+FROM flights
+
+WHERE sourceairport = 'APG'
+
+
+```
+
+4. Give the flight numbers of flights leaving from APG.
+
+```
+
+SELECT flightno
+
+FROM flights
+
+WHERE sourceairport = 'APG'
+
+
+```
+
+5. What are flight numbers of flights arriving at Airport "APG"?
+
+```
+
+SELECT flightno
+
+FROM flights
+
+WHERE destairport = 'APG'
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. Give the flight numbers of flights landing at APG.
+
+```
+
+SELECT flightno
+
+FROM flights
+
+WHERE destairport = 'APG'
+
+
+```
+
+2. What are flight numbers of flights departing from City "Aberdeen "?
+
+```
+
+SELECT flightno
+
+FROM flights
+
+JOIN airports ON flights.sourceairport = airports.airportcode
+
+WHERE airports.city = 'Aberdeen'
+
+
+```
+
+3. Give the flight numbers of flights leaving from Aberdeen.
+
+```
+
+SELECT flightno
+
+FROM flights
+
+JOIN airports ON flights.sourceairport = airports.airportcode
+
+WHERE airports.city = 'Aberdeen'
+
+
+```
+
+4. What are flight numbers of flights arriving at City "Aberdeen"?
+
+```
+
+SELECT flightno
+
+FROM flights
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+WHERE airports.city = 'A
+
+Here are the SQLite code snippets for the given questions:
+
+1. Find the number of flights landing in the city of Aberdeen or Abilene.
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+WHERE airports.city IN ('Aberdeen', 'Abilene')
+
+
+```
+
+2. How many flights land in Aberdeen or Abilene?
+
+```
+
+SELECT COUNT(*)
+
+FROM flights
+
+JOIN airports ON flights.destairport = airports.airportcode
+
+WHERE airports.city IN ('Aberdeen', 'Abilene')
+
+
+```
+
+3. Find the name of airports which do not have any flight in and out.
+
+```
+
+SELECT airportname
+
+FROM airports
+
+WHERE airportcode NOT IN (
+
+    SELECT sourceairport
+
+    FROM flights
+
+    UNION
+
+    SELECT destairport
+
+    FROM flights
+
+)
+
+
+```
+
+4. Which airports do not have departing or arriving flights?
+
+```
+
+SELECT airportname
+
+FROM airports
+
+WHERE airportcode NOT IN (
+
+    SELECT sourceairport
+
+    FROM flights
+
+    UNION
+
+    SELECT destairport
+
+    FROM flights
+
+)
+
+
+```
+
+5. How many employees
+
+Here are the SQLite code snippets for the given questions:
+
+1. Count the number of employees
+
+```
+
+SELECT COUNT(*)
+
+FROM employee
+
+
+```
+
+2. Sort employee names by their age in ascending order.
+
+```
+
+SELECT name, age
+
+FROM employee
+
+ORDER BY age ASC
+
+
+```
+
+3. List the names of employees and sort in ascending order of age.
+
+```
+
+SELECT name, age
+
+FROM employee
+
+ORDER BY age ASC
+
+
+```
+
+4. What is the number of employees from each city?
+
+```
+
+SELECT city, COUNT(*)
+
+FROM employee
+
+GROUP BY city
+
+
+```
+
+5. Count the number of employees
+
+Here are the SQLite code snippets for the given questions:
+
+1. Which cities do more than one employee under age 30 come from?
+
+```
+
+SELECT city
+
+FROM employee
+
+WHERE age < 30
+
+GROUP BY city
+
+HAVING COUNT(*) > 1
+
+
+```
+
+2. Find the cities that have more than one employee under age 30.
+
+```
+
+SELECT city
+
+FROM employee
+
+WHERE age < 30
+
+GROUP BY city
+
+HAVING COUNT(*) > 1
+
+
+```
+
+3. Find the number of shops in each location.
+
+```
+
+SELECT location, COUNT(*)
+
+FROM shop
+
+GROUP BY location
+
+
+```
+
+4. How many shops are there in each location?
+
+```
+
+SELECT location, COUNT(*)
+
+FROM shop
+
+GROUP BY location
+
+
+```
+
+5. Find the manager name and district of the shop whose number of products is the largest.
+
+```
+
+SELECT manager_name, district
+
+FROM shop
+
+WHERE number_products = (
+
+    SELECT MAX(number_products)
+
+    FROM shop
+
+)
+
+
+1. SELECT manager_name, district FROM shop WHERE number_products = (SELECT MAX(number_products) FROM shop)
+
+
+2. SELECT MIN(number_products), MAX(number_products) FROM shop
+
+
+3. SELECT MIN(number_products), MAX(number_products) FROM shop
+
+
+4. SELECT name, location, district FROM shop ORDER BY number_products DESC
+
+
+5. SELECT name, location, district FROM shop ORDER BY number_products DESC
+
+
+1. SELECT name FROM shop WHERE number_products > (SELECT AVG(number_products) FROM shop)
+
+
+2. SELECT name FROM shop WHERE number_products > (SELECT AVG(number_products) FROM shop)
+
+
+3. SELECT name FROM employee WHERE employee_id = (SELECT employee_id FROM evaluation GROUP BY employee_id ORDER BY COUNT(*) DESC LIMIT 1)
+
+
+4. SELECT name FROM employee WHERE employee_id = (SELECT employee_id FROM evaluation GROUP BY employee_id ORDER BY COUNT(*) DESC LIMIT 1)
+
+
+5. SELECT name FROM employee WHERE employee_id = (SELECT employee_id FROM evaluation ORDER BY bonus DESC LIMIT 1)
+
+
+1. SELECT name FROM employee WHERE employee_id = (SELECT employee_id FROM evaluation ORDER BY bonus DESC LIMIT 1)
+
+
+2. SELECT name FROM employee WHERE employee_id NOT IN (SELECT employee_id FROM evaluation)
+
+
+3. SELECT name FROM employee WHERE employee_id NOT IN (SELECT employee_id FROM evaluation)
+
+
+4. SELECT name FROM shop WHERE shop_id = (SELECT shop_id FROM hiring GROUP BY shop_id ORDER BY COUNT(*) DESC LIMIT 1)
+
+
+5. SELECT name FROM shop WHERE shop_id = (SELECT shop_id FROM hiring GROUP BY shop_id ORDER BY COUNT(*) DESC LIMIT 1)
+
+
+Here are the SQLite code snippets for the given questions:
+
+1. Find the name of the shops that do not hire any employee.
+
+```
+
+SELECT name
+
+FROM shop
+
+WHERE shop_id NOT IN (
+
+    SELECT shop_id
+
+    FROM hiring
+
+)
+
+
+```
+
+2. Which shops run with no employees? Find the shop names.
+
+```
+
+SELECT name
+
+FROM shop
+
+WHERE shop_id NOT IN (
+
+    SELECT shop_id
+
+    FROM hiring
+
+)
+
+
+```
+
+3. Find the number of employees hired in each shop
+ show the shop name as well.
+
+```
+
+SELECT shop.name, COUNT(hiring.employee_id)
+
+FROM shop
+
+LEFT JOIN hiring ON shop.shop_id = hiring.shop_id
+
+GROUP BY shop.name
+
+
+```
+
+4. For each shop, return the number of employees working there and the name of the shop.
+
+```
+
+SELECT shop.name, COUNT(hiring.employee_id)
+
+FROM shop
+
+LEFT JOIN hiring ON shop.shop_id = hiring.shop_id
+
+GROUP BY shop.name
+
+
+```
+
+5. What is the total bonus given in all evaluations?
+
+```
+
+SELECT SUM(bonus)
+
+FROM evaluation
+
+
+1. SELECT SUM(bonus) FROM evaluation
+
+
+2. SELECT * FROM hiring
+
+
+3. SELECT * FROM hiring
+
+
+4. SELECT district FROM shop WHERE number_products < 3000 INTERSECT SELECT district FROM shop WHERE number_products > 10000
+
+
+5. SELECT district FROM shop WHERE number_products < 3000 INTERSECT SELECT district FROM shop WHERE number_products > 10000
+
+
+1. SELECT COUNT(DISTINCT location) FROM shop
+
+
+2. SELECT COUNT(DISTINCT location) FROM shop
+
+
+3. SELECT COUNT(*) FROM documents
+
+
+4. SELECT COUNT(*) FROM documents
+
+
+5. SELECT document_id, document_name, document_description FROM documents
+
+
+1. SELECT document_id, document_name, document_description FROM documents
+
+
+2. SELECT document_name, template_id FROM documents WHERE document_description LIKE '%w%'
+
+
+3. SELECT document_name, template_id FROM documents WHERE document_description LIKE '%w%'
+
+
+4. SELECT document_id, template_id, document_description FROM documents WHERE document_name = 'Robbin CV'
+
+
+5. SELECT document_id, template_id, document_description FROM documents WHERE document_name = 'Robbin CV'
+
+
+1. SELECT COUNT(DISTINCT template_id) FROM documents
+
+
+2. SELECT COUNT(DISTINCT template_id) FROM documents
+
+
+3. SELECT COUNT(*) FROM documents WHERE template_id IN (SELECT template_id FROM templates WHERE template_type_code = 'PPT')
+
+
+4. SELECT COUNT(*) FROM documents WHERE template_id IN (SELECT template_id FROM templates WHERE template_type_code = 'PPT')
+
+
+5. SELECT template_id, COUNT(*) FROM documents GROUP BY template_id
+
+
+1. SELECT template_id, COUNT(*) FROM documents GROUP BY template_id
+
+
+2. SELECT template_id, template_type_code FROM templates WHERE template_id = (SELECT template_id FROM documents GROUP BY template_id ORDER BY COUNT(*) DESC LIMIT 1)
+
+
+3. SELECT template_id, template_type_code FROM templates WHERE template_id = (SELECT template_id FROM documents GROUP BY template_id ORDER BY COUNT(*) DESC LIMIT 1)
+
+
+4. SELECT template_id FROM documents GROUP BY template_id HAVING COUNT(*) > 1
+
+
+5. SELECT template_id FROM documents GROUP BY template_id HAVING COUNT(*) > 1
+
+
+1. SELECT template_id FROM templates WHERE template_id NOT IN (SELECT template_id FROM documents)
+
+
+2. SELECT template_id FROM templates WHERE template_id NOT IN (SELECT template_id FROM documents)
+
+
+3. SELECT COUNT(*) FROM templates
+
+
+4. SELECT COUNT(*) FROM templates
+
+
+5. SELECT template_id, version_number, template_type_code FROM templates
+
+
+1. SELECT template_id, version_number, template_type_code FROM templates
+
+
+2. SELECT DISTINCT template_type_code FROM templates
+
+
+3. SELECT DISTINCT template_type_code FROM templates
+
+
+4. SELECT template_id FROM templates WHERE template_type_code IN ('PP', 'PPT')
+
+
+5. SELECT template_id FROM templates WHERE template_type_code IN ('PP',
+
+1. SELECT COUNT(*) FROM templates WHERE template_type_code = 'CV'
+
+
+2. SELECT COUNT(*) FROM templates WHERE template_type_code = 'CV'
+
+
+3. SELECT version_number, template_type_code FROM templates WHERE version_number > 5
+
+
+4. SELECT version_number, template_type_code FROM templates WHERE version_number > 5
+
+
+5. SELECT template_type_code, COUNT
+
+1. SELECT template_type_code, COUNT(*) FROM templates GROUP BY template_type_code
+
+
+2. SELECT template_type_code FROM templates GROUP BY template_type_code ORDER BY COUNT(*) DESC LIMIT 1
+
+
+3. SELECT template_type_code FROM templates GROUP BY template_type_code ORDER BY COUNT(*) DESC LIMIT 1
+
+
+4. SELECT template_type_code FROM templates GROUP BY template_type_code HAVING COUNT(*) < 3
+
+
+5. SELECT template
+
+1. SELECT MIN(version_number), template_type_code FROM templates
+
+
+2. SELECT MIN(version_number), template_type_code FROM templates
+
+
+3. SELECT template_type_code FROM templates JOIN documents ON templates.template_id = documents.template_id WHERE documents.document_name = 'Data base'
+
+
+4. SELECT template_type_code FROM templates JOIN documents ON templates.template_id = documents.template_id WHERE documents.document_name = 'Data base'
+
+
+5. SELECT document_name FROM documents JOIN templates ON documents.template_id = templates.template_id WHERE templates.template_type_code =
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are the names of documents that use templates with the code BK?
+
+```
+
+SELECT document_name
+
+FROM documents
+
+JOIN templates ON documents.template_id = templates.template_id
+
+WHERE templates.template_type_code = 'BK'
+
+
+```
+
+2. Show all template type codes and the number of documents using each type.
+
+```
+
+SELECT templates.template_type_code, COUNT(*)
+
+FROM documents
+
+JOIN templates ON documents.template_id = templates.template_id
+
+GROUP
+
+Here are the SQLite code snippets for the given questions:
+
+1. Show all template type codes that are not used by any document.
+
+```
+
+SELECT template_type_code
+
+FROM ref_template_types
+
+WHERE template_type_code NOT IN (
+
+    SELECT template_type_code
+
+    FROM templates
+
+    JOIN documents ON templates.template_id = documents.template_id
+
+)
+
+
+```
+
+2. What are the codes of template types that are not used for any document?
+
+```
+
+SELECT template_type_code
+
+FROM ref_template_types
+
+WHERE template_type_code
+
+Here are the SQLite code snippets for the given questions:
+
+1. Return the template type description of the template type with the code AD.
+
+```
+
+SELECT template_type_description
+
+1. SELECT template_id FROM templates JOIN ref_template_types ON templates.template_type_code = ref_template_types.template_type_code WHERE ref_template_types.template_type_description = 'Presentation'
+
+
+2. SELECT template_id FROM templates JOIN ref_template_types ON templates.template_type_code = ref_template_types.template_type_code WHERE ref_template_types.template_type_description = 'Presentation'
+
+
+3. SELECT COUNT(*) FROM paragraphs
+
+
+4. SELECT COUNT(*) FROM paragraphs
+
+
+5. SELECT COUNT(*) FROM paragraphs JOIN
+
+Here are the SQLite code snippets for the given questions:
+
+1. Count the number of paragraphs in the document named 'Summer Show'.
+
+```
+
+SELECT COUNT(*)
+
+FROM paragraphs
+
+JOIN documents ON paragraphs.document_id = documents.document_id
+
+WHERE documents.document_name = 'Summer Show'
+
+
+```
+
+2. Show paragraph details for paragraph with text 'Korea '.
+
+```
+
+SELECT *
+
+FROM paragraphs
+
+WHERE paragraph_text LIKE '%Korea %'
+
+
+```
+
+3. What are the details for the paragraph that includes the text 'Korea '?
+
+```
+
+SELECT *
+
+FROM paragraphs
+
+WHERE paragraph_text LIKE '%
+
+Here are the SQLite code snippets for the given questions:
+
+1. Show all paragraph texts for the document "Customer reviews".
+
+```
+
+SELECT paragraph_text
+
+FROM paragraphs
+
+JOIN documents ON paragraphs.document_id = documents.document_id
+
+WHERE documents.document_name = 'Customer reviews'
+
+
+```
+
+2. What are the paragraph texts for the document with the name 'Customer reviews'?
+
+```
+
+SELECT paragraph_text
+
+FROM paragraphs
+
+JOIN documents ON paragraphs.document_id = documents.document_id
+
+WHERE documents.document_name = 'Customer reviews'
+
+
+```
+
+3. Show all document ids and the number of paragraphs in each document. Order by document id.
+
+```
+
+SELECT documents.document_id, COUNT(paragraphs.paragraph_id) AS num
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are the ids and names of each document, as well as the number of paragraphs in each?
+
+```
+
+SELECT documents.document_id, documents.document_name, COUNT(paragraphs.paragraph_id) AS num_paragraphs
+
+FROM documents
+
+LEFT JOIN paragraphs ON documents.document_id = paragraphs.document_id
+
+GROUP BY documents.document_id
+
+
+```
+
+2. List all document ids with at least two paragraphs.
+
+```
+
+SELECT documents.document_id
+
+FROM documents
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the document id with least number of paragraphs?
+
+```
+
+SELECT documents.document_id
+
+FROM documents
+
+LEFT JOIN paragraphs ON documents.document_id = paragraphs.document_id
+
+GROUP BY documents.document_id
+
+ORDER BY COUNT(paragraphs.paragraph_id)
+
+LIMIT 1
+
+
+```
+
+2. Return the id of the document with the fewest paragraphs.
+
+```
+
+SELECT documents.document_id
+
+FROM documents
+
+LEFT JOIN paragraphs ON documents.document_id =
+
+1. SELECT DISTINCT documents.document_id FROM paragraphs WHERE paragraph_text LIKE '%Brazil%' AND documents.document_id IN (SELECT DISTINCT documents.document_id FROM paragraphs WHERE paragraph_text LIKE '%Ireland%')
+
+
+2. SELECT COUNT(*) FROM teacher
+
+
+3. SELECT COUNT(*) FROM teacher
+
+
+4. SELECT name FROM teacher ORDER BY age ASC
+
+
+5. SELECT name FROM teacher ORDER BY age ASC
+
+
+1. SELECT age, hometown FROM teacher
+
+
+2. SELECT age, hometown FROM teacher
+
+
+3. SELECT name FROM teacher WHERE hometown != 'Little Lever Urban District'
+
+
+4. SELECT name FROM teacher WHERE hometown != 'Little Lever Urban District'
+
+
+5. SELECT name FROM teacher WHERE age IN (32, 33)
+
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are the names of the teachers who are aged either 32 or 33?
+
+```
+
+SELECT name
+
+FROM teacher
+
+WHERE age IN (32, 33)
+
+
+```
+
+2. What is the hometown of the youngest teacher?
+
+```
+
+SELECT hometown
+
+FROM teacher
+
+ORDER BY age
+
+LIMIT 1
+
+
+```
+
+3. Where is the youngest teacher from?
+
+```
+
+SELECT hometown
+
+FROM teacher
+
+ORDER BY age
+
+LIMIT 1
+
+
+```
+
+4. Show different hometown of teachers and the number of teachers from each hometown.
+
+```
+
+SELECT hometown, COUNT(*) AS num_teachers
+
+FROM teacher
+
+GROUP BY hometown
+
+
+```
+
+5. For each hometown, how many teachers are there
+
+1. SELECT hometown FROM teacher GROUP BY hometown ORDER BY COUNT(*) DESC LIMIT 1
+
+
+2. SELECT hometown FROM teacher GROUP BY hometown ORDER BY COUNT(*) DESC LIMIT 1
+
+
+3. SELECT hometown FROM teacher GROUP BY hometown HAVING COUNT(*) >= 2
+
+
+4. SELECT DISTINCT hometown FROM teacher GROUP BY hometown HAVING COUNT(*) >= 2
+
+
+5. SELECT teacher.name, course.course FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id JOIN course ON course_arrange.course_id = course.course_id
+
+
+1. SELECT teacher.name, course.course FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id JOIN course ON course_arrange.course_id = course.course_id
+
+
+2. SELECT teacher.name, course.course FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id JOIN course ON course_arrange.course_id = course.course_id ORDER BY teacher.name ASC
+
+
+3. SELECT teacher.name, course.course FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id JOIN course ON course_arrange.course_id = course.course_id ORDER BY teacher.name ASC
+
+
+4. SELECT teacher.name FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id JOIN course ON course_arrange.course_id = course.course_id WHERE course.course = 'math'
+
+
+5. SELECT teacher.name FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id JOIN course ON course_arrange.course_id = course.course_id WHERE course.course = 'math'
+
+
+1. SELECT teacher.name, COUNT(course_arrange.course_id) FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id GROUP BY teacher.name
+
+
+2. SELECT teacher.name, COUNT(course_arrange.course_id) FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id GROUP BY teacher.name
+
+
+3. SELECT teacher.name FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id GROUP BY teacher.name HAVING COUNT(course_arrange.course_id) >= 2
+
+
+4. SELECT teacher.name FROM teacher JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id GROUP BY teacher.name HAVING COUNT(course_arrange.course_id) >= 2
+
+
+5. SELECT teacher.name FROM teacher LEFT JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id WHERE course_arrange.course_id IS NULL
+
+
+1. SELECT teacher.name FROM teacher LEFT JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id WHERE course_arrange.course_id IS NULL
+
+
+2. SELECT COUNT(*) FROM visitor WHERE age < 30
+
+
+3. SELECT name, level_of_membership FROM visitor WHERE level_of_membership > 4 ORDER BY level_of_membership DESC
+
+
+4. SELECT AVG(age) FROM visitor WHERE level_of_membership <= 4
+
+
+5. SELECT name, level_of_membership FROM visitor WHERE level_of_membership > 4 ORDER BY age DESC
+
+
+1. SELECT museum_id, name FROM museum ORDER BY num_of_staff DESC LIMIT 1
+
+
+2. SELECT AVG(num_of_staff) FROM museum WHERE open_year < 2009
+
+
+3. SELECT open_year, num_of_staff FROM museum WHERE name = 'Plaza Museum'
+
+
+4. SELECT name FROM museum WHERE num_of_staff > (SELECT MIN(num_of_staff) FROM museum WHERE open_year > 2010)
+
+
+5. SELECT visitor.id, visitor.name, visitor.age FROM
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are the id, name and membership level of visitors who have spent the largest amount of money in total in all museum tickets?
+
+```
+
+SELECT visitor.id, visitor.name, visitor.level_of_membership
+
+FROM visitor
+
+JOIN visit ON visitor.id = visit.visitor_id
+
+GROUP BY visitor.id
+
+ORDER BY SUM(visit.total_spent) DESC
+
+LIMIT 1
+
+
+```
+
+2. What are the id and name of the museum visited most times?
+
+```
+
+SELECT museum.museum_id, museum.name
+
+FROM museum
+
+JOIN visit ON museum.museum_id = visit.museum_id
+
+GROUP BY museum.museum_id
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the total ticket expense of the visitors whose membership level is 1?
+
+```
+
+SELECT SUM(total_spent)
+
+FROM visit
+
+JOIN visitor ON visit.visitor_id = visitor.id
+
+WHERE visitor.level_of_membership = 1
+
+
+```
+
+2. What is the name of the visitor who visited both a museum opened before 2009 and a museum opened after 2011?
+
+```
+
+SELECT visitor.name
+
+FROM visitor
+
+JOIN visit ON visitor.id = visit.visitor_id
+
+JOIN museum ON visit.museum_id = museum.museum_id
+
+WHERE museum.open_year < 2009 OR museum.open_year > 2011
+
+GROUP BY visitor.id
+
+HAVING COUNT(DISTINCT museum.museum_id) = 2
+
+
+```
+
+3. Find
+
+1. SELECT COUNT(*) FROM players
+
+
+2. SELECT COUNT(*) FROM matches
+
+
+3. SELECT COUNT(match_num) FROM matches
+
+
+4. SELECT first_name, birth_date FROM players WHERE country_code = 'USA'
+
+
+5. SELECT first_name, birth_date FROM players WHERE country_code = 'USA'
+
+
+1. SELECT AVG(loser_age), AVG(winner_age) FROM matches
+
+
+2. SELECT AVG(loser_age), AVG(winner_age) FROM matches
+
+
+3. SELECT AVG(winner_rank) FROM matches
+
+
+4. SELECT AVG(winner_rank) FROM matches
+
+
+5. SELECT MAX(loser_rank) FROM matches
+
+
+1. SELECT MAX(loser_rank) FROM matches
+
+
+2. SELECT COUNT(DISTINCT country_code) FROM players
+
+
+3. SELECT COUNT(DISTINCT country_code) FROM players
+
+
+4. SELECT COUNT(DISTINCT loser_name) FROM matches
+
+
+5. SELECT COUNT(DISTINCT loser_name) FROM matches
+
+
+Here are the SQLite code snippets for the given questions:
+
+1. Find the name of tourney that has more than 10 matches.
+
+```
+
+SELECT tourney_name
+
+Here are the SQLite code snippets for the given questions:
+
+1. How many matches were played in 2013 or 2016?
+
+```
+
+SELECT COUNT(*)
+
+FROM matches
+
+WHERE year = 2013 OR year = 2016
+
+
+```
+
+2. What are the country code and first name of the players who won in both tourney WTA Championships and Australian Open?
+
+```
+
+SELECT players.country_code, players.first_name
+
+FROM players
+
+JOIN matches AS m1 ON players.player_id = m1.winner_id
+
+JOIN matches AS m2 ON players.player_id = m2.winner_id
+
+WHERE m1.tourney_name = 'WTA Championships' AND m2.tourney_name = 'Australian Open'
+
+
+```
+
+3. What are the first names and country codes for players who won both the WTA Championships and the Australian Open?
+
+```
+
+SELECT players.first_name, players.country_code
+
+FROM players
+
+JOIN matches ON players.player_id = matches.winner_id
+
+WHERE matches.tourney_name IN ('WTA Championships', 'Australian
+
+Here are the SQLite code snippets for the given questions:
+
+1. List the first and last name of all players in the order of birth date.
+
+```
+
+SELECT first_name, last_name
+
+FROM players
+
+ORDER BY birth_date
+
+
+```
+
+2. What are the full names of all players, sorted by birth date?
+
+```
+
+SELECT first_name || ' ' || last_name AS full_name
+
+FROM players
+
+ORDER BY birth_date
+
+
+```
+
+3. List the first and last name of all players who are left / L hand in the order of birth date.
+
+```
+
+SELECT first_name, last_name
+
+FROM players
+
+WHERE hand = 'L'
+
+ORDER BY birth_date
+
+
+```
+
+4. What are the full names of all left handed players, in order of birth date?
+
+```
+
+SELECT first_name || ' ' || last_name AS full_name
+
+FROM players
+
+WHERE hand = 'L'
+
+ORDER BY birth_date
+
+
+```
+
+5. Find the first name and country code of the player who did the most number of tours.
+
+```
+
+SELECT players.first_name, players.country_code
+
+FROM players
+
+JOIN rankings ON players.player_id = rankings.player_id
+
+GROUP BY players.player_id
+
+ORDER BY SUM(rankings.tours) DESC
+
+LIMIT 1
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. What is the first name and country code of the player with the most tours?
+
+```
+
+SELECT players.first_name, players.country_code
+
+FROM players
+
+JOIN rankings ON players.player_id = rankings.player_id
+
+GROUP BY players.player_id
+
+ORDER BY SUM(rankings.tours) DESC
+
+LIMIT 1
+
+
+```
+
+2. Find the year that has the most number of matches.
+
+```
+
+SELECT year
+
+FROM matches
+
+GROUP BY year
+
+ORDER BY COUNT(*) DESC
+
+LIMIT 1
+
+
+```
+
+3. Which year had the most matches?
+
+```
+
+SELECT year, COUNT(*) AS num_matches
+
+FROM matches
+
+GROUP BY year
+
+ORDER BY num_matches DESC
+
+LIMIT 1
+
+
+```
+
+4. Find the name and rank points of the winner who won the most times.
+
+```
+
+SELECT winner_name, MAX(wins.rank_points) AS max_rank_points
+
+FROM (
+
+    SELECT winner_id, COUNT(*) AS num_wins
+
+    FROM matches
+
+    GROUP BY winner_id
+
+) AS wins
+
+JOIN matches ON wins.winner_id = matches.winner_id
+
+GROUP BY wins.winner_id
+
+ORDER BY wins.num_wins DESC
+
+LIMIT 1
+
+
+```
+
+5. What is the name of the winner who has won the most matches, and how many rank points does this player have?
+
+```
+
+SELECT winner_name, MAX(wins.rank_points) AS max_rank_points
+
+FROM (
+
+    SELECT winner_id, COUNT(*) AS num_wins
+
+    FROM matches
+
+    GROUP BY winner_id
+
+) AS wins
+
+JOIN matches ON wins.winner_id = matches.winner_id
+
+GROUP BY wins.winner_id
+
+ORDER BY wins.num_wins DESC
+
+LIMIT 1
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. Find the name of the winner who has the highest rank points and participated in the Australian Open tourney.
+
+``
+
+Here are the SQLite code snippets for the given questions:
+
+1. What are the first names of all players, and their average rankings?
+
+```
+
+SELECT first_name, AVG(rankings.ranking) AS avg_ranking
+
+FROM players
+
+JOIN rankings ON players.player_id = rankings.player_id
+
+GROUP BY players.player_id
+
+
+```
+
+2. Find the total ranking points for each player and their first name.
+
+```
+
+SELECT first_name, SUM(rankings.ranking_points) AS total_ranking_points
+
+FROM players
+
+JOIN rankings ON players.player_id = rankings.player_id
+
+GROUP BY players.player_id
+
+
+```
+
+3. What are the first names of all players, and their total ranking points?
+
+```
+
+SELECT first_name, SUM(rankings.ranking_points) AS total_ranking_points
+
+FROM players
+
+JOIN rankings ON players.player_id = rankings.player_id
+
+GROUP BY players.player_id
+
+
+```
+
+4. Find the number of players for each country.
+
+```
+
+SELECT country_code, COUNT(*) AS num_players
+
+FROM players
+
+GROUP BY country_code
+
+
+```
+
+5. How many players are from each country?
+
+```
+
+SELECT country_code, COUNT(*) AS num_players
+
+FROM players
+
+GROUP
+
+Here are the SQLite code snippets for the given questions:
+
+1. Find the code of the country where has the greatest number of players.
+
+```
+
+SELECT country_code
+
+FROM players
+
+GROUP BY country_code
+
+ORDER BY COUNT(*) DESC
+
+LIMIT 1
+
+
+```
+
+2. What is the code of the country with the most players?
+
+```
+
+SELECT country_code
+
+FROM players
+
+GROUP BY country_code
+
+ORDER BY COUNT(*) DESC
+
+LIMIT 1
+
+
+```
+
+3. Find the codes of countries that have more than 50 players.
+
+```
+
+SELECT country_code
+
+FROM players
+
+GROUP BY country_code
+
+HAVING COUNT(*) > 50
+
+
+```
+
+4. What are the codes of countries with more than 50 players?
+
+```
+
+SELECT country_code
+
+FROM players
+
+GROUP BY country_code
+
+HAVING COUNT(*) > 50
+
+
+```
+
+5. Find the total number of tours for each ranking date.
+
+```
+
+SELECT ranking_date, SUM(tours) AS total_tours
+
+FROM rankings
+
+GROUP BY ranking_date
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. How many total tours were there for each ranking date?
+
+```
+
+SELECT ranking_date, SUM(tours) AS total_tours
+
+FROM rankings
+
+GROUP BY ranking_date
+
+
+```
+
+2. Find the number of matches happened in each year.
+
+```
+
+SELECT year, COUNT(*) AS num_matches
+
+FROM matches
+
+GROUP BY year
+
+
+```
+
+3. How many matches were played in each year?
+
+```
+
+SELECT year, COUNT(*) AS num_matches
+
+FROM matches
+
+GROUP BY year
+
+
+```
+
+4. Find the name and rank of the 3 youngest winners across all matches.
+
+```
+
+SELECT winner_name, winner_rank
+
+FROM matches
+
+JOIN players ON matches.winner_id = players.player_id
+
+WHERE winner_age IN (
+
+    SELECT winner_age
+
+    FROM matches
+
+    ORDER BY winner_age ASC
+
+    LIMIT 3
+
+)
+
+ORDER BY winner_age ASC
+
+
+```
+
+5. What are the names and ranks of the three youngest winners across all matches?
+
+```
+
+SELECT winner_name, winner_rank
+
+FROM matches
+
+JOIN players ON matches.winner_id = players.player_id
+
+WHERE winner_age IN (
+
+    SELECT winner_age
+
+    FROM matches
+
+    ORDER BY winner_age ASC
+
+    LIMIT 3
+
+)
+
+ORDER BY winner_age ASC
+
+
+```
+
+Here are the SQLite code snippets for the given questions:
+
+1. How many different winners both participated in the WTA Championships and were left handed?
+
+```
+
+SELECT COUNT(DISTINCT winner_id)
+
+FROM matches
+
+JOIN players ON matches.winner_id = players.player_id
+
+WHERE tourney_name = 'WTA Championships' AND hand = 'L'
+
+
+```
+
+2. Find the number of left handed winners who participated in the WTA Championships.
+
+```
+
+SELECT COUNT(DISTINCT winner_id)
+
+FROM matches
+
+JOIN players ON matches.winner_id = players.player_id
+
+WHERE tourney_name = 'WTA Championships' AND hand = 'L'
+
+
+```
+
+3. Find the first name, country code and birth date of the winner who has the highest rank points in all matches.
+
+```
+
+SELECT first_name, country_code, birth_date
+
+FROM players
+
+JOIN (
+
+    SELECT winner
+
+1. SELECT hand, COUNT(*) AS num_players FROM players GROUP BY hand
+
+
+2. SELECT COUNT(*) FROM ship WHERE disposition_of_ship = 'Captured'
+
+
+3. SELECT name, tonnage FROM ship ORDER BY name DESC
+
+
+4. SELECT name, date, result FROM battle
+
+
+5. SELECT MAX(killed) AS max_deaths, MIN(killed) AS min_deaths FROM death
+
+
+1. SELECT AVG(injured) AS avg_injuries FROM death
+
+
+2. SELECT death.killed, death.injured FROM death JOIN ship ON death.caused_by_ship_id = ship.id WHERE ship.tonnage = 't'
+
+
+3. SELECT id, name, result FROM battle WHERE bulgarian_commander != 'Boril'
+
+
+4. SELECT DISTINCT battle.id, battle.name FROM battle JOIN ship ON battle.id = ship.lost_in_battle WHERE ship.ship_type = 'Brig'
+
+
+5. SELECT battle.id, battle.name FROM battle JOIN ship ON battle.id = ship.lost_in_battle JOIN death ON ship.id = death.caused_by_ship_id GROUP BY battle.id HAVING SUM(death.killed) > 10
+
+

@@ -1,0 +1,31 @@
+1. 
+
+SELECT cost_of_treatment, treatment_type_description
+FROM treatments
+JOIN treatment_types ON treatments.treatment_type_code = treatment_types.treatment_type_code;
+
+2. 
+
+SELECT cost_of_treatment, treatment_type_description
+FROM treatments
+JOIN treatment_types ON treatments.treatment_type_code = treatment_types.treatment_type_code;
+
+3. 
+
+SELECT owners.first_name, owners.last_name, sizes.size_description
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id
+JOIN sizes ON dogs.size_code = sizes.size_code;
+
+4. 
+
+SELECT owners.first_name, owners.last_name, sizes.size_description
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id
+JOIN sizes ON dogs.size_code = sizes.size_code;
+
+5. 
+
+SELECT owners.first_name, dogs.name
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id;

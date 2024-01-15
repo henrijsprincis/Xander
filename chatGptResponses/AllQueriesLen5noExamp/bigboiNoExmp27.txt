@@ -1,0 +1,40 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What is the average horsepower of the cars before 1980?
+```
+SELECT AVG(horsepower)
+FROM cars_data
+WHERE year < 1980;
+```
+
+2. What is the average horsepower for all cars produced before 1980?
+```
+SELECT AVG(horsepower)
+FROM cars_data
+WHERE year < 1980;
+```
+
+3. What is the average edispl of the cars of model volvo?
+```
+SELECT AVG(edispl)
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+WHERE model_list.maker = 'volvo';
+```
+
+4. What is the average edispl for all volvos?
+```
+SELECT AVG(edispl)
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+WHERE model_list.maker = 'volvo';
+```
+
+5. What is the maximum accelerate for different number of cylinders?
+```
+SELECT cylinders, MAX(accelerate)
+FROM cars_data
+GROUP BY cylinders;
+```

@@ -1,0 +1,27 @@
+Here are the SQLite code snippets for the given questions:
+
+1. For the cars with 4 cylinders, which model has the largest horsepower?
+```
+SELECT model_list.model, MAX(cars_data.horsepower) AS max_horsepower
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+WHERE cars_data.cylinders = 4
+GROUP BY model_list.model
+ORDER BY max_horsepower DESC
+LIMIT 1;
+```
+
+2. For all of the 4 cylinder cars, which model has the most horsepower?
+```
+SELECT model_list.model, MAX(cars_data.horsepower) AS max_horsepower
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+WHERE cars_data.cylinders = 4
+GROUP BY model_list.model
+ORDER BY max_horsepower DESC
+LIMIT 1;
+```
+
+3. Among the cars with more than

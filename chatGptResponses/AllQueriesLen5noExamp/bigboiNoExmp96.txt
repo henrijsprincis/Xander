@@ -1,0 +1,50 @@
+Here are the SQLite code snippets for the given questions:
+
+1. How many total tours were there for each ranking date?
+```
+SELECT ranking_date, SUM(tours) AS total_tours
+FROM rankings
+GROUP BY ranking_date;
+```
+
+2. Find the number of matches happened in each year.
+```
+SELECT year, COUNT(*) AS num_matches
+FROM matches
+GROUP BY year;
+```
+
+3. How many matches were played in each year?
+```
+SELECT year, COUNT(*) AS num_matches
+FROM matches
+GROUP BY year;
+```
+
+4. Find the name and rank of the 3 youngest winners across all matches.
+```
+SELECT winner_name, winner_rank
+FROM matches
+JOIN players ON matches.winner_id = players.player_id
+WHERE winner_age IN (
+    SELECT winner_age
+    FROM matches
+    ORDER BY winner_age ASC
+    LIMIT 3
+)
+ORDER BY winner_age ASC;
+```
+
+5. What are the names and ranks of the three youngest winners across all matches?
+```
+SELECT winner_name, winner_rank
+FROM matches
+JOIN players ON matches.winner_id = players.player_id
+WHERE winner_age IN (
+    SELECT winner_age
+    FROM matches
+    ORDER BY winner_age ASC
+    LIMIT 3
+)
+ORDER BY winner_age ASC;
+```

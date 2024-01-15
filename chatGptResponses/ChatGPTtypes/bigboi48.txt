@@ -1,0 +1,32 @@
+1. 
+SELECT airlines.airline 
+FROM airlines 
+JOIN flights ON airlines.uid = flights.airline 
+GROUP BY airlines.uid 
+HAVING COUNT(flights.flightno) >= 10;
+
+2. 
+SELECT airlines.airline 
+FROM airlines 
+JOIN flights ON airlines.uid = flights.airline 
+GROUP BY airlines.uid 
+HAVING COUNT(flights.flightno) < 200;
+
+3. 
+SELECT airlines.airline 
+FROM airlines 
+JOIN flights ON airlines.uid = flights.airline 
+GROUP BY airlines.uid 
+HAVING COUNT(flights.flightno) < 200;
+
+4. 
+SELECT flights.flightno 
+FROM flights 
+JOIN airlines ON flights.airline = airlines.uid 
+WHERE airlines.airline = 'United Airlines';
+
+5. 
+SELECT flights.flightno 
+FROM flights 
+JOIN airlines ON flights.airline = airlines.uid 
+WHERE airlines.airline = 'United Airlines';

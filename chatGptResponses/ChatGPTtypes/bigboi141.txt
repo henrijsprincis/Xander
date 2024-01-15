@@ -1,0 +1,26 @@
+1. 
+SELECT region 
+FROM country 
+WHERE code = (SELECT countrycode FROM city WHERE name = 'Kabul');
+
+2. 
+SELECT language 
+FROM countrylanguage 
+WHERE countrycode = 'ABW' 
+ORDER BY percentage DESC 
+LIMIT 1;
+
+3. 
+SELECT language 
+FROM countrylanguage 
+WHERE countrycode = 'ABW' AND isofficial = 'T';
+
+4. 
+SELECT population, lifeexpectancy 
+FROM country 
+WHERE code = 'BRA';
+
+5. 
+SELECT population, lifeexpectancy 
+FROM country 
+WHERE name = 'Brazil';

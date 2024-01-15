@@ -1,0 +1,34 @@
+1. 
+SELECT car_makers.maker
+FROM car_makers
+JOIN cars_data ON car_makers.id = cars_data.id
+WHERE cars_data.horsepower = (SELECT MIN(horsepower) FROM cars_data);
+
+2. 
+SELECT model_list.model
+FROM model_list
+JOIN cars_data ON model_list.modelid = cars_data.id
+WHERE cars_data.horsepower = (SELECT MIN(horsepower) FROM cars_data);
+
+3. 
+SELECT model_list.model
+FROM model_list
+JOIN cars_data ON model_list.modelid = cars_data.id
+WHERE cars_data.weight < (SELECT AVG(weight) FROM cars_data)
+LIMIT 1;
+
+4. 
+SELECT model_list.model
+FROM model_list
+JOIN cars_data ON model_list.modelid = cars_data.id
+WHERE cars_data.weight < (SELECT AVG(weight) FROM cars_data)
+LIMIT 1;
+
+5. 
+SELECT car_makers.maker
+FROM car_makers
+JOIN car_names ON car_makers.id = car_names.makeid
+JOIN cars_data ON car_names.model = cars_data.id
+WHERE cars_data.year = 1970
+GROUP BY car_makers.maker
+HAVING COUNT(DISTINCT car_names.model) > 0;

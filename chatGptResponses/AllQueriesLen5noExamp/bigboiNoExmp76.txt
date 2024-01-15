@@ -1,0 +1,9 @@
+1. SELECT DISTINCT documents.document_id FROM paragraphs WHERE paragraph_text LIKE '%Brazil%' AND documents.document_id IN (SELECT DISTINCT documents.document_id FROM paragraphs WHERE paragraph_text LIKE '%Ireland%');
+
+2. SELECT COUNT(*) FROM teacher;
+
+3. SELECT COUNT(*) FROM teacher;
+
+4. SELECT name FROM teacher ORDER BY age ASC;
+
+5. SELECT name FROM teacher ORDER BY age ASC;

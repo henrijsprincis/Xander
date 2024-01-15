@@ -1,0 +1,29 @@
+1. 
+
+SELECT name 
+FROM teacher 
+WHERE hometown != 'Little Lever Urban District';
+
+2. 
+
+SELECT name 
+FROM teacher 
+WHERE hometown != 'Little Lever Urban District';
+
+3. 
+
+SELECT name 
+FROM teacher 
+WHERE age IN ('32', '33');
+
+4. 
+
+SELECT name 
+FROM teacher 
+WHERE age IN ('32', '33');
+
+5. 
+
+SELECT hometown 
+FROM teacher 
+WHERE age = (SELECT MIN(age) FROM teacher);

@@ -1,0 +1,44 @@
+1. 
+
+SELECT AVG(lifeexpectancy) 
+FROM country 
+WHERE code NOT IN 
+    (SELECT countrycode 
+     FROM countrylanguage 
+     WHERE language = 'English' AND isofficial = 'T');
+
+2. 
+
+SELECT SUM(population) 
+FROM country 
+WHERE code NOT IN 
+    (SELECT countrycode 
+     FROM countrylanguage 
+     WHERE language = 'English' AND isofficial = 'T');
+
+3. 
+
+SELECT SUM(population) 
+FROM country 
+WHERE code NOT IN 
+    (SELECT countrycode 
+     FROM countrylanguage 
+     WHERE language = 'English' AND isofficial = 'T');
+
+4. 
+
+SELECT language 
+FROM countrylanguage 
+WHERE countrycode = 
+    (SELECT code 
+     FROM country 
+     WHERE headofstate = 'Beatrix');
+
+5. 
+
+SELECT language 
+FROM countrylanguage 
+WHERE countrycode = 
+    (SELECT code 
+     FROM country 
+     WHERE headofstate = 'Beatrix');

@@ -1,0 +1,36 @@
+1. 
+
+SELECT first_name, last_name
+FROM players
+WHERE hand = 'L'
+ORDER BY birth_date;
+
+2. 
+
+SELECT first_name, last_name
+FROM players
+WHERE hand = 'L'
+ORDER BY birth_date;
+
+3. 
+
+SELECT first_name, country_code
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+WHERE tours = (SELECT MAX(tours) FROM rankings);
+
+4. 
+
+SELECT first_name, country_code
+FROM players
+JOIN (SELECT player_id, MAX(tours) AS max_tours FROM rankings) AS max_rankings
+ON players.player_id = max_rankings.player_id
+JOIN rankings ON players.player_id = rankings.player_id AND rankings.tours = max_rankings.max_tours;
+
+5. 
+
+SELECT year
+FROM matches
+GROUP BY year
+ORDER BY COUNT(*) DESC
+LIMIT 1;

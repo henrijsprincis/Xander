@@ -1,0 +1,33 @@
+1. 
+SELECT first_name, SUM(ranking_points) as total_points
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY first_name
+ORDER BY total_points DESC
+LIMIT 1;
+
+2. 
+SELECT country_code, COUNT(DISTINCT player_id) as num_players
+FROM players
+GROUP BY country_code
+ORDER BY num_players DESC
+LIMIT 1;
+
+3. 
+SELECT country_code, COUNT(DISTINCT player_id) as num_players
+FROM players
+GROUP BY country_code;
+
+4. 
+SELECT country_code, COUNT(DISTINCT player_id) as num_players
+FROM players
+GROUP BY country_code
+ORDER BY num_players DESC
+LIMIT 1;
+
+5. 
+SELECT country_code, COUNT(DISTINCT player_id) as num_players
+FROM players
+GROUP BY country_code
+ORDER BY num_players DESC
+LIMIT 1;

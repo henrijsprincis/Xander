@@ -1,0 +1,9 @@
+1. SELECT template_id FROM templates WHERE template_id NOT IN (SELECT template_id FROM documents);
+
+2. SELECT template_id FROM templates WHERE template_id NOT IN (SELECT template_id FROM documents);
+
+3. SELECT COUNT(*) FROM templates;
+
+4. SELECT COUNT(*) FROM templates;
+
+5. SELECT template_id, version_number, template_type_code FROM templates;

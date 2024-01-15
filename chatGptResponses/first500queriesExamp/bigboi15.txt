@@ -1,0 +1,34 @@
+
+
+1. 
+SELECT student.fname, student.age
+FROM student
+JOIN has_pet ON student.stuid = has_pet.stuid
+JOIN pets ON has_pet.petid = pets.petid;
+
+2. 
+SELECT DISTINCT student.fname, student.age
+FROM student
+JOIN has_pet ON student.stuid = has_pet.stuid
+JOIN pets ON has_pet.petid = pets.petid;
+
+3. 
+SELECT has_pet.petid
+FROM student
+JOIN has_pet ON student.stuid = has_pet.stuid
+JOIN pets ON has_pet.petid = pets.petid
+WHERE student.lname = 'Smith';
+
+4. 
+SELECT has_pet.petid
+FROM student
+JOIN has_pet ON student.stuid = has_pet.stuid
+JOIN pets ON has_pet.petid = pets.petid
+WHERE student.lname = 'Smith';
+
+5. 
+SELECT COUNT(pets.petid), student.stuid
+FROM student
+JOIN has_pet ON student.stuid = has_pet.stuid
+JOIN pets ON has_pet.petid = pets.petid
+GROUP BY student.stuid;

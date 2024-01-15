@@ -1,0 +1,28 @@
+1. 
+SELECT production_code, channel
+FROM cartoon
+WHERE original_air_date = (SELECT MAX(original_air_date) FROM cartoon);
+
+2. 
+SELECT package_option, series_name
+FROM tv_channel
+JOIN tv_series ON tv_channel.id = tv_series.channel
+WHERE hight_definition_tv = 1;
+
+3. 
+SELECT DISTINCT package_option, series_name
+FROM tv_channel
+JOIN tv_series ON tv_channel.id = tv_series.channel
+WHERE hight_definition_tv = 1;
+
+4. 
+SELECT DISTINCT country
+FROM tv_channel
+JOIN cartoon ON tv_channel.id = cartoon.channel
+WHERE written_by = 'Todd Casey';
+
+5. 
+SELECT DISTINCT country
+FROM tv_channel
+JOIN cartoon ON tv_channel.id = cartoon.channel
+WHERE written_by = 'Todd Casey';

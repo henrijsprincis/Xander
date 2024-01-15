@@ -1,0 +1,39 @@
+1. 
+
+SELECT DISTINCT c.name
+FROM country c
+JOIN countrylanguage cl1 ON c.code = cl1.countrycode AND cl1.language = 'English' AND cl1.isofficial = 'T'
+JOIN countrylanguage cl2 ON c.code = cl2.countrycode AND cl2.language = 'French' AND cl2.isofficial = 'T';
+
+2. 
+
+SELECT DISTINCT c.name
+FROM country c
+JOIN countrylanguage cl1 ON c.code = cl1.countrycode AND cl1.language = 'English'
+JOIN countrylanguage cl2 ON c.code = cl2.countrycode AND cl2.language = 'French'
+WHERE c.name NOT IN (
+    SELECT DISTINCT c.name
+    FROM country c
+    JOIN countrylanguage cl1 ON c.code = cl1.countrycode AND cl1.language = 'English' AND cl1.isofficial = 'F'
+    JOIN countrylanguage cl2 ON c.code = cl2.countrycode AND cl2.language = 'French' AND cl2.isofficial = 'F'
+);
+
+3. 
+
+SELECT DISTINCT c.name
+FROM country c
+JOIN countrylanguage cl1 ON c.code = cl1.countrycode AND cl1.language = 'English' AND cl1.isofficial = 'T'
+JOIN countrylanguage cl2 ON c.code = cl2.countrycode AND cl2.language = 'French' AND cl2.isofficial = 'T';
+
+4. 
+
+SELECT DISTINCT c.name
+FROM country c
+JOIN countrylanguage cl1 ON c.code = cl1.countrycode AND cl1.language = 'English' AND cl1.isofficial = 'T'
+JOIN countrylanguage cl2 ON c.code = cl2.countrycode AND cl2.language = 'French' AND cl2.isofficial = 'T';
+
+5. 
+
+SELECT COUNT(DISTINCT c.continent)
+FROM country c
+JOIN countrylanguage cl ON c.code = cl.countrycode AND cl.language = 'Chinese' AND cl.isofficial = 'T';

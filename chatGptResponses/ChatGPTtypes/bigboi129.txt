@@ -1,0 +1,20 @@
+1. 
+SELECT final_table_made, best_finish
+FROM poker_player;
+
+2. 
+SELECT final_table_made, best_finish
+FROM poker_player;
+
+3. 
+SELECT AVG(earnings)
+FROM poker_player;
+
+4. 
+SELECT AVG(earnings)
+FROM poker_player;
+
+5. 
+SELECT money_rank
+FROM poker_player
+WHERE earnings = (SELECT MAX(earnings) FROM poker_player);

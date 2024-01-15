@@ -1,0 +1,32 @@
+1. 
+
+SELECT loser_name, winner_name
+FROM matches
+WHERE minutes = (SELECT MAX(minutes) FROM matches);
+
+2. 
+
+SELECT loser_name, winner_name
+FROM matches
+WHERE minutes = (SELECT MAX(minutes) FROM matches);
+
+3. 
+
+SELECT AVG(rankings.ranking_points), players.first_name
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY players.first_name;
+
+4. 
+
+SELECT AVG(rankings.ranking_points), players.first_name
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY players.first_name;
+
+5. 
+
+SELECT SUM(rankings.ranking_points), players.first_name
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY players.first_name;

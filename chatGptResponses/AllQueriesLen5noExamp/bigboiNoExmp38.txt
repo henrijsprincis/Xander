@@ -1,0 +1,9 @@
+1. SELECT COUNT(*) FROM airports;
+
+2. SELECT COUNT(*) FROM flights;
+
+3. SELECT COUNT(*) FROM flights;
+
+4. SELECT airlines.airline FROM airlines WHERE airlines.abbreviation = 'UAL';
+
+5. SELECT airlines.airline FROM airlines WHERE airlines.abbreviation = 'UAL';

@@ -1,0 +1,62 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What is the name and country of origin of every singer who has a song with the word 'Hey' in its title?
+```
+SELECT name, country
+FROM singer
+WHERE song_name LIKE '%Hey%';
+```
+
+2. Find the name and location of the stadiums which some concerts happened in the years of both 2014 and 2015.
+```
+SELECT name, location
+FROM stadium
+WHERE stadium_id IN (
+    SELECT stadium_id
+    FROM concert
+    WHERE year = 2014
+    INTERSECT
+    SELECT stadium_id
+    FROM concert
+    WHERE year = 2015
+);
+```
+
+3. What are the names and locations of the stadiums that had concerts that occurred in both 2014 and 2015?
+```
+SELECT name, location
+FROM stadium
+WHERE stadium_id IN (
+    SELECT stadium_id
+    FROM concert
+    WHERE year = 2014
+    INTERSECT
+    SELECT stadium_id
+    FROM concert
+    WHERE year = 2015
+);
+```
+
+4. Find the number of concerts happened in the stadium with the highest capacity.
+```
+SELECT COUNT(*)
+FROM concert
+WHERE stadium_id = (
+    SELECT stadium_id
+    FROM stadium
+    ORDER BY capacity DESC
+    LIMIT 1
+);
+```
+
+5. What are the number of concerts that occurred in the stadium with the largest capacity?
+```
+SELECT COUNT(*)
+FROM concert
+WHERE stadium_id = (
+    SELECT stadium_id
+    FROM stadium
+    ORDER BY capacity DESC
+    LIMIT 1
+);
+```

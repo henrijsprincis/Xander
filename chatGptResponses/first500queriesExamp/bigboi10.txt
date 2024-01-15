@@ -1,0 +1,35 @@
+
+
+1. 
+SELECT MAX(weight), pettype 
+FROM pets 
+JOIN has_pet ON pets.petid = has_pet.petid 
+JOIN student ON has_pet.stuid = student.stuid 
+GROUP BY pettype;
+
+2. 
+SELECT COUNT(*) 
+FROM has_pet 
+JOIN student ON has_pet.stuid = student.stuid 
+WHERE student.age > 20; 
+
+3. 
+SELECT COUNT(*) 
+FROM pets 
+JOIN has_pet ON pets.petid = has_pet.petid 
+JOIN student ON has_pet.stuid = student.stuid 
+WHERE student.age > 20;
+
+4. 
+SELECT COUNT(*) 
+FROM pets 
+JOIN has_pet ON pets.petid = has_pet.petid 
+JOIN student ON has_pet.stuid = student.stuid 
+WHERE pets.pettype = 'dog' AND student.sex = 'F';
+
+5. 
+SELECT COUNT(*) 
+FROM pets 
+JOIN has_pet ON pets.petid = has_pet.petid 
+JOIN student ON has_pet.stuid = student.stuid 
+WHERE pets.pettype = 'dog' AND student.sex = 'F';

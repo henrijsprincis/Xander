@@ -1,0 +1,27 @@
+1. 
+
+SELECT AVG(gnp), SUM(population)
+FROM country
+WHERE continent = 'North America' AND governmentform LIKE '%US territory%';
+
+2. 
+
+SELECT COUNT(DISTINCT language)
+FROM countrylanguage;
+
+3. 
+
+SELECT COUNT(DISTINCT language)
+FROM countrylanguage;
+
+4. 
+
+SELECT COUNT(DISTINCT governmentform)
+FROM country
+WHERE continent = 'Africa';
+
+5. 
+
+SELECT COUNT(DISTINCT governmentform)
+FROM country
+WHERE continent = 'Africa';

@@ -1,0 +1,22 @@
+
+
+1. SELECT continents.contid, continents.continent, COUNT(countries.countryid) AS num_countries
+   FROM continents
+   JOIN countries ON continents.continent = countries.continent
+   GROUP BY continents.contid;
+
+2. SELECT COUNT(countryid) AS num_countries
+   FROM countries;
+
+3. SELECT COUNT(DISTINCT countryname) AS num_countries
+   FROM countries;
+
+4. SELECT car_makers.id, car_makers.fullname, COUNT(model_list.modelid) AS num_models
+   FROM car_makers
+   JOIN model_list ON car_makers.id = model_list.maker
+   GROUP BY car_makers.id;
+
+5. SELECT car_makers.id, car_makers.fullname, COUNT(model_list.modelid) AS num_models
+   FROM car_makers
+   JOIN model_list ON car_makers.id = model_list.maker
+   GROUP BY car_makers.id;

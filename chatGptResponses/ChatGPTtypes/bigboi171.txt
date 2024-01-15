@@ -1,0 +1,28 @@
+1. 
+
+SELECT grade
+FROM highschooler;
+
+2. 
+
+SELECT grade
+FROM highschooler
+WHERE name = 'Kyle';
+
+3. 
+
+SELECT grade
+FROM highschooler
+WHERE name = 'Kyle';
+
+4. 
+
+SELECT name
+FROM highschooler
+WHERE grade = 10;
+
+5. 
+
+SELECT name
+FROM highschooler
+WHERE grade = 10;

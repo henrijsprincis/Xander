@@ -1,0 +1,40 @@
+1. 
+
+SELECT DISTINCT courses.course_name
+FROM courses
+JOIN student_enrolment_courses ON courses.course_id = student_enrolment_courses.course_id;
+
+2. 
+
+SELECT DISTINCT courses.course_name
+FROM courses
+JOIN student_enrolment_courses ON courses.course_id = student_enrolment_courses.course_id
+JOIN student_enrolment ON student_enrolment_courses.student_enrolment_id = student_enrolment.student_enrolment_id;
+
+3. 
+
+SELECT courses.course_name
+FROM courses
+JOIN student_enrolment_courses ON courses.course_id = student_enrolment_courses.course_id
+JOIN student_enrolment ON student_enrolment_courses.student_enrolment_id = student_enrolment.student_enrolment_id
+GROUP BY courses.course_name
+ORDER BY COUNT(DISTINCT student_enrolment.student_id) DESC
+LIMIT 1;
+
+4. 
+
+SELECT courses.course_name
+FROM courses
+JOIN student_enrolment_courses ON courses.course_id = student_enrolment_courses.course_id
+JOIN student_enrolment ON student_enrolment_courses.student_enrolment_id = student_enrolment.student_enrolment_id
+GROUP BY courses.course_name
+ORDER BY COUNT(DISTINCT student_enrolment.student_id) DESC
+LIMIT 1;
+
+5. 
+
+SELECT students.last_name
+FROM students
+JOIN addresses ON students.current_address_id = addresses.address_id
+LEFT JOIN student_enrolment ON students.student_id = student_enrolment.student_id
+WHERE addresses.state_province_county = 'North Carolina' AND student_enrolment.degree_program_id IS NULL;

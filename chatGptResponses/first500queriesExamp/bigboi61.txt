@@ -1,0 +1,29 @@
+
+
+1. 
+SELECT COUNT(DISTINCT template_type_code) 
+FROM templates 
+JOIN documents ON templates.template_id = documents.template_id;
+
+2. 
+SELECT COUNT(DISTINCT documents.template_id) 
+FROM documents 
+JOIN templates ON documents.template_id = templates.template_id;
+
+3. 
+SELECT COUNT(*) 
+FROM documents 
+JOIN templates ON documents.template_id = templates.template_id 
+WHERE templates.template_type_code = 'PPT';
+
+4. 
+SELECT COUNT(*) 
+FROM documents 
+JOIN templates ON documents.template_id = templates.template_id 
+WHERE templates.template_type_code = 'PPT';
+
+5. 
+SELECT templates.template_id, COUNT(documents.document_id) 
+FROM templates 
+LEFT JOIN documents ON templates.template_id = documents.template_id 
+GROUP BY templates.template_id;

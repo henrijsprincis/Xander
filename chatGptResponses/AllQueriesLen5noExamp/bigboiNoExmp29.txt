@@ -1,0 +1,35 @@
+Here are the SQLite code snippets for the given questions:
+
+1. how many cars were produced in 1980?
+```
+SELECT COUNT(*)
+FROM cars_data
+WHERE year = 1980;
+```
+
+2. In 1980, how many cars were made?
+```
+SELECT COUNT(*)
+FROM cars_data
+WHERE year = 1980;
+```
+
+3. How many car models were produced by the maker with full name American Motor Company?
+```
+SELECT COUNT(DISTINCT model_list.model) AS num_models
+FROM car_makers
+JOIN model_list ON car_makers.id = model_list.maker
+WHERE car_makers.fullname = 'American Motor Company';
+```
+
+4. What is the number of car models created by the car maker American Motor Company?
+```
+SELECT COUNT(DISTINCT model_list.model) AS num_models
+FROM car_makers
+JOIN model_list ON car_makers.id = model_list.maker
+WHERE car_makers.fullname = 'American Motor Company';
+```
+
+5. Which makers designed more than 3 car models? List full name and the id.
+```
+SELECT car_makers.id, car_makers.fullname, COUNT(DISTINCT model_list.model

@@ -1,0 +1,40 @@
+
+
+1. 
+SELECT template_id, COUNT(template_id) AS usage_count
+FROM documents
+GROUP BY template_id;
+
+2. 
+SELECT template_id, template_type_code
+FROM templates
+WHERE template_id = (
+  SELECT template_id
+  FROM documents
+  GROUP BY template_id
+  ORDER BY COUNT(template_id) DESC
+  LIMIT 1
+);
+
+3. 
+SELECT template_id, template_type_code
+FROM templates
+WHERE template_id = (
+  SELECT template_id
+  FROM documents
+  GROUP BY template_id
+  ORDER BY COUNT(template_id) DESC
+  LIMIT 1
+);
+
+4. 
+SELECT template_id
+FROM documents
+GROUP BY template_id
+HAVING COUNT(DISTINCT document_id) > 1;
+
+5. 
+SELECT DISTINCT template_id
+FROM documents
+GROUP BY template_id
+HAVING COUNT(DISTINCT document_id) > 1;

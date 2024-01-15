@@ -1,0 +1,55 @@
+Here are the SQLite code snippets for the given questions:
+
+1. Which model of the car has the minimum horsepower?
+```
+SELECT model
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+ORDER BY horsepower ASC
+LIMIT 1;
+```
+
+2. What is the model of the car with the smallest amount of horsepower?
+```
+SELECT model
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+ORDER BY horsepower ASC
+LIMIT 1;
+```
+
+3. Find the model of the car whose weight is below the average weight.
+```
+SELECT model
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+WHERE weight < (
+    SELECT AVG(weight)
+    FROM cars_data
+);
+```
+
+4. What is the model for the car with a weight smaller than the average?
+```
+SELECT model
+FROM cars_data
+JOIN car_names ON cars_data.id = car_names.makeid
+JOIN model_list ON car_names.modelid = model_list.modelid
+WHERE weight < (
+    SELECT AVG(weight)
+    FROM cars_data
+);
+```
+
+5. Find the name of the makers that produced some cars in the year of 1970?
+```
+SELECT DISTINCT maker
+FROM car_makers
+JOIN model_list ON car_makers.id = model_list.maker
+JOIN car_names ON model_list.modelid = car_names.modelid
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE year = 1970;
+```

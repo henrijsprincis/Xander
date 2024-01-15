@@ -1,0 +1,32 @@
+1. 
+
+SELECT tv_channel.package_option, tv_channel.series_name
+FROM tv_channel
+WHERE tv_channel.hight_definition_tv = 'yes';
+
+2. 
+
+SELECT tv_channel.package_option, tv_channel.series_name
+FROM tv_channel
+WHERE tv_channel.hight_definition_tv = 'yes';
+
+3. 
+
+SELECT DISTINCT tv_channel.country
+FROM tv_channel
+JOIN cartoon ON tv_channel.id = cartoon.channel
+WHERE cartoon.written_by = 'Todd Casey';
+
+4. 
+
+SELECT DISTINCT tv_channel.country
+FROM tv_channel
+JOIN cartoon ON tv_channel.id = cartoon.channel
+WHERE cartoon.written_by = 'Todd Casey';
+
+5. 
+
+SELECT DISTINCT tv_channel.country
+FROM tv_channel
+LEFT JOIN cartoon ON tv_channel.id = cartoon.channel
+WHERE cartoon.written_by != 'Todd Casey' OR cartoon.written_by IS NULL;

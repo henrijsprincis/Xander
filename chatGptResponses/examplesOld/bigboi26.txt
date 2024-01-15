@@ -1,0 +1,5 @@
+1. SELECT countries.countryname FROM countries JOIN car_makers ON countries.countryid = car_makers.country WHERE countries.continent = 'Europe' GROUP BY countries.countryname HAVING COUNT(DISTINCT car_makers.id) >= 3;
+2. SELECT MAX(cars_data.horsepower), car_names.make FROM cars_data JOIN car_names ON cars_data.id = car_names.modelid WHERE cars_data.cylinders = 3;
+3. SELECT MAX(cars_data.horsepower), car_names.make FROM cars_data JOIN car_names ON cars_data.id = car_names.modelid WHERE cars_data.cylinders = 3;
+4. SELECT car_names.model FROM cars_data JOIN car_names ON cars_data.id = car_names.modelid WHERE cars_data.mpg = (SELECT MAX(mpg) FROM cars_data);
+5. SELECT car_names.model FROM cars_data JOIN car_names ON cars_data.id = car_names.modelid WHERE cars_data.mpg = (SELECT MAX(mpg) FROM cars_data);

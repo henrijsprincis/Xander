@@ -1,0 +1,50 @@
+Here are the SQLite code snippets for the given questions:
+
+1. Count the number of United Airlines flights that arrive in Aberdeen.
+```
+SELECT COUNT(*)
+FROM flights
+JOIN airlines ON flights.airline = airlines.uid
+JOIN airports ON flights.destairport = airports.airportcode
+WHERE airlines.airline = 'United Airlines' AND airports.city = 'Aberdeen';
+```
+
+2. Which city has most number of arriving flights?
+```
+SELECT airports.city, COUNT(*) AS num_arrivals
+FROM flights
+JOIN airports ON flights.destairport = airports.airportcode
+GROUP BY airports.city
+ORDER BY num_arrivals DESC
+LIMIT 1;
+```
+
+3. Which city has the most frequent destination airport?
+```
+SELECT airports.city, COUNT(*) AS num_destinations
+FROM flights
+JOIN airports ON flights.destairport = airports.airportcode
+GROUP BY airports.city
+ORDER BY num_destinations DESC
+LIMIT 1;
+```
+
+4. Which city has most number of departing flights?
+```
+SELECT airports.city, COUNT(*) AS num_departures
+FROM flights
+JOIN airports ON flights.sourceairport = airports.airportcode
+GROUP BY airports.city
+ORDER BY num_departures DESC
+LIMIT 1;
+```
+
+5. Which city is the most frequent source airport?
+```
+SELECT airports.city, COUNT(*) AS num_departures
+FROM flights
+JOIN airports ON flights.sourceairport = airports.airportcode
+GROUP BY airports.city
+ORDER BY num_departures DESC
+LIMIT 1;
+```

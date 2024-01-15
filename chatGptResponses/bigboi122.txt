@@ -1,0 +1,27 @@
+1. 
+SELECT tv_channel.series_name
+FROM tv_channel
+JOIN cartoon ON tv_channel.id = cartoon.channel
+WHERE cartoon.title = 'The Rise of the Blue Beetle';
+
+2. 
+SELECT cartoon.title
+FROM cartoon
+JOIN tv_channel ON cartoon.channel = tv_channel.id
+WHERE tv_channel.series_name = 'Sky Radio';
+
+3. 
+SELECT cartoon.title
+FROM cartoon
+JOIN tv_channel ON cartoon.channel = tv_channel.id
+WHERE tv_channel.series_name = 'Sky Radio';
+
+4. 
+SELECT tv_series.episode
+FROM tv_series
+ORDER BY tv_series.rating DESC;
+
+5. 
+SELECT tv_series.episode
+FROM tv_series
+ORDER BY tv_series.rating DESC;

@@ -1,0 +1,3 @@
+Here are the SQLite code snippets for the given questions:
+
+1

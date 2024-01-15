@@ -1,0 +1,9 @@
+1. SELECT AVG(injured) AS avg_injuries FROM death;
+
+2. SELECT death.killed, death.injured FROM death JOIN ship ON death.caused_by_ship_id = ship.id WHERE ship.tonnage = 't';
+
+3. SELECT id, name, result FROM battle WHERE bulgarian_commander != 'Boril';
+
+4. SELECT DISTINCT battle.id, battle.name FROM battle JOIN ship ON battle.id = ship.lost_in_battle WHERE ship.ship_type = 'Brig';
+
+5. SELECT battle.id, battle.name FROM battle JOIN ship ON battle.id = ship.lost_in_battle JOIN death ON ship.id = death.caused_by_ship_id GROUP BY battle.id HAVING SUM(death.killed) > 10;

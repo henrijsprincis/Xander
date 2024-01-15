@@ -1,0 +1,5 @@
+1. SELECT COUNT(*) FROM cars_data WHERE cars_data.accelerate > (SELECT MAX(cars_data.horsepower) FROM cars_data);
+2. SELECT COUNT(DISTINCT car_makers.country) FROM car_makers GROUP BY car_makers.country HAVING COUNT(*) > 2;
+3. SELECT COUNT(DISTINCT car_makers.country) FROM car_makers GROUP BY car_makers.country HAVING COUNT(*) > 2;
+4. SELECT COUNT(*) FROM cars_data WHERE cars_data.cylinders > 6;
+5. SELECT COUNT(*) FROM cars_data WHERE cars_data.cylinders > 6;

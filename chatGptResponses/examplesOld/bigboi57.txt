@@ -1,0 +1,5 @@
+1. SELECT shop.name FROM shop LEFT JOIN hiring ON shop.shop_id = hiring.shop_id WHERE hiring.employee_id IS NULL;
+2. SELECT shop.name FROM shop WHERE shop.shop_id NOT IN (SELECT DISTINCT hiring.shop_id FROM hiring);
+3. SELECT COUNT(hiring.employee_id), shop.name FROM hiring JOIN shop ON hiring.shop_id = shop.shop_id GROUP BY hiring.shop_id;
+4. SELECT COUNT(hiring.employee_id), shop.name FROM shop LEFT JOIN hiring ON shop.shop_id = hiring.shop_id GROUP BY shop.shop_id;
+5. SELECT SUM(evaluation.bonus) FROM evaluation;

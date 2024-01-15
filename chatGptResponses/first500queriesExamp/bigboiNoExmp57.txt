@@ -1,0 +1,11 @@
+
+
+1. SELECT name FROM shop WHERE shop_id NOT IN (SELECT shop_id FROM hiring);
+
+2. SELECT name FROM shop WHERE shop_id NOT IN (SELECT shop_id FROM hiring) AND shop_id NOT IN (SELECT shop_id FROM evaluation);
+
+3. SELECT shop.name, COUNT(hiring.employee_id) AS num_employees FROM shop LEFT JOIN hiring ON shop.shop_id = hiring.shop_id GROUP BY shop.name;
+
+4. SELECT shop.name, COUNT(hiring.employee_id) AS num_employees FROM shop LEFT JOIN hiring ON shop.shop_id = hiring.shop_id GROUP BY shop.name;
+
+5. SELECT SUM(bonus) AS total_bonus FROM evaluation;

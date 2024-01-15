@@ -1,0 +1,7 @@
+
+
+1. SELECT COUNT(DISTINCT template_type_code) FROM templates;
+2. SELECT COUNT(DISTINCT template_id) FROM documents;
+3. SELECT COUNT(*) FROM documents WHERE template_id IN (SELECT template_id FROM templates WHERE template_type_code = 'PPT');
+4. SELECT COUNT(*) FROM documents WHERE template_id IN (SELECT template_id FROM templates WHERE template_type_code = 'PPT');
+5. SELECT templates.template_id, COUNT(documents.document_id) FROM templates LEFT JOIN documents ON templates.template_id = documents.template_id GROUP BY templates.template_id;

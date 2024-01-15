@@ -1,0 +1,31 @@
+Here are the SQLite code snippets for the given questions:
+
+1. Give the flight numbers of flights landing at APG.
+```
+SELECT flightno
+FROM flights
+WHERE destairport = 'APG';
+```
+
+2. What are flight numbers of flights departing from City "Aberdeen "?
+```
+SELECT flightno
+FROM flights
+JOIN airports ON flights.sourceairport = airports.airportcode
+WHERE airports.city = 'Aberdeen';
+```
+
+3. Give the flight numbers of flights leaving from Aberdeen.
+```
+SELECT flightno
+FROM flights
+JOIN airports ON flights.sourceairport = airports.airportcode
+WHERE airports.city = 'Aberdeen';
+```
+
+4. What are flight numbers of flights arriving at City "Aberdeen"?
+```
+SELECT flightno
+FROM flights
+JOIN airports ON flights.destairport = airports.airportcode
+WHERE airports.city = 'A

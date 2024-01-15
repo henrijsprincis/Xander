@@ -1,0 +1,16 @@
+
+
+1. 
+SELECT COUNT(employee_id) FROM employee;
+
+2. 
+SELECT name FROM employee ORDER BY age ASC;
+
+3. 
+SELECT name FROM employee ORDER BY age ASC;
+
+4. 
+SELECT COUNT(employee_id), city FROM employee GROUP BY city;
+
+5. 
+SELECT COUNT(employee_id), city FROM employee GROUP BY city;

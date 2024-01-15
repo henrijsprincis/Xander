@@ -1,0 +1,34 @@
+1. 
+
+SELECT first_name
+FROM students
+WHERE current_address_id != permanent_address_id
+LIMIT 1;
+
+2. 
+
+SELECT addresses.address_id, addresses.line_1, addresses.line_2
+FROM students
+JOIN addresses ON students.current_address_id = addresses.address_id
+GROUP BY addresses.address_id
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+3. 
+
+SELECT addresses.address_id, addresses.line_1, addresses.line_2
+FROM students
+JOIN addresses ON students.current_address_id = addresses.address_id
+GROUP BY addresses.address_id
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+4. 
+
+SELECT AVG(transcript_date)
+FROM transcripts;
+
+5. 
+
+SELECT AVG(julianday(transcript_date))
+FROM transcripts;

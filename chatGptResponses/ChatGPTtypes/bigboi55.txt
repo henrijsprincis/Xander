@@ -1,0 +1,35 @@
+1. 
+SELECT employee.name
+FROM employee
+JOIN evaluation ON employee.employee_id = evaluation.employee_id
+GROUP BY employee.employee_id
+ORDER BY COUNT(evaluation.bonus) DESC
+LIMIT 1;
+
+2. 
+SELECT employee.name
+FROM employee
+JOIN evaluation ON employee.employee_id = evaluation.employee_id
+GROUP BY employee.employee_id
+ORDER BY SUM(evaluation.bonus) DESC
+LIMIT 1;
+
+3. 
+SELECT employee.name
+FROM employee
+JOIN evaluation ON employee.employee_id = evaluation.employee_id
+WHERE evaluation.bonus = (SELECT MAX(bonus) FROM evaluation)
+LIMIT 1;
+
+4. 
+SELECT employee.name
+FROM employee
+JOIN evaluation ON employee.employee_id = evaluation.employee_id
+ORDER BY evaluation.bonus DESC
+LIMIT 1;
+
+5. 
+SELECT employee.name
+FROM employee
+LEFT JOIN evaluation ON employee.employee_id = evaluation.employee_id
+WHERE evaluation.employee_id IS NULL;

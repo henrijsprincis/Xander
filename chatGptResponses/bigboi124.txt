@@ -1,0 +1,26 @@
+1. 
+SELECT air_date
+FROM tv_series
+WHERE episode = "A Love of a Lifetime";
+
+2. 
+SELECT weekly_rank
+FROM tv_series
+WHERE episode = "A Love of a Lifetime";
+
+3. 
+SELECT weekly_rank
+FROM tv_series
+WHERE episode = "A Love of a Lifetime";
+
+4. 
+SELECT tv_channel.series_name
+FROM tv_channel
+JOIN tv_series ON tv_channel.id = tv_series.channel
+WHERE tv_series.episode = "A Love of a Lifetime";
+
+5. 
+SELECT tv_channel.series_name
+FROM tv_channel
+JOIN tv_series ON tv_channel.id = tv_series.channel
+WHERE tv_series.episode = "A Love of a Lifetime";

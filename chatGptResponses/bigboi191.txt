@@ -1,0 +1,36 @@
+1. 
+
+SELECT d.name, t.date_of_treatment
+FROM dogs d
+JOIN treatments t ON d.dog_id = t.dog_id
+WHERE d.breed_code IN (
+    SELECT breed_code
+    FROM breeds
+    WHERE breed_name = 'rarest'
+);
+
+2. 
+
+SELECT o.first_name, d.name
+FROM owners o
+JOIN dogs d ON o.owner_id = d.owner_id
+WHERE o.state = 'Virginia';
+
+3. 
+
+SELECT o.first_name, d.name
+FROM owners o
+JOIN dogs d ON o.owner_id = d.owner_id
+WHERE o.state = 'Virginia';
+
+4. 
+
+SELECT d.date_arrived, d.date_departed
+FROM dogs d
+JOIN treatments t ON d.dog_id = t.dog_id;
+
+5. 
+
+SELECT d.date_arrived, d.date_departed
+FROM dogs d
+JOIN treatments t ON d.dog_id = t.dog_id;

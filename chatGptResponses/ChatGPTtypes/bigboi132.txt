@@ -1,0 +1,29 @@
+1. 
+SELECT birth_date 
+FROM people 
+JOIN poker_player ON people.people_id = poker_player.people_id 
+WHERE earnings = (SELECT MIN(earnings) FROM poker_player);
+
+2. 
+SELECT money_rank 
+FROM poker_player 
+JOIN people ON poker_player.people_id = people.people_id 
+WHERE height = (SELECT MAX(height) FROM people);
+
+3. 
+SELECT money_rank 
+FROM poker_player 
+JOIN people ON poker_player.people_id = people.people_id 
+WHERE height = (SELECT MAX(height) FROM people);
+
+4. 
+SELECT AVG(earnings) 
+FROM poker_player 
+JOIN people ON poker_player.people_id = people.people_id 
+WHERE height > 200;
+
+5. 
+SELECT AVG(earnings) 
+FROM poker_player 
+JOIN people ON poker_player.people_id = people.people_id 
+WHERE height > 200;

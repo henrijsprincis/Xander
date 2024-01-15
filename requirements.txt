@@ -1,0 +1,13 @@
+#python 3.11
+nltk
+sqlparse
+datasets
+transformers
+sacremoses
+importlib_metadata
+sqlparse
+scikit-learn
+torch
+openai
+accelerate
+tensorboardX

@@ -1,0 +1,25 @@
+1. 
+SELECT COUNT(*) 
+FROM votes 
+WHERE state = 'NY' OR state = 'CA';
+
+2. 
+SELECT COUNT(*) 
+FROM contestants 
+WHERE contestant_number NOT IN (SELECT contestant_number FROM votes);
+
+3. 
+SELECT area_code 
+FROM area_code_state 
+WHERE area_code IN (SELECT area_code FROM votes GROUP BY area_code ORDER BY COUNT(*) DESC LIMIT 1);
+
+4. 
+SELECT created, state, phone_number 
+FROM votes 
+WHERE contestant_number = (SELECT contestant_number FROM contestants WHERE contestant_name = 'Tabatha Gehling');
+
+5. 
+SELECT area_code 
+FROM votes 
+WHERE contestant_number = (SELECT contestant_number FROM contestants WHERE contestant_name = 'Tabatha Gehling') 
+AND area_code IN (SELECT area_code FROM votes WHERE contestant_number = (SELECT contestant_number FROM contestants WHERE contestant_name = 'Kelly Clauss'));

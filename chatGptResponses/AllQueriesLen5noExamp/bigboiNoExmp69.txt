@@ -1,0 +1,18 @@
+Here are the SQLite code snippets for the given questions:
+
+1. Show all template type codes that are not used by any document.
+```
+SELECT template_type_code
+FROM ref_template_types
+WHERE template_type_code NOT IN (
+    SELECT template_type_code
+    FROM templates
+    JOIN documents ON templates.template_id = documents.template_id
+);
+```
+
+2. What are the codes of template types that are not used for any document?
+```
+SELECT template_type_code
+FROM ref_template_types
+WHERE template_type_code

@@ -1,0 +1,5 @@
+1. SELECT country_code FROM players GROUP BY country_code ORDER BY COUNT(*) DESC LIMIT 1;
+2. SELECT country_code FROM players GROUP BY country_code ORDER BY COUNT(*) DESC LIMIT 1;
+3. SELECT country_code FROM players GROUP BY country_code HAVING COUNT(*) > 50;
+4. SELECT country_code FROM players GROUP BY country_code HAVING COUNT(*) > 50;
+5. SELECT ranking_date, SUM(tours) FROM rankings GROUP BY ranking_date;

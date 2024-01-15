@@ -1,0 +1,35 @@
+1. 
+SELECT car_names.makeid, car_names.make
+FROM car_names
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE cars_data.cylinders = 4
+ORDER BY cars_data.horsepower DESC
+LIMIT 1;
+
+2. 
+SELECT car_names.makeid, car_names.make
+FROM car_names
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE cars_data.cylinders = 4
+ORDER BY cars_data.horsepower DESC
+LIMIT 1;
+
+3. 
+SELECT car_names.makeid, car_names.make
+FROM car_names
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE cars_data.horsepower > (SELECT MIN(horsepower) FROM cars_data)
+AND cars_data.cylinders <= 3;
+
+4. 
+SELECT car_names.makeid, car_names.make
+FROM car_names
+JOIN cars_data ON car_names.makeid = cars_data.id
+WHERE cars_data.horsepower > (SELECT MIN(horsepower) FROM cars_data)
+AND cars_data.cylinders < 4;
+
+5. 
+SELECT MAX(cars_data.mpg)
+FROM cars_data
+WHERE (cars_data.cylinders = 8 OR cars_data.year < 1980)
+AND cars_data.mpg != 'null';

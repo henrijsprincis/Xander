@@ -1,0 +1,24 @@
+1. 
+SELECT pets.petid, pets.weight
+FROM pets
+WHERE pets.pet_age > 1;
+
+2. 
+SELECT pets.pettype, AVG(pets.pet_age), MAX(pets.pet_age)
+FROM pets
+GROUP BY pets.pettype;
+
+3. 
+SELECT pets.pettype, AVG(pets.pet_age), MAX(pets.pet_age)
+FROM pets
+GROUP BY pets.pettype;
+
+4. 
+SELECT pets.pettype, AVG(pets.weight)
+FROM pets
+GROUP BY pets.pettype;
+
+5. 
+SELECT pets.pettype, AVG(pets.weight)
+FROM pets
+GROUP BY pets.pettype;

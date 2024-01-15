@@ -1,0 +1,31 @@
+1. 
+SELECT name
+FROM conductor
+ORDER BY age;
+
+2. 
+SELECT name
+FROM conductor
+WHERE nationality != 'USA';
+
+3. 
+SELECT name
+FROM conductor
+WHERE nationality != 'USA'
+AND conductor_id NOT IN (
+    SELECT conductor_id
+    FROM conductor
+    WHERE nationality = 'USA'
+);
+
+4. 
+SELECT record_company
+FROM orchestra
+GROUP BY record_company
+ORDER BY MIN(year_of_founded) DESC;
+
+5. 
+SELECT record_company
+FROM orchestra
+GROUP BY record_company
+ORDER BY MIN(year_of_founded) DESC;

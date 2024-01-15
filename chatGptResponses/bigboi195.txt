@@ -1,0 +1,31 @@
+1. 
+
+SELECT COUNT(*) 
+FROM dogs 
+WHERE age < (SELECT AVG(age) FROM dogs);
+
+2. 
+
+SELECT cost_of_treatment 
+FROM treatments 
+ORDER BY date_of_treatment DESC 
+LIMIT 1;
+
+3. 
+
+SELECT cost_of_treatment 
+FROM treatments 
+ORDER BY date_of_treatment DESC 
+LIMIT 1;
+
+4. 
+
+SELECT COUNT(*) 
+FROM dogs 
+WHERE dog_id NOT IN (SELECT dog_id FROM treatments);
+
+5. 
+
+SELECT COUNT(*) 
+FROM dogs 
+WHERE dog_id NOT IN (SELECT dog_id FROM treatments);

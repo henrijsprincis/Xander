@@ -1,0 +1,16 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What is the code of airport that has the highest number of flights?
+```
+SELECT destairport, COUNT(*) AS num_flights
+FROM flights
+GROUP BY destairport
+ORDER BY num_flights DESC
+LIMIT 1;
+```
+
+2. What is the airport code of the airport with the most flights?
+```
+SELECT destairport, COUNT(*) AS num_flights
+FROM flights
+GROUP BY dest

@@ -1,0 +1,37 @@
+1. 
+
+SELECT name 
+FROM shop 
+WHERE number_products > (SELECT AVG(number_products) FROM shop);
+
+2. 
+
+SELECT name 
+FROM shop 
+WHERE number_products > (SELECT AVG(number_products) FROM shop);
+
+3. 
+
+SELECT employee.name 
+FROM employee 
+JOIN evaluation ON employee.employee_id = evaluation.employee_id 
+GROUP BY employee.employee_id 
+ORDER BY COUNT(*) DESC 
+LIMIT 1;
+
+4. 
+
+SELECT employee.name 
+FROM employee 
+JOIN evaluation ON employee.employee_id = evaluation.employee_id 
+GROUP BY employee.employee_id 
+ORDER BY SUM(bonus) DESC 
+LIMIT 1;
+
+5. 
+
+SELECT employee.name 
+FROM employee 
+JOIN evaluation ON employee.employee_id = evaluation.employee_id 
+WHERE bonus = (SELECT MAX(bonus) FROM evaluation) 
+LIMIT 1;

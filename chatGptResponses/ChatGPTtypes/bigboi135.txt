@@ -1,0 +1,28 @@
+1. 
+
+SELECT p.name
+FROM people p
+WHERE p.nationality != 'Russia';
+
+2. 
+
+SELECT p.name
+FROM people p
+WHERE p.nationality <> 'Russia';
+
+3. 
+
+SELECT p.name
+FROM people p
+WHERE p.people_id NOT IN (SELECT pp.people_id FROM poker_player pp);
+
+4. 
+
+SELECT p.name
+FROM people p
+WHERE p.people_id NOT IN (SELECT pp.people_id FROM poker_player pp);
+
+5. 
+
+SELECT COUNT(DISTINCT p.nationality)
+FROM people p;

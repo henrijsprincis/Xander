@@ -1,0 +1,36 @@
+
+
+1. 
+SELECT employee.name 
+FROM employee 
+JOIN evaluation ON employee.employee_id = evaluation.employee_id 
+ORDER BY evaluation.bonus DESC 
+LIMIT 1;
+
+2. 
+SELECT employee.name 
+FROM employee 
+LEFT JOIN evaluation ON employee.employee_id = evaluation.employee_id 
+WHERE evaluation.employee_id IS NULL;
+
+3. 
+SELECT employee.name 
+FROM employee 
+LEFT JOIN evaluation ON employee.employee_id = evaluation.employee_id 
+WHERE evaluation.employee_id IS NULL;
+
+4. 
+SELECT shop.name 
+FROM shop 
+JOIN hiring ON shop.shop_id = hiring.shop_id 
+GROUP BY shop.name 
+ORDER BY COUNT(hiring.employee_id) DESC 
+LIMIT 1;
+
+5. 
+SELECT shop.name 
+FROM shop 
+JOIN hiring ON shop.shop_id = hiring.shop_id 
+GROUP BY shop.name 
+ORDER BY COUNT(hiring.employee_id) DESC 
+LIMIT 1;

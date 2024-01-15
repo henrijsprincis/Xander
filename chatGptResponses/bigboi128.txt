@@ -1,0 +1,48 @@
+1. 
+
+SELECT pixel_aspect_ratio_par, country 
+FROM tv_channel 
+WHERE language != 'English';
+
+2. 
+
+SELECT id 
+FROM tv_channel 
+WHERE country IN (
+    SELECT country 
+    FROM tv_channel 
+    GROUP BY country 
+    HAVING COUNT(*) > 2
+);
+
+3. 
+
+SELECT id 
+FROM tv_channel 
+WHERE id IN (
+    SELECT channel 
+    FROM tv_series 
+    GROUP BY channel 
+    HAVING COUNT(DISTINCT id) > 2
+);
+
+4. 
+
+SELECT id 
+FROM tv_channel 
+WHERE id NOT IN (
+    SELECT channel 
+    FROM cartoon 
+    WHERE directed_by = 'Ben Jones'
+);
+
+5. 
+
+SELECT id 
+FROM tv_channel 
+WHERE id NOT IN (
+    SELECT channel 
+    FROM cartoon 
+    WHERE directed_by = 'Ben Jones'
+    GROUP BY channel
+);

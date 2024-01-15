@@ -1,0 +1,9 @@
+1. SELECT COUNT(*) FROM documents;
+
+2. SELECT COUNT(*) FROM documents;
+
+3. SELECT document_id, document_name, document_description FROM documents;
+
+4. SELECT document_id, document_name, document_description FROM documents;
+
+5. SELECT document_name, template_id FROM documents WHERE document_description LIKE '%w%';

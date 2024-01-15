@@ -1,0 +1,37 @@
+1. 
+SELECT h.name
+FROM highschooler h
+JOIN likes l ON h.id = l.student_id
+GROUP BY h.id
+ORDER BY COUNT(l.liked_id) DESC
+LIMIT 1;
+
+2. 
+SELECT h.name
+FROM highschooler h
+JOIN likes l ON h.id = l.student_id
+GROUP BY h.id
+ORDER BY COUNT(l.liked_id) DESC
+LIMIT 1;
+
+3. 
+SELECT h.name
+FROM highschooler h
+JOIN likes l ON h.id = l.student_id
+GROUP BY h.id
+HAVING COUNT(l.liked_id) >= 2;
+
+4. 
+SELECT h.name
+FROM highschooler h
+JOIN likes l ON h.id = l.student_id
+GROUP BY h.id
+HAVING COUNT(l.liked_id) >= 2;
+
+5. 
+SELECT h.name
+FROM highschooler h
+JOIN friend f ON h.id = f.student_id
+WHERE h.grade > 5
+GROUP BY h.id
+HAVING COUNT(f.friend_id) >= 2;

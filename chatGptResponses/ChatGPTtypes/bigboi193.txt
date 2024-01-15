@@ -1,0 +1,31 @@
+1. 
+
+SELECT COUNT(DISTINCT professional_id) 
+FROM treatments 
+WHERE dog_id IN (
+    SELECT dog_id 
+    FROM dogs 
+    WHERE abandoned_yn = '1'
+);
+
+2. 
+
+SELECT name, age, weight 
+FROM dogs 
+WHERE abandoned_yn = '1';
+
+3. 
+
+SELECT name, age, weight 
+FROM dogs 
+WHERE abandoned_yn = '1';
+
+4. 
+
+SELECT AVG(age) 
+FROM dogs;
+
+5. 
+
+SELECT AVG(age) 
+FROM dogs;

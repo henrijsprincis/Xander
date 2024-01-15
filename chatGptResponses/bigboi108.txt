@@ -1,0 +1,56 @@
+1. 
+
+SELECT degree_program_id, degree_summary_name
+FROM degree_programs
+WHERE degree_program_id = (
+    SELECT degree_program_id
+    FROM student_enrolment
+    GROUP BY degree_program_id
+    ORDER BY COUNT(student_id) DESC
+    LIMIT 1
+);
+
+2. 
+
+SELECT s.student_id, s.first_name, s.middle_name, s.last_name, COUNT(se.student_enrolment_id) AS num_enrollments
+FROM students s
+JOIN student_enrolment se ON s.student_id = se.student_id
+GROUP BY s.student_id
+ORDER BY num_enrollments DESC
+LIMIT 1;
+
+3. 
+
+SELECT s.student_id, s.first_name, s.middle_name, s.last_name, COUNT(se.student_enrolment_id) AS num_enrollments
+FROM students s
+JOIN student_enrolment se ON s.student_id = se.student_id
+WHERE se.degree_program_id = (
+    SELECT degree_program_id
+    FROM student_enrolment
+    GROUP BY degree_program_id
+    ORDER BY COUNT(student_id) DESC
+    LIMIT 1
+)
+GROUP BY s.student_id
+ORDER BY num_enrollments DESC
+LIMIT 1;
+
+4. 
+
+SELECT semester_name
+FROM semesters
+WHERE semester_id NOT IN (
+    SELECT semester_id
+    FROM student_enrolment
+    GROUP BY semester_id
+);
+
+5. 
+
+SELECT semester_name
+FROM semesters
+WHERE semester_id NOT IN (
+    SELECT semester_id
+    FROM student_enrolment
+    GROUP BY semester_id
+);

@@ -1,0 +1,43 @@
+1. 
+SELECT sourceairport AS airportcode, COUNT(*) AS num_flights
+FROM flights
+GROUP BY sourceairport
+ORDER BY num_flights DESC
+LIMIT 1;
+
+2. 
+SELECT airportcode
+FROM (
+    SELECT sourceairport AS airportcode, COUNT(*) AS num_flights
+    FROM flights
+    GROUP BY sourceairport
+    ORDER BY num_flights DESC
+    LIMIT 1
+) AS max_flights;
+
+3. 
+SELECT sourceairport AS airportcode, COUNT(*) AS num_flights
+FROM flights
+GROUP BY sourceairport
+ORDER BY num_flights ASC
+LIMIT 1;
+
+4. 
+SELECT airportcode
+FROM (
+    SELECT sourceairport AS airportcode, COUNT(*) AS num_flights
+    FROM flights
+    GROUP BY sourceairport
+    ORDER BY num_flights ASC
+    LIMIT 1
+) AS min_flights;
+
+5. 
+SELECT airline
+FROM (
+    SELECT airline, COUNT(*) AS num_flights
+    FROM flights
+    GROUP BY airline
+    ORDER BY num_flights DESC
+    LIMIT 1
+) AS max_flights;

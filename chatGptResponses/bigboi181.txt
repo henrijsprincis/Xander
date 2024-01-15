@@ -1,0 +1,36 @@
+1. 
+SELECT highschooler.name, COUNT(likes.liked_id)
+FROM highschooler
+JOIN likes ON highschooler.id = likes.student_id
+GROUP BY highschooler.id
+HAVING COUNT(likes.liked_id) > 0;
+
+2. 
+SELECT highschooler.name
+FROM highschooler
+JOIN likes ON highschooler.id = likes.student_id
+GROUP BY highschooler.id
+ORDER BY COUNT(likes.liked_id) DESC
+LIMIT 1;
+
+3. 
+SELECT highschooler.name
+FROM highschooler
+JOIN likes ON highschooler.id = likes.student_id
+GROUP BY highschooler.id
+ORDER BY COUNT(likes.liked_id) DESC
+LIMIT 1;
+
+4. 
+SELECT highschooler.name
+FROM highschooler
+JOIN likes ON highschooler.id = likes.student_id
+GROUP BY highschooler.id
+HAVING COUNT(likes.liked_id) >= 2;
+
+5. 
+SELECT highschooler.name
+FROM highschooler
+JOIN likes ON highschooler.id = likes.student_id
+GROUP BY highschooler.id
+HAVING COUNT(likes.liked_id) >= 2;

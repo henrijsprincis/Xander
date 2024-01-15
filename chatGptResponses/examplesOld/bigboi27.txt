@@ -1,0 +1,5 @@
+1. SELECT AVG(cars_data.horsepower) FROM cars_data WHERE cars_data.year < 1980;
+2. SELECT AVG(cars_data.horsepower) FROM cars_data WHERE cars_data.year < 1980;
+3. SELECT AVG(cars_data.edispl) FROM cars_data JOIN car_names ON cars_data.id = car_names.modelid JOIN car_makers ON car_names.makeid = car_makers.id WHERE car_makers.maker = 'volvo';
+4. SELECT AVG(cars_data.edispl) FROM cars_data JOIN car_names ON cars_data.id = car_names.modelid JOIN car_makers ON car_names.makeid = car_makers.id WHERE car_makers.maker = 'volvo';
+5. SELECT MAX(cars_data.accelerate), cars_data.cylinders FROM cars_data GROUP BY cars_data.cylinders;

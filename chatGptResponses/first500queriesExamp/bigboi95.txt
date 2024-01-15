@@ -1,0 +1,38 @@
+
+
+1. 
+SELECT country_code
+FROM players
+GROUP BY country_code
+ORDER BY COUNT(player_id) DESC
+LIMIT 1;
+
+2. 
+SELECT country_code
+FROM players
+GROUP BY country_code
+HAVING COUNT(player_id) = (
+  SELECT MAX(player_count)
+  FROM (
+    SELECT COUNT(player_id) AS player_count
+    FROM players
+    GROUP BY country_code
+  )
+);
+
+3. 
+SELECT country_code
+FROM players
+GROUP BY country_code
+HAVING COUNT(player_id) > 50;
+
+4. 
+SELECT country_code
+FROM players
+GROUP BY country_code
+HAVING COUNT(player_id) > 50;
+
+5. 
+SELECT SUM(tours) AS total_tours, ranking_date
+FROM rankings
+GROUP BY ranking_date;

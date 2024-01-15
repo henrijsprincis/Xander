@@ -1,0 +1,7 @@
+
+
+1. SELECT COUNT(*) FROM singer;
+2. SELECT COUNT(DISTINCT singer_id) FROM singer_in_concert;
+3. SELECT name, country, age FROM singer ORDER BY age DESC;
+4. SELECT name, country, age FROM singer ORDER BY age DESC;
+5. SELECT AVG(age), MIN(age), MAX(age) FROM singer WHERE country = 'France';

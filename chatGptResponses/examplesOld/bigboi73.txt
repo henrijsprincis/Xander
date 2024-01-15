@@ -1,0 +1,5 @@
+1. SELECT paragraph_text FROM paragraphs JOIN documents ON paragraphs.document_id = documents.document_id WHERE documents.document_name = 'Customer reviews';
+2. SELECT paragraph_text FROM paragraphs JOIN documents ON paragraphs.document_id = documents.document_id WHERE documents.document_name = 'Customer reviews';
+3. SELECT documents.document_id, COUNT(paragraphs.paragraph_id) FROM documents LEFT JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id ORDER BY documents.document_id;
+4. SELECT documents.document_id, COUNT(paragraphs.paragraph_id) FROM documents LEFT JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id ORDER BY documents.document_id;
+5. SELECT documents.document_id, documents.document_name, COUNT(paragraphs.paragraph_id) FROM documents LEFT JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id ORDER BY documents.document_id;

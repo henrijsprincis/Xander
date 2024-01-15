@@ -1,0 +1,22 @@
+
+
+1. 
+SELECT MIN(loser_rank) AS best_rank_of_losers
+FROM matches
+WHERE loser_rank IS NOT NULL;
+
+2. 
+SELECT COUNT(DISTINCT country_code) AS distinct_country_codes
+FROM players;
+
+3. 
+SELECT COUNT(DISTINCT country_code) AS distinct_countries_of_players
+FROM players;
+
+4. 
+SELECT COUNT(DISTINCT loser_name) AS distinct_names_of_losers
+FROM matches;
+
+5. 
+SELECT COUNT(DISTINCT loser_name) AS different_loser_names
+FROM matches;

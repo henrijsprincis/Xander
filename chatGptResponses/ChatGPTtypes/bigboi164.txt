@@ -1,0 +1,22 @@
+1. 
+SELECT MAX(share), MIN(share)
+FROM performance
+WHERE type != 'Live final';
+
+2. 
+SELECT MAX(share), MIN(share)
+FROM performance
+WHERE type <> 'Live final';
+
+3. 
+SELECT COUNT(DISTINCT nationality)
+FROM conductor;
+
+4. 
+SELECT COUNT(DISTINCT nationality)
+FROM conductor;
+
+5. 
+SELECT name
+FROM conductor
+ORDER BY year_of_work DESC;

@@ -1,0 +1,44 @@
+Here are the SQLite code snippets for the given questions:
+
+1. List singer names and number of concerts for each singer.
+```
+SELECT singer.name, COUNT(concert.concert_id) AS num_concerts
+FROM singer
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+GROUP BY singer.name;
+```
+
+2. What are the names of the singers and number of concerts for each person?
+```
+SELECT singer.name, COUNT(concert.concert_id) AS num_concerts
+FROM singer
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+GROUP BY singer.name;
+```
+
+3. List all singer names in concerts in year 2014.
+```
+SELECT singer.name
+FROM singer
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+WHERE concert.year = 2014;
+```
+
+4. What are the names of the singers who performed in a concert in 2014?
+```
+SELECT singer.name
+FROM singer
+JOIN singer_in_concert ON singer.singer_id = singer_in_concert.singer_id
+JOIN concert ON singer_in_concert.concert_id = concert.concert_id
+WHERE concert.year = 2014;
+```
+
+5. What is the name and nation of the singer who have a song having 'Hey' in its name?
+```
+SELECT name, country
+FROM singer
+WHERE song_name LIKE '%Hey%';
+```

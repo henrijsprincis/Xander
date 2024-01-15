@@ -1,0 +1,5 @@
+1. SELECT players.first_name, AVG(rankings.ranking_points) FROM players JOIN rankings ON players.player_id = rankings.player_id GROUP BY players.first_name;
+2. SELECT players.first_name, SUM(rankings.ranking_points) FROM players JOIN rankings ON players.player_id = rankings.player_id GROUP BY players.first_name;
+3. SELECT players.first_name, SUM(rankings.ranking_points) FROM players JOIN rankings ON players.player_id = rankings.player_id GROUP BY players.first_name;
+4. SELECT COUNT(*), country_code FROM players GROUP BY country_code;
+5. SELECT COUNT(*), country_code FROM players GROUP BY country_code;

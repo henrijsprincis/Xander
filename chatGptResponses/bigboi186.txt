@@ -1,0 +1,42 @@
+1. 
+
+SELECT owners.owner_id, owners.first_name, owners.last_name
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id
+GROUP BY owners.owner_id
+ORDER BY COUNT(dogs.dog_id) DESC
+LIMIT 1;
+
+2. 
+
+SELECT owners.owner_id, owners.first_name, owners.last_name
+FROM owners
+JOIN dogs ON owners.owner_id = dogs.owner_id
+GROUP BY owners.owner_id
+ORDER BY COUNT(dogs.dog_id) DESC
+LIMIT 1;
+
+3. 
+
+SELECT professionals.professional_id, professionals.role_code, professionals.first_name
+FROM professionals
+JOIN treatments ON professionals.professional_id = treatments.professional_id
+GROUP BY professionals.professional_id
+HAVING COUNT(treatments.treatment_id) >= 2;
+
+4. 
+
+SELECT professionals.professional_id, professionals.role_code, professionals.first_name
+FROM professionals
+JOIN treatments ON professionals.professional_id = treatments.professional_id
+GROUP BY professionals.professional_id
+HAVING COUNT(treatments.treatment_id) >= 2;
+
+5. 
+
+SELECT breeds.breed_name
+FROM breeds
+JOIN dogs ON breeds.breed_code = dogs.breed_code
+GROUP BY breeds.breed_name
+ORDER BY COUNT(dogs.dog_id) DESC
+LIMIT 1;

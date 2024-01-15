@@ -1,0 +1,28 @@
+1. 
+
+SELECT conductor.name
+FROM conductor
+WHERE conductor.nationality != 'USA';
+
+2. 
+
+SELECT orchestra.record_company
+FROM orchestra
+ORDER BY orchestra.year_of_founded DESC;
+
+3. 
+
+SELECT orchestra.record_company
+FROM orchestra
+ORDER BY orchestra.year_of_founded DESC
+LIMIT 1;
+
+4. 
+
+SELECT AVG(show.attendance)
+FROM show;
+
+5. 
+
+SELECT AVG(show.attendance)
+FROM show;

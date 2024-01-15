@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+# take too much storage
+results/*
+runs/*
+checkpoints/*
+baselines/*
+cache/*
+# use database.zip to get this
+database/* 
+# Need to credit properly
+transformersCoderl/*
+.env

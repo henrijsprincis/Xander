@@ -1,0 +1,31 @@
+1. 
+
+SELECT title 
+FROM cartoon 
+WHERE directed_by = 'Ben Jones' OR directed_by = 'Brandon Vietti';
+
+2. 
+
+SELECT country, COUNT(*) 
+FROM tv_channel 
+GROUP BY country 
+ORDER BY COUNT(*) DESC 
+LIMIT 1;
+
+3. 
+
+SELECT country, COUNT(*) 
+FROM tv_channel 
+GROUP BY country 
+ORDER BY COUNT(*) DESC 
+LIMIT 1;
+
+4. 
+
+SELECT COUNT(DISTINCT series_name), COUNT(DISTINCT content) 
+FROM tv_channel;
+
+5. 
+
+SELECT COUNT(DISTINCT series_name) + COUNT(DISTINCT content) 
+FROM tv_channel;

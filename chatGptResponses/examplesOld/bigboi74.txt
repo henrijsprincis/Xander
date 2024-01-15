@@ -1,0 +1,5 @@
+1. SELECT documents.document_id, documents.document_name, COUNT(paragraphs.paragraph_id) AS num_paragraphs FROM documents JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id;
+2. SELECT documents.document_id FROM documents JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id HAVING COUNT(paragraphs.paragraph_id) >= 2;
+3. SELECT documents.document_id FROM documents JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id HAVING COUNT(paragraphs.paragraph_id) >= 2;
+4. SELECT documents.document_id, documents.document_name FROM documents JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id ORDER BY COUNT(paragraphs.paragraph_id) DESC LIMIT 1;
+5. SELECT documents.document_id, documents.document_name FROM documents JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id ORDER BY COUNT(paragraphs.paragraph_id) DESC LIMIT 1;

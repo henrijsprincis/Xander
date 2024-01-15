@@ -1,0 +1,47 @@
+1. 
+SELECT transcript_date 
+FROM transcripts 
+ORDER BY transcript_date DESC 
+LIMIT 1;
+
+2. 
+SELECT COUNT(student_course_id), student_enrolment_courses.student_enrolment_id 
+FROM transcript_contents 
+JOIN student_enrolment_courses ON transcript_contents.student_course_id = student_enrolment_courses.student_course_id 
+GROUP BY student_enrolment_courses.student_enrolment_id 
+ORDER BY COUNT(student_course_id) DESC 
+LIMIT 1;
+
+3. 
+SELECT MAX(course_count), student_enrolment_courses.student_enrolment_id 
+FROM (
+    SELECT COUNT(student_course_id) AS course_count, student_enrolment_courses.student_enrolment_id 
+    FROM transcript_contents 
+    JOIN student_enrolment_courses ON transcript_contents.student_course_id = student_enrolment_courses.student_course_id 
+    GROUP BY student_enrolment_courses.student_enrolment_id 
+) AS course_counts 
+GROUP BY student_enrolment_id 
+ORDER BY MAX(course_count) DESC 
+LIMIT 1;
+
+4. 
+SELECT transcript_date, transcript_id 
+FROM (
+    SELECT COUNT(student_course_id) AS course_count, transcript_id 
+    FROM transcript_contents 
+    GROUP BY transcript_id 
+) AS transcript_counts 
+JOIN transcripts ON transcript_counts.transcript_id = transcripts.transcript_id 
+ORDER BY course_count ASC 
+LIMIT 1;
+
+5. 
+SELECT transcript_date, transcript_id 
+FROM (
+    SELECT COUNT(student_course_id) AS course_count, transcript_id 
+    FROM transcript_contents 
+    GROUP BY transcript_id 
+) AS transcript_counts 
+JOIN transcripts ON transcript_counts.transcript_id = transcripts.transcript_id 
+ORDER BY course_count ASC 
+LIMIT 1;

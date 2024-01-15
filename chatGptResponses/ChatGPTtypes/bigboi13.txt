@@ -1,0 +1,51 @@
+1. 
+
+SELECT s.fname, s.age
+FROM student s
+JOIN has_pet hp ON s.stuid = hp.stuid
+JOIN pets p ON hp.petid = p.petid
+WHERE p.pettype = 'dog' AND s.stuid NOT IN (
+  SELECT s.stuid
+  FROM student s
+  JOIN has_pet hp ON s.stuid = hp.stuid
+  JOIN pets p ON hp.petid = p.petid
+  WHERE p.pettype = 'cat'
+);
+
+2. 
+
+SELECT DISTINCT s.fname
+FROM student s
+JOIN has_pet hp ON s.stuid = hp.stuid
+JOIN pets p ON hp.petid = p.petid
+WHERE p.pettype = 'dog' AND s.stuid NOT IN (
+  SELECT s.stuid
+  FROM student s
+  JOIN has_pet hp ON s.stuid = hp.stuid
+  JOIN pets p ON hp.petid = p.petid
+  WHERE p.pettype = 'cat'
+);
+
+3. 
+
+SELECT p.pettype, p.weight
+FROM pets p
+WHERE p.pet_age = (
+  SELECT MIN(pet_age)
+  FROM pets
+);
+
+4. 
+
+SELECT p.pettype, p.weight
+FROM pets p
+WHERE p.pet_age = (
+  SELECT MIN(pet_age)
+  FROM pets
+);
+
+5. 
+
+SELECT p.petid, p.weight
+FROM pets p
+WHERE p.pet_age > 1;

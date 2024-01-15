@@ -1,0 +1,5 @@
+1. SELECT DISTINCT car_makers.maker FROM car_makers JOIN cars_data ON car_makers.id = cars_data.id WHERE cars_data.year = 1970;
+2. SELECT car_names.make, MIN(cars_data.year) FROM car_names JOIN cars_data ON car_names.makeid = cars_data.id;
+3. SELECT car_names.make, MIN(cars_data.year) FROM car_names JOIN cars_data ON car_names.makeid = cars_data.id;
+4. SELECT DISTINCT car_names.make FROM car_names JOIN cars_data ON car_names.makeid = cars_data.id WHERE cars_data.year > 1980;
+5. SELECT DISTINCT model_list.model FROM model_list JOIN cars_data ON model_list.modelid = cars_data.id WHERE cars_data.year > 1980;

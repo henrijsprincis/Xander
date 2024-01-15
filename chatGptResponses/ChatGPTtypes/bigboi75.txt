@@ -1,0 +1,27 @@
+1. 
+SELECT document_id 
+FROM paragraphs 
+GROUP BY document_id 
+HAVING COUNT(DISTINCT paragraph_id) BETWEEN 1 AND 2;
+
+2. 
+SELECT document_id 
+FROM paragraphs 
+GROUP BY document_id 
+HAVING COUNT(DISTINCT paragraph_id) BETWEEN 1 AND 2;
+
+3. 
+SELECT DISTINCT p.document_id 
+FROM paragraphs p 
+WHERE p.paragraph_text = 'Brazil' 
+AND EXISTS (SELECT 1 FROM paragraphs WHERE document_id = p.document_id AND paragraph_text = 'Ireland');
+
+4. 
+SELECT DISTINCT p.document_id 
+FROM paragraphs p 
+WHERE p.paragraph_text = 'Brazil' 
+AND EXISTS (SELECT 1 FROM paragraphs WHERE document_id = p.document_id AND paragraph_text = 'Ireland');
+
+5. 
+SELECT COUNT(DISTINCT teacher_id) 
+FROM teacher;

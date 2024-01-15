@@ -1,0 +1,25 @@
+1. 
+SELECT MIN(version_number), template_type_code
+FROM templates;
+
+2. 
+SELECT MIN(version_number), template_type_code
+FROM templates;
+
+3. 
+SELECT template_type_code
+FROM templates
+JOIN documents ON templates.template_id = documents.template_id
+WHERE document_name = "Data base";
+
+4. 
+SELECT template_type_code
+FROM templates
+JOIN documents ON templates.template_id = documents.template_id
+WHERE document_name = "Data base";
+
+5. 
+SELECT document_name
+FROM documents
+JOIN templates ON documents.template_id = templates.template_id
+WHERE template_type_code = "BK";

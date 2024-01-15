@@ -1,0 +1,44 @@
+1. 
+SELECT highschooler.name, COUNT(friend.friend_id) 
+FROM highschooler 
+JOIN friend ON highschooler.id = friend.student_id 
+GROUP BY highschooler.id 
+ORDER BY COUNT(friend.friend_id) DESC 
+LIMIT 1;
+
+2. 
+SELECT highschooler.name 
+FROM highschooler 
+JOIN friend ON highschooler.id = friend.student_id 
+GROUP BY highschooler.id 
+ORDER BY COUNT(friend.friend_id) DESC 
+LIMIT 1;
+
+3. 
+SELECT highschooler.name 
+FROM highschooler 
+JOIN friend ON highschooler.id = friend.student_id 
+GROUP BY highschooler.id 
+HAVING COUNT(friend.friend_id) = (
+    SELECT MAX(friend_count) 
+    FROM (
+        SELECT COUNT(friend.friend_id) AS friend_count 
+        FROM highschooler 
+        JOIN friend ON highschooler.id = friend.student_id 
+        GROUP BY highschooler.id
+    )
+);
+
+4. 
+SELECT highschooler.name 
+FROM highschooler 
+JOIN friend ON highschooler.id = friend.student_id 
+GROUP BY highschooler.id 
+HAVING COUNT(friend.friend_id) >= 3;
+
+5. 
+SELECT highschooler.name 
+FROM highschooler 
+JOIN friend ON highschooler.id = friend.student_id 
+GROUP BY highschooler.id 
+HAVING COUNT(friend.friend_id) >= 3;

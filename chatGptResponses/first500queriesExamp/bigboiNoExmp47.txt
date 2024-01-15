@@ -1,0 +1,38 @@
+
+
+1. SELECT DISTINCT airlines.airline 
+   FROM airlines 
+   JOIN flights ON airlines.uid = flights.airline 
+   WHERE flights.destairport = 'AHD';
+
+2. SELECT DISTINCT airlines.airline 
+   FROM airlines 
+   JOIN flights ON airlines.uid = flights.airline 
+   WHERE flights.destairport = 'AHD';
+
+3. SELECT DISTINCT airlines.airline 
+   FROM airlines 
+   JOIN flights ON airlines.uid = flights.airline 
+   WHERE flights.sourceairport = 'APG' 
+   AND airlines.airline IN 
+       (SELECT airlines.airline 
+        FROM airlines 
+        JOIN flights ON airlines.uid = flights.airline 
+        WHERE flights.sourceairport = 'CVO');
+
+4. SELECT DISTINCT airlines.airline 
+   FROM airlines 
+   JOIN flights ON airlines.uid = flights.airline 
+   WHERE flights.sourceairport IN ('APG', 'CVO') 
+   GROUP BY airlines.airline 
+   HAVING COUNT(DISTINCT flights.sourceairport) = 2;
+
+5. SELECT DISTINCT airlines.airline 
+   FROM airlines 
+   JOIN flights ON airlines.uid = flights.airline 
+   WHERE flights.sourceairport = 'CVO' 
+   AND airlines.airline NOT IN 
+       (SELECT airlines.airline 
+        FROM airlines 
+        JOIN flights ON airlines.uid = flights.airline 
+        WHERE flights.sourceairport = 'APG');

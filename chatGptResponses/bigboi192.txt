@@ -1,0 +1,42 @@
+1. 
+
+SELECT last_name
+FROM owners
+WHERE owner_id = (
+  SELECT owner_id
+  FROM dogs
+  WHERE age = (
+    SELECT MIN(age)
+    FROM dogs
+  )
+);
+
+2. 
+
+SELECT last_name
+FROM owners
+WHERE owner_id = (
+  SELECT owner_id
+  FROM dogs
+  WHERE age = (
+    SELECT MIN(age)
+    FROM dogs
+  )
+);
+
+3. 
+
+SELECT email_address
+FROM professionals
+WHERE state = 'Hawaii' OR state = 'Wisconsin';
+
+4. 
+
+SELECT email_address
+FROM professionals
+WHERE state = 'Hawaii' OR state = 'Wisconsin';
+
+5. 
+
+SELECT date_arrived, date_departed
+FROM dogs;

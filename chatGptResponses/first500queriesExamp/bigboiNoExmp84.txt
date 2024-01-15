@@ -1,0 +1,35 @@
+
+
+1. 
+SELECT visitor.id, visitor.name, visitor.level_of_membership
+FROM visitor
+JOIN visit ON visitor.id = visit.visitor_id
+GROUP BY visitor.id
+ORDER BY SUM(visit.total_spent) DESC
+LIMIT 1;
+
+2. 
+SELECT museum.museum_id, museum.name
+FROM museum
+JOIN visit ON museum.museum_id = visit.museum_id
+GROUP BY museum.museum_id
+ORDER BY COUNT(visit.visitor_id) DESC
+LIMIT 1;
+
+3. 
+SELECT museum.name
+FROM museum
+LEFT JOIN visit ON museum.museum_id = visit.museum_id
+WHERE visit.museum_id IS NULL;
+
+4. 
+SELECT visitor.name, visitor.age
+FROM visitor
+JOIN visit ON visitor.id = visit.visitor_id
+GROUP BY visit.visitor_id
+ORDER BY SUM(visit.num_of_ticket) DESC
+LIMIT 1;
+
+5. 
+SELECT AVG(visit.num_of_ticket), MAX(visit.num_of_ticket)
+FROM visit;

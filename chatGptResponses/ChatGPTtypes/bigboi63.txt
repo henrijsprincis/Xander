@@ -1,0 +1,19 @@
+1. 
+
+SELECT COUNT(DISTINCT template_id) FROM templates;
+
+2. 
+
+SELECT COUNT(DISTINCT template_id) FROM templates;
+
+3. 
+
+SELECT template_id, version_number, template_type_code FROM templates;
+
+4. 
+
+SELECT template_id, version_number, template_type_code FROM templates;
+
+5. 
+
+SELECT DISTINCT template_type_code FROM templates;

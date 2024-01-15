@@ -1,0 +1,29 @@
+1. 
+SELECT template_type_code 
+FROM ref_template_types 
+WHERE template_type_description = 'Book';
+
+2. 
+SELECT DISTINCT ref_template_types.template_type_description 
+FROM ref_template_types 
+JOIN templates ON ref_template_types.template_type_code = templates.template_type_code 
+JOIN documents ON templates.template_id = documents.template_id;
+
+3. 
+SELECT DISTINCT ref_template_types.template_type_description 
+FROM ref_template_types 
+JOIN templates ON ref_template_types.template_type_code = templates.template_type_code 
+JOIN documents ON templates.template_id = documents.template_id 
+JOIN paragraphs ON documents.document_id = paragraphs.document_id;
+
+4. 
+SELECT templates.template_id 
+FROM templates 
+JOIN ref_template_types ON templates.template_type_code = ref_template_types.template_type_code 
+WHERE ref_template_types.template_type_description = 'Presentation';
+
+5. 
+SELECT templates.template_id 
+FROM templates 
+JOIN ref_template_types ON templates.template_type_code = ref_template_types.template_type_code 
+WHERE ref_template_types.template_type_description = 'Presentation';

@@ -1,0 +1,5 @@
+1. SELECT COUNT(*) FROM flights WHERE destairport IN (SELECT airportcode FROM airports WHERE city = 'Aberdeen' OR city = 'Abilene');
+2. SELECT COUNT(*) FROM flights WHERE destairport IN (SELECT airportcode FROM airports WHERE city = 'Aberdeen' OR city = 'Abilene');
+3. SELECT airportname FROM airports WHERE airportcode NOT IN (SELECT DISTINCT sourceairport FROM flights UNION SELECT DISTINCT destairport FROM flights);
+4. SELECT airportname FROM airports WHERE airportcode NOT IN (SELECT DISTINCT sourceairport FROM flights UNION SELECT DISTINCT destairport FROM flights);
+5. SELECT COUNT(*) FROM employee;

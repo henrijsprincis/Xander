@@ -1,0 +1,5 @@
+1. SELECT template_id FROM templates JOIN ref_template_types ON templates.template_type_code = ref_template_types.template_type_code WHERE ref_template_types.template_type_description = 'Presentation';
+2. SELECT template_id FROM templates JOIN ref_template_types ON templates.template_type_code = ref_template_types.template_type_code WHERE ref_template_types.template_type_description = 'Presentation';
+3. SELECT COUNT(*) FROM paragraphs;
+4. SELECT COUNT(*) FROM paragraphs;
+5. SELECT COUNT(*) FROM paragraphs JOIN documents ON paragraphs.document_id = documents.document_id WHERE documents.document_name = 'Summer Show';

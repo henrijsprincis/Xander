@@ -1,0 +1,27 @@
+1. 
+
+SELECT name, grade
+FROM highschooler;
+
+2. 
+
+SELECT grade
+FROM highschooler;
+
+3. 
+
+SELECT grade
+FROM highschooler
+ORDER BY name ASC;
+
+4. 
+
+SELECT grade
+FROM highschooler
+WHERE name = 'Kyle';
+
+5. 
+
+SELECT grade
+FROM highschooler
+WHERE name = 'Kyle';

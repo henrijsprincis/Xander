@@ -1,0 +1,49 @@
+1. 
+
+SELECT COUNT(DISTINCT language)
+FROM countrylanguage
+WHERE countrycode IN (
+  SELECT code
+  FROM country
+  WHERE indepyear < 1930
+);
+
+2. 
+
+SELECT name
+FROM country
+WHERE surfacearea > (
+  SELECT MAX(surfacearea)
+  FROM country
+  WHERE continent = 'Europe'
+);
+
+3. 
+
+SELECT name
+FROM country
+WHERE surfacearea > (
+  SELECT MAX(surfacearea)
+  FROM country
+  WHERE continent = 'Europe'
+);
+
+4. 
+
+SELECT name
+FROM country
+WHERE continent = 'Africa' AND population < (
+  SELECT MIN(population)
+  FROM country
+  WHERE continent = 'Asia'
+);
+
+5. 
+
+SELECT name
+FROM country
+WHERE continent = 'Africa' AND population < (
+  SELECT MIN(population)
+  FROM country
+  WHERE continent = 'Asia'
+);

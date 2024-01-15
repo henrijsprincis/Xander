@@ -1,0 +1,24 @@
+
+
+1. 
+SELECT s.manager_name, s.district
+FROM shop s
+WHERE s.number_products = (SELECT MAX(number_products) FROM shop);
+
+2. 
+SELECT MIN(s.number_products), MAX(s.number_products)
+FROM shop s;
+
+3. 
+SELECT MIN(number_products), MAX(number_products)
+FROM shop;
+
+4. 
+SELECT s.name, s.location, s.district
+FROM shop s
+ORDER BY s.number_products DESC;
+
+5. 
+SELECT s.name, s.location, s.district
+FROM shop s
+ORDER BY s.number_products DESC;

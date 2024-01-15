@@ -1,0 +1,57 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What is the first name and country code of the player with the most tours?
+```
+SELECT players.first_name, players.country_code
+FROM players
+JOIN rankings ON players.player_id = rankings.player_id
+GROUP BY players.player_id
+ORDER BY SUM(rankings.tours) DESC
+LIMIT 1;
+```
+
+2. Find the year that has the most number of matches.
+```
+SELECT year
+FROM matches
+GROUP BY year
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+```
+
+3. Which year had the most matches?
+```
+SELECT year, COUNT(*) AS num_matches
+FROM matches
+GROUP BY year
+ORDER BY num_matches DESC
+LIMIT 1;
+```
+
+4. Find the name and rank points of the winner who won the most times.
+```
+SELECT winner_name, MAX(wins.rank_points) AS max_rank_points
+FROM (
+    SELECT winner_id, COUNT(*) AS num_wins
+    FROM matches
+    GROUP BY winner_id
+) AS wins
+JOIN matches ON wins.winner_id = matches.winner_id
+GROUP BY wins.winner_id
+ORDER BY wins.num_wins DESC
+LIMIT 1;
+```
+
+5. What is the name of the winner who has won the most matches, and how many rank points does this player have?
+```
+SELECT winner_name, MAX(wins.rank_points) AS max_rank_points
+FROM (
+    SELECT winner_id, COUNT(*) AS num_wins
+    FROM matches
+    GROUP BY winner_id
+) AS wins
+JOIN matches ON wins.winner_id = matches.winner_id
+GROUP BY wins.winner_id
+ORDER BY wins.num_wins DESC
+LIMIT 1;
+```

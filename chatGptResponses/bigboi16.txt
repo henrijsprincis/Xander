@@ -1,0 +1,35 @@
+1. 
+SELECT has_pet.stuid, COUNT(has_pet.petid) 
+FROM has_pet 
+JOIN pets ON has_pet.petid = pets.petid 
+WHERE pets.pettype != 'Fish' 
+GROUP BY has_pet.stuid 
+HAVING COUNT(has_pet.petid) > 1;
+
+2. 
+SELECT student.fname, student.sex 
+FROM student 
+JOIN has_pet ON student.stuid = has_pet.stuid 
+GROUP BY student.stuid 
+HAVING COUNT(has_pet.petid) > 1;
+
+3. 
+SELECT student.fname, student.sex 
+FROM student 
+JOIN has_pet ON student.stuid = has_pet.stuid 
+GROUP BY student.stuid 
+HAVING COUNT(has_pet.petid) > 1;
+
+4. 
+SELECT student.lname 
+FROM student 
+JOIN has_pet ON student.stuid = has_pet.stuid 
+JOIN pets ON has_pet.petid = pets.petid 
+WHERE pets.pettype = 'Cat' AND pets.pet_age = 3;
+
+5. 
+SELECT student.lname 
+FROM student 
+JOIN has_pet ON student.stuid = has_pet.stuid 
+JOIN pets ON has_pet.petid = pets.petid 
+WHERE pets.pettype = 'Cat' AND pets.pet_age = 3;

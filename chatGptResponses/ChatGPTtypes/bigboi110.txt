@@ -1,0 +1,34 @@
+1. 
+
+SELECT cell_mobile_number 
+FROM students 
+WHERE first_name = 'Timmothy' AND last_name = 'Ward';
+
+2. 
+
+SELECT first_name, middle_name, last_name 
+FROM students 
+ORDER BY date_first_registered 
+LIMIT 1;
+
+3. 
+
+SELECT first_name, middle_name, last_name 
+FROM students 
+WHERE date_first_registered = (SELECT MIN(date_first_registered) FROM students) 
+LIMIT 1;
+
+4. 
+
+SELECT first_name, middle_name, last_name 
+FROM students 
+WHERE student_id IN (SELECT student_id FROM student_enrolment WHERE degree_program_id IN (SELECT degree_program_id FROM degree_programs WHERE degree_summary_name LIKE '%Graduate%')) 
+ORDER BY date_left 
+LIMIT 1;
+
+5. 
+
+SELECT first_name, middle_name, last_name 
+FROM students 
+WHERE student_id IN (SELECT student_id FROM student_enrolment WHERE degree_program_id IN (SELECT degree_program_id FROM degree_programs WHERE degree_summary_name LIKE '%Graduate%') ORDER BY student_id LIMIT 1) 
+LIMIT 1;

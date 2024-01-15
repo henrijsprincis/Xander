@@ -1,0 +1,25 @@
+1. 
+SELECT name 
+FROM country 
+ORDER BY population ASC 
+LIMIT 3;
+
+2. 
+SELECT COUNT(*) 
+FROM country 
+WHERE continent = 'Asia';
+
+3. 
+SELECT COUNT(*) 
+FROM country 
+WHERE continent = 'Asia';
+
+4. 
+SELECT name 
+FROM country 
+WHERE continent = 'Europe' AND population = 80000;
+
+5. 
+SELECT name 
+FROM country 
+WHERE continent = 'Europe' AND population = 80000;

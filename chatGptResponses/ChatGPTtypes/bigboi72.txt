@@ -1,0 +1,40 @@
+1. 
+SELECT paragraph_id, paragraph_text 
+FROM paragraphs 
+WHERE paragraph_text LIKE '%Korea %';
+
+2. 
+SELECT paragraph_id, paragraph_text 
+FROM paragraphs 
+WHERE document_id = (
+  SELECT document_id 
+  FROM documents 
+  WHERE document_name = 'Welcome to NY'
+);
+
+3. 
+SELECT paragraph_id, paragraph_text 
+FROM paragraphs 
+WHERE document_id = (
+  SELECT document_id 
+  FROM documents 
+  WHERE document_name = 'Welcome to NY'
+);
+
+4. 
+SELECT paragraph_text 
+FROM paragraphs 
+WHERE document_id = (
+  SELECT document_id 
+  FROM documents 
+  WHERE document_name = 'Customer reviews'
+);
+
+5. 
+SELECT paragraph_text 
+FROM paragraphs 
+WHERE document_id = (
+  SELECT document_id 
+  FROM documents 
+  WHERE document_name = 'Customer reviews'
+);

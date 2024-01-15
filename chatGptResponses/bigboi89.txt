@@ -1,0 +1,39 @@
+1. 
+
+SELECT tourney_name
+FROM matches
+GROUP BY tourney_name
+HAVING COUNT(*) > 10;
+
+2. 
+
+SELECT tourney_name
+FROM matches
+GROUP BY tourney_name
+HAVING COUNT(*) > 10;
+
+3. 
+
+SELECT winner_name
+FROM matches
+WHERE year = 2013 AND winner_name IN (
+    SELECT winner_name
+    FROM matches
+    WHERE year = 2016
+);
+
+4. 
+
+SELECT winner_name
+FROM matches
+WHERE year = 2013 AND winner_name IN (
+    SELECT winner_name
+    FROM matches
+    WHERE year = 2016
+);
+
+5. 
+
+SELECT COUNT(*)
+FROM matches
+WHERE year = 2013 OR year = 2016;

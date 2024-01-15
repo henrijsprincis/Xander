@@ -1,0 +1,64 @@
+1. 
+
+SELECT car_makers.id, car_makers.maker
+FROM car_makers
+JOIN model_list ON car_makers.id = model_list.maker
+JOIN car_names ON model_list.modelid = car_names.makeid
+GROUP BY car_makers.id
+HAVING COUNT(DISTINCT model_list.model) >= 2 AND COUNT(DISTINCT car_makers.maker) > 3;
+
+2. 
+
+SELECT car_makers.id, car_makers.maker
+FROM car_makers
+JOIN model_list ON car_makers.id = model_list.maker
+JOIN car_names ON model_list.modelid = car_names.makeid
+GROUP BY car_makers.id
+HAVING COUNT(DISTINCT model_list.model) >= 2 AND COUNT(DISTINCT car_names.make) > 3;
+
+3. 
+
+SELECT countries.countryid, countries.countryname
+FROM countries
+JOIN car_makers ON countries.countryid = car_makers.country
+JOIN model_list ON car_makers.id = model_list.maker
+JOIN car_names ON model_list.modelid = car_names.makeid
+WHERE countries.countryid IN (
+  SELECT car_makers.country
+  FROM car_makers
+  JOIN model_list ON car_makers.id = model_list.maker
+  JOIN car_names ON model_list.modelid = car_names.makeid
+  WHERE car_names.model = 'fiat'
+) OR countries.countryid IN (
+  SELECT car_makers.country
+  FROM car_makers
+  GROUP BY car_makers.country
+  HAVING COUNT(DISTINCT car_makers.maker) > 3
+);
+
+4. 
+
+SELECT countries.countryid, countries.countryname
+FROM countries
+JOIN car_makers ON countries.countryid = car_makers.country
+JOIN model_list ON car_makers.id = model_list.maker
+JOIN car_names ON model_list.modelid = car_names.makeid
+WHERE countries.countryid IN (
+  SELECT car_makers.country
+  FROM car_makers
+  JOIN model_list ON car_makers.id = model_list.maker
+  JOIN car_names ON model_list.modelid = car_names.makeid
+  WHERE car_names.model = 'fiat'
+) OR countries.countryid IN (
+  SELECT car_makers.country
+  FROM car_makers
+  GROUP BY car_makers.country
+  HAVING COUNT(DISTINCT car_makers.maker) > 3
+);
+
+5. 
+
+SELECT DISTINCT countries.country
+FROM airlines
+JOIN countries ON airlines.country = countries.countryname
+WHERE airlines.airline = 'JetBlue Airways';

@@ -1,0 +1,24 @@
+1. 
+SELECT ref_template_types.template_type_code
+FROM ref_template_types
+LEFT JOIN templates ON ref_template_types.template_type_code = templates.template_type_code
+WHERE templates.template_type_code IS NULL;
+
+2. 
+SELECT ref_template_types.template_type_code
+FROM ref_template_types
+LEFT JOIN documents ON documents.template_id = ref_template_types.template_type_code
+WHERE documents.template_id IS NULL;
+
+3. 
+SELECT template_type_code, template_type_description
+FROM ref_template_types;
+
+4. 
+SELECT template_type_code, template_type_description
+FROM ref_template_types;
+
+5. 
+SELECT template_type_description
+FROM ref_template_types
+WHERE template_type_code = 'AD';

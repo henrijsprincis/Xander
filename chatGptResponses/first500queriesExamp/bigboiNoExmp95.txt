@@ -1,0 +1,46 @@
+
+
+1. Query to find the code of the country with the greatest number of players:
+
+SELECT country_code
+FROM players
+GROUP BY country_code
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+2. Query to find the code of the country with the most players:
+
+SELECT country_code
+FROM players
+GROUP BY country_code
+HAVING COUNT(*) = (
+  SELECT MAX(player_count)
+  FROM (
+    SELECT COUNT(*) AS player_count
+    FROM players
+    GROUP BY country_code
+  )
+);
+
+3. Query to find the codes of countries that have more than 50 players:
+
+SELECT country_code
+FROM players
+GROUP BY country_code
+HAVING COUNT(*) > 50;
+
+4. Query to find the codes of countries with more than 50 players:
+
+SELECT GROUP_CONCAT(country_code)
+FROM (
+  SELECT country_code
+  FROM players
+  GROUP BY country_code
+  HAVING COUNT(*) > 50
+);
+
+5. Query to find the total number of tours for each ranking date:
+
+SELECT ranking_date, SUM(tours) AS total_tours
+FROM rankings
+GROUP BY ranking_date;

@@ -1,0 +1,29 @@
+1. 
+
+SELECT battle.name, battle.result, battle.bulgarian_commander
+FROM battle
+LEFT JOIN ship ON battle.id = ship.lost_in_battle
+WHERE battle.result LIKE '%victory%'
+AND battle.location = 'English Channel'
+AND ship.id IS NULL;
+
+2. 
+
+SELECT note
+FROM death
+WHERE note LIKE '%East%';
+
+3. 
+
+SELECT line_1, line_2
+FROM addresses;
+
+4. 
+
+SELECT line_1, line_2
+FROM addresses;
+
+5. 
+
+SELECT COUNT(*)
+FROM courses;

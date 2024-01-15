@@ -1,0 +1,75 @@
+
+
+1. 
+
+SELECT car_makers.id, car_makers.maker
+FROM car_makers
+JOIN model_list ON car_makers.maker = model_list.maker
+GROUP BY car_makers.id, car_makers.maker
+HAVING COUNT(DISTINCT model_list.modelid) >= 2 AND COUNT(DISTINCT car_makers.maker) > 3;
+
+
+2. 
+
+SELECT car_makers.id, car_makers.maker
+FROM car_makers
+JOIN model_list ON car_makers.maker = model_list.maker
+JOIN car_names ON car_makers.id = car_names.makeid
+GROUP BY car_makers.id, car_makers.maker
+HAVING COUNT(DISTINCT model_list.modelid) >= 2 AND COUNT(DISTINCT car_names.make) > 3;
+
+
+3. 
+
+SELECT countries.countryid, countries.countryname
+FROM countries
+JOIN car_makers ON countries.countryid = car_makers.country
+JOIN model_list ON car_makers.maker = model_list.maker
+JOIN car_names ON car_makers.id = car_names.makeid
+WHERE countries.countryname IN (
+  SELECT countries.countryname
+  FROM countries
+  JOIN car_makers ON countries.countryid = car_makers.country
+  WHERE COUNT(DISTINCT car_makers.maker) > 3
+  UNION
+  SELECT countries.countryname
+  FROM countries
+  JOIN car_makers ON countries.countryid = car_makers.country
+  JOIN car_names ON car_makers.id = car_names.makeid
+  WHERE car_names.model = 'fiat'
+)
+GROUP BY countries.countryid, countries.countryname;
+
+
+4. 
+
+SELECT countries.countryid, countries.countryname
+FROM countries
+JOIN car_makers ON countries.countryid = car_makers.country
+JOIN model_list ON car_makers.maker = model_list.maker
+JOIN car_names ON car_makers.id = car_names.makeid
+WHERE countries.countryname IN (
+  SELECT countries.countryname
+  FROM countries
+  JOIN car_makers ON countries.countryid = car_makers.country
+  WHERE COUNT(DISTINCT car_makers.maker) > 3
+  UNION
+  SELECT countries.countryname
+  FROM countries
+  JOIN car_makers ON countries.countryid = car_makers.country
+  JOIN car_names ON car_makers.id = car_names.makeid
+  WHERE car_names.model = 'fiat'
+)
+GROUP BY countries.countryid, countries.countryname;
+
+
+5. 
+
+SELECT countries.country
+FROM airlines
+JOIN airports ON airlines.country = airports.countryabbrev
+JOIN flights ON airlines.uid = flights.airline
+JOIN airports AS source ON flights.sourceairport = source.airportcode
+JOIN airports AS dest ON flights.destairport = dest.airportcode
+WHERE airlines.airline = 'JetBlue Airways'
+GROUP BY countries.country;

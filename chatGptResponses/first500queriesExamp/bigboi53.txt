@@ -1,0 +1,42 @@
+
+
+1. 
+
+SELECT DISTINCT e.city
+FROM employee e
+WHERE e.age < 30
+AND e.employee_id IN (
+  SELECT h.employee_id
+  FROM hiring h
+)
+GROUP BY e.city
+HAVING COUNT(DISTINCT e.employee_id) > 1;
+
+2. 
+
+SELECT e.city
+FROM employee e
+WHERE e.age < 30
+GROUP BY e.city
+HAVING COUNT(DISTINCT e.employee_id) > 1;
+
+3. 
+
+SELECT COUNT(s.shop_id), s.location
+FROM shop s
+GROUP BY s.location;
+
+4. 
+
+SELECT COUNT(s.shop_id), s.location
+FROM shop s
+GROUP BY s.location;
+
+5. 
+
+SELECT s.manager_name, s.district
+FROM shop s
+WHERE s.number_products = (
+  SELECT MAX(s2.number_products)
+  FROM shop s2
+);

@@ -1,0 +1,30 @@
+
+
+1. 
+
+SELECT documents.document_id, documents.document_name, documents.document_description
+FROM documents;
+
+2. 
+
+SELECT documents.document_name, documents.template_id
+FROM documents
+WHERE documents.document_description LIKE '%w%';
+
+3. 
+
+SELECT documents.document_name, documents.template_id
+FROM documents
+WHERE documents.document_description LIKE '%w%';
+
+4. 
+
+SELECT documents.document_id, documents.template_id, documents.document_description
+FROM documents
+WHERE documents.document_name = 'Robbin CV';
+
+5. 
+
+SELECT documents.document_id, documents.template_id, documents.document_description
+FROM documents
+WHERE documents.document_name = 'Robbin CV';

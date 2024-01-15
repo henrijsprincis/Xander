@@ -1,0 +1,28 @@
+1. 
+SELECT conductor.name
+FROM conductor
+JOIN orchestra ON conductor.conductor_id = orchestra.conductor_id
+WHERE orchestra.year_of_founded > 2008;
+
+2. 
+SELECT record_company, COUNT(DISTINCT orchestra_id)
+FROM orchestra
+GROUP BY record_company;
+
+3. 
+SELECT record_company, COUNT(DISTINCT orchestra_id)
+FROM orchestra
+GROUP BY record_company
+HAVING COUNT(DISTINCT orchestra_id) = 1;
+
+4. 
+SELECT major_record_format, COUNT(orchestra_id)
+FROM orchestra
+GROUP BY major_record_format
+ORDER BY COUNT(orchestra_id) ASC;
+
+5. 
+SELECT major_record_format, COUNT(orchestra_id)
+FROM orchestra
+GROUP BY major_record_format
+ORDER BY COUNT(orchestra_id) DESC;

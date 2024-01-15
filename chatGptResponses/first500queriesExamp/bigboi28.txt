@@ -1,0 +1,36 @@
+
+
+1. 
+SELECT MAX(accelerate), cylinders
+FROM cars_data
+GROUP BY cylinders;
+
+2. 
+SELECT model, COUNT(DISTINCT make) AS num_versions
+FROM car_names
+GROUP BY model
+ORDER BY num_versions DESC
+LIMIT 1;
+
+3. 
+SELECT model, COUNT(DISTINCT make) AS num_versions
+FROM car_names
+GROUP BY model
+HAVING num_versions = (
+  SELECT MAX(num_versions)
+  FROM (
+    SELECT COUNT(DISTINCT make) AS num_versions
+    FROM car_names
+    GROUP BY model
+  )
+);
+
+4. 
+SELECT COUNT(*)
+FROM cars_data
+WHERE cylinders > 4;
+
+5. 
+SELECT COUNT(*) AS num_cars
+FROM cars_data
+WHERE cylinders > 4;

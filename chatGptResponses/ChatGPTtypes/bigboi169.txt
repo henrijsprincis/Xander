@@ -1,0 +1,54 @@
+1. 
+
+SELECT o.record_company
+FROM orchestra o
+JOIN (
+  SELECT orchestra_id
+  FROM performance
+  JOIN orchestra ON performance.orchestra_id = orchestra.orchestra_id
+  WHERE orchestra.year_of_founded < 2003
+  GROUP BY orchestra_id
+) o1 ON o.orchestra_id = o1.orchestra_id
+JOIN (
+  SELECT orchestra_id
+  FROM performance
+  JOIN orchestra ON performance.orchestra_id = orchestra.orchestra_id
+  WHERE orchestra.year_of_founded >= 2003
+  GROUP BY orchestra_id
+) o2 ON o.orchestra_id = o2.orchestra_id
+GROUP BY o.record_company
+HAVING COUNT(DISTINCT o.orchestra_id) > 1;
+
+2. 
+
+SELECT COUNT(DISTINCT orchestra_id)
+FROM orchestra
+WHERE major_record_format IN ('CD', 'DVD');
+
+3. 
+
+SELECT COUNT(DISTINCT orchestra_id)
+FROM orchestra
+WHERE major_record_format IN ('CD', 'DVD');
+
+4. 
+
+SELECT DISTINCT year_of_founded
+FROM orchestra
+WHERE orchestra_id IN (
+  SELECT orchestra_id
+  FROM performance
+  GROUP BY orchestra_id
+  HAVING COUNT(DISTINCT performance_id) > 1
+);
+
+5. 
+
+SELECT year_of_founded
+FROM orchestra
+WHERE orchestra_id IN (
+  SELECT orchestra_id
+  FROM performance
+  GROUP BY orchestra_id
+  HAVING COUNT(DISTINCT performance_id) > 1
+);

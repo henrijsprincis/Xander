@@ -1,0 +1,29 @@
+1. 
+
+SELECT tv_series.episode, tv_series.rating
+FROM tv_series
+ORDER BY tv_series.rating DESC
+LIMIT 3;
+
+2. 
+
+SELECT tv_series.episode, tv_series.rating
+FROM tv_series
+ORDER BY tv_series.rating DESC
+LIMIT 3;
+
+3. 
+
+SELECT MIN(tv_series.share), MAX(tv_series.share)
+FROM tv_series;
+
+4. 
+
+SELECT MIN(tv_series.share), MAX(tv_series.share)
+FROM tv_series;
+
+5. 
+
+SELECT tv_series.air_date
+FROM tv_series
+WHERE tv_series.episode = 'A Love of a Lifetime';

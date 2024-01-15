@@ -1,0 +1,49 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What are the names and ids of all makers with more than 3 models?
+```
+SELECT id, maker
+FROM car_makers
+WHERE id IN (
+    SELECT maker
+    FROM model_list
+    GROUP BY maker
+    HAVING COUNT(*) > 3
+);
+```
+
+2. Which distinctive models are produced by maker with the full name General Motors or weighing more than 3500?
+```
+SELECT DISTINCT model
+FROM model_list
+JOIN car_makers ON model_list.maker = car_makers.id
+JOIN cars_data ON model_list.modelid = cars_data.id
+WHERE (car_makers.fullname = 'General Motors' OR cars_data.weight > 3500);
+```
+
+3. What are the different models created by either the car maker General Motors or weighed more than 3500?
+```
+SELECT DISTINCT model
+FROM model_list
+JOIN car_makers ON model_list.maker = car_makers.id
+JOIN cars_data ON model_list.modelid = cars_data.id
+WHERE (car_makers.fullname = 'General Motors' OR cars_data.weight > 3500);
+```
+
+4. In which years cars were produced weighing no less than 3000 and no more than 4000?
+```
+SELECT DISTINCT year
+FROM cars_data
+WHERE weight BETWEEN 3000 AND 4000;
+```
+
+5. What are the different years in which there were cars produced that weighed less than 4000 and also cars that weighted more than 3000?
+```
+SELECT DISTINCT year
+FROM cars_data
+WHERE weight < 4000 AND year IN (
+    SELECT DISTINCT year
+    FROM cars_data
+    WHERE weight > 3000
+);
+```

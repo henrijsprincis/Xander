@@ -1,0 +1,33 @@
+1. 
+
+SELECT governmentform, SUM(population) as total_population
+FROM country
+WHERE lifeexpectancy > 72
+GROUP BY governmentform;
+
+2. 
+
+SELECT governmentform, SUM(population) as total_population
+FROM country
+WHERE lifeexpectancy > 72
+GROUP BY governmentform;
+
+3. 
+
+SELECT continent, AVG(lifeexpectancy) as avg_life_expectancy, SUM(population) as total_population
+FROM country
+WHERE lifeexpectancy < 72
+GROUP BY continent;
+
+4. 
+
+SELECT continent, AVG(lifeexpectancy) as avg_life_expectancy, SUM(population) as total_population
+FROM country
+WHERE lifeexpectancy < 72
+GROUP BY continent;
+
+5. 
+
+SELECT COUNT(*) as num_countries
+FROM country
+WHERE continent = 'Asia';

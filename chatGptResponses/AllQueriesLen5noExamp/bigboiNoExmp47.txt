@@ -1,0 +1,36 @@
+Here are the SQLite code snippets for the given questions:
+
+1. What are airlines that have flights arriving at airport 'AHD'?
+```
+SELECT airlines.airline
+FROM flights
+JOIN airlines ON flights.airline = airlines.uid
+WHERE flights.destairport = 'AHD'
+GROUP BY airlines.airline;
+```
+
+2. Which airlines have a flight with destination airport AHD?
+```
+SELECT airlines.airline
+FROM flights
+JOIN airlines ON flights.airline = airlines.uid
+WHERE flights.destairport = 'AHD'
+GROUP BY airlines.airline;
+```
+
+3. Find all airlines that have flights from both airports 'APG' and 'CVO'.
+```
+SELECT airlines.airline
+FROM flights
+JOIN airlines ON flights.airline = airlines.uid
+WHERE flights.sourceairport IN ('APG', 'CVO')
+GROUP BY airlines.airline
+HAVING COUNT(DISTINCT flights.sourceairport) = 2;
+```
+
+4. Which airlines have departing flights from both APG and CVO airports?
+```
+SELECT airlines.airline
+FROM flights
+JOIN airlines ON flights.airline = airlines.uid
+WHERE flights.sourceairport IN ('APG', '

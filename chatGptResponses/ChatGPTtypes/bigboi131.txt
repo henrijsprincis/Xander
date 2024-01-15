@@ -1,0 +1,34 @@
+1. 
+
+SELECT p.name
+FROM poker_player pp
+JOIN people p ON pp.people_id = p.people_id
+WHERE pp.earnings > 300000;
+
+2. 
+
+SELECT p.name
+FROM poker_player pp
+JOIN people p ON pp.people_id = p.people_id
+WHERE pp.earnings > 300000;
+
+3. 
+
+SELECT p.name
+FROM poker_player pp
+JOIN people p ON pp.people_id = p.people_id
+ORDER BY pp.final_table_made ASC;
+
+4. 
+
+SELECT p.name
+FROM poker_player pp
+JOIN people p ON pp.people_id = p.people_id
+ORDER BY pp.final_table_made ASC;
+
+5. 
+
+SELECT p.birth_date
+FROM poker_player pp
+JOIN people p ON pp.people_id = p.people_id
+WHERE pp.earnings = (SELECT MIN(earnings) FROM poker_player);

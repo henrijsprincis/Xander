@@ -1,0 +1,5 @@
+1. SELECT student.fname, student.age FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'dog' AND student.stuid NOT IN (SELECT student.stuid FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat');
+2. SELECT student.fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'dog' AND student.stuid NOT IN (SELECT student.stuid FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat');
+3. SELECT pets.pettype, pets.weight FROM pets WHERE pets.pet_age = (SELECT MIN(pet_age) FROM pets);
+4. SELECT pets.pettype, pets.weight FROM pets WHERE pets.pet_age = (SELECT MIN(pet_age) FROM pets);
+5. SELECT has_pet.stuid, pets.weight FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pet_age > 1;

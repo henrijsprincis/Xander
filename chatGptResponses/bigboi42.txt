@@ -1,0 +1,24 @@
+1. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE destairport = 'Aberdeen';
+
+2. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE sourceairport = 'Aberdeen' AND destairport = 'Ashley';
+
+3. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE sourceairport = 'Aberdeen' AND destairport = 'Ashley';
+
+4. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE airline = 'JetBlue Airways';
+
+5. 
+SELECT COUNT(*) 
+FROM flights 
+WHERE airline = 'JetBlue Airways';

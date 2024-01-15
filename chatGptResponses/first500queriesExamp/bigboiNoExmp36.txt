@@ -1,0 +1,7 @@
+
+
+1. SELECT country FROM airlines WHERE airline = "JetBlue Airways";
+2. SELECT abbreviation FROM airlines WHERE airline = "JetBlue Airways";
+3. SELECT abbreviation FROM airlines WHERE airline = "JetBlue Airways";
+4. SELECT airline, abbreviation FROM airlines WHERE country = "USA";
+5. SELECT airline, abbreviation FROM airlines WHERE country = "USA";

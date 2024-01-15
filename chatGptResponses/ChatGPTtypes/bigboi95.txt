@@ -1,0 +1,26 @@
+1. 
+SELECT country_code
+FROM players
+GROUP BY country_code
+HAVING COUNT(player_id) > 50;
+
+2. 
+SELECT country_code
+FROM players
+GROUP BY country_code
+HAVING COUNT(player_id) > 50;
+
+3. 
+SELECT ranking_date, SUM(tours)
+FROM rankings
+GROUP BY ranking_date;
+
+4. 
+SELECT SUM(tours)
+FROM rankings
+GROUP BY ranking_date;
+
+5. 
+SELECT year, COUNT(match_num)
+FROM matches
+GROUP BY year;

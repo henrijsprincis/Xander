@@ -1,0 +1,26 @@
+1. 
+SELECT country.region, country.population
+FROM country
+WHERE country.name = 'Angola';
+
+2. 
+SELECT country.region, country.population
+FROM country
+WHERE country.name = 'Angola';
+
+3. 
+SELECT AVG(country.lifeexpectancy)
+FROM country
+WHERE country.region = 'Central Africa';
+
+4. 
+SELECT AVG(country.lifeexpectancy)
+FROM country
+WHERE country.region = 'Central Africa';
+
+5. 
+SELECT country.name
+FROM country
+WHERE country.continent = 'Asia'
+ORDER BY country.lifeexpectancy ASC
+LIMIT 1;

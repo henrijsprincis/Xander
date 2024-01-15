@@ -1,0 +1,38 @@
+1. 
+
+SELECT AVG(injured) 
+FROM death;
+
+2. 
+
+SELECT SUM(killed), SUM(injured) 
+FROM death 
+WHERE caused_by_ship_id IN (
+    SELECT id 
+    FROM ship 
+    WHERE tonnage = 't'
+);
+
+3. 
+
+SELECT name, result 
+FROM battle 
+WHERE bulgarian_commander != 'Boril';
+
+4. 
+
+SELECT DISTINCT battle.id, battle.name 
+FROM battle 
+JOIN ship ON battle.id = ship.lost_in_battle 
+WHERE ship.ship_type = 'Brig';
+
+5. 
+
+SELECT id, name 
+FROM battle 
+WHERE id IN (
+    SELECT caused_by_ship_id 
+    FROM death 
+    GROUP BY caused_by_ship_id 
+    HAVING SUM(killed) + SUM(injured) > 10
+);

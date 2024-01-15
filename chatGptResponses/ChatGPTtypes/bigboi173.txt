@@ -1,0 +1,36 @@
+1. 
+SELECT grade, COUNT(*) 
+FROM highschooler 
+GROUP BY grade;
+
+2. 
+SELECT grade 
+FROM highschooler 
+GROUP BY grade 
+ORDER BY COUNT(*) DESC 
+LIMIT 1;
+
+3. 
+SELECT grade 
+FROM highschooler 
+GROUP BY grade 
+HAVING COUNT(*) = (
+  SELECT MAX(count) 
+  FROM (
+    SELECT COUNT(*) as count 
+    FROM highschooler 
+    GROUP BY grade
+  )
+);
+
+4. 
+SELECT grade 
+FROM highschooler 
+GROUP BY grade 
+HAVING COUNT(*) >= 4;
+
+5. 
+SELECT grade 
+FROM highschooler 
+GROUP BY grade 
+HAVING COUNT(*) >= 4;

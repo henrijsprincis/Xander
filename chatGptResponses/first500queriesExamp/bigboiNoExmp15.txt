@@ -1,0 +1,29 @@
+
+
+1. SELECT student.fname, student.age
+   FROM student
+   INNER JOIN has_pet ON student.stuid = has_pet.stuid
+   INNER JOIN pets ON has_pet.petid = pets.petid;
+
+2. SELECT DISTINCT student.fname, student.age
+   FROM student
+   INNER JOIN has_pet ON student.stuid = has_pet.stuid
+   INNER JOIN pets ON has_pet.petid = pets.petid;
+
+3. SELECT pets.petid
+   FROM student
+   INNER JOIN has_pet ON student.stuid = has_pet.stuid
+   INNER JOIN pets ON has_pet.petid = pets.petid
+   WHERE student.lname = 'Smith';
+
+4. SELECT pets.petid
+   FROM student
+   INNER JOIN has_pet ON student.stuid = has_pet.stuid
+   INNER JOIN pets ON has_pet.petid = pets.petid
+   WHERE student.lname = 'Smith';
+
+5. SELECT student.stuid, COUNT(pets.petid) AS num_pets
+   FROM student
+   INNER JOIN has_pet ON student.stuid = has_pet.stuid
+   INNER JOIN pets ON has_pet.petid = pets.petid
+   GROUP BY student.stuid;

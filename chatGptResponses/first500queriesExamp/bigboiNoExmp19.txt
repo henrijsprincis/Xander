@@ -1,0 +1,11 @@
+
+
+1. SELECT model FROM cars_data WHERE horsepower = (SELECT MIN(horsepower) FROM cars_data);
+
+2. SELECT model FROM cars_data WHERE horsepower = (SELECT MIN(horsepower) FROM cars_data);
+
+3. SELECT model FROM cars_data WHERE weight < (SELECT AVG(weight) FROM cars_data);
+
+4. SELECT model FROM cars_data WHERE weight < (SELECT AVG(weight) FROM cars_data);
+
+5. SELECT DISTINCT maker FROM car_makers WHERE id IN (SELECT DISTINCT maker FROM cars_data WHERE year = 1970);

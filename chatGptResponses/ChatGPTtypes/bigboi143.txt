@@ -1,0 +1,31 @@
+1. 
+
+SELECT name 
+FROM country 
+WHERE continent = 'Asia' 
+ORDER BY lifeexpectancy ASC 
+LIMIT 1;
+
+2. 
+
+SELECT SUM(population), MAX(gnp) 
+FROM country 
+WHERE continent = 'Asia';
+
+3. 
+
+SELECT SUM(population), MAX(gnp) 
+FROM country 
+WHERE continent = 'Asia';
+
+4. 
+
+SELECT AVG(lifeexpectancy) 
+FROM country 
+WHERE continent = 'Africa' AND governmentform LIKE '%Republic%';
+
+5. 
+
+SELECT AVG(lifeexpectancy) 
+FROM country 
+WHERE continent = 'Africa' AND governmentform LIKE '%Republic%';

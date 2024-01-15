@@ -1,0 +1,7 @@
+
+
+1. SELECT COUNT(*) FROM pets WHERE weight > 10;
+2. SELECT COUNT(*) FROM pets WHERE weight > 10;
+3. SELECT MIN(weight) FROM pets WHERE pettype = 'dog' AND pet_age = (SELECT MIN(pet_age) FROM pets WHERE pettype = 'dog');
+4. SELECT MIN(weight) FROM pets WHERE pettype = 'dog' AND pet_age = (SELECT MIN(pet_age) FROM pets WHERE pettype = 'dog');
+5. SELECT MAX(weight), pettype FROM pets GROUP BY pettype;
