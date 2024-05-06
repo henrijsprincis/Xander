@@ -15,3 +15,9 @@ python3 evaluation.py --gold ../eval/dev_gold_50.sql --pred ../results/TEMP3.txt
 
 #chatgpt
 python3 evaluation.py --gold ../chatGptResponses/dev_gold.sql --pred ../chatGptResponses/allQueriesExamples.txt --etype all --db ../database --table ../tables.json
+
+
+
+
+python evaluation.py --gold ../eval/dev_gold.sql --pred ../phiModelNew5SimpleSQL.txt --etype all --db ../database --table ../tables.json
+python evaluation.py --gold ./dev_gold.sql --pred ./phiModelNew5SQL.txt --etype all --db ../database --table ./tables.json
