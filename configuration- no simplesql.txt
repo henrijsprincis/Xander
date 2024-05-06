@@ -1,0 +1,18 @@
+configuration- no simplesql
+
+
+add_execution_result = False
+use_simple_sql = False
+check_exec_result = True
+check_partial_sql = False
+enum_part_quer_check = False
+
+Important comment out the rules
+https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#InstanceDetails:instanceId=i-0a2a0354bbda0183e
+
+
+
+Time taken to validate: 48909
+enum_checker True
+check_partial True
+add_exec_result

@@ -58,11 +58,11 @@ def reset_params(model):
 def train_and_time(spider, model_query, tokenizer, trainer, schemas, optimizer, max_input_length, max_output_sequence_length, pad_token, save_name, seq2seq = True, save_after_training = True):
     if seq2seq:
         s_train_smol = spider["train"].select(list(range(0,3)))
-        tensor = torch.tensor(s_train_smol["input_ids"], dtype=torch.int).to(device)
+        tensor = torch.tensor(s_train_smol["input_ids"], dtype=torch.int)
         preds_before = model_query.generate(tensor, max_length=max_output_sequence_length, num_beams = 1, do_sample = False)
     else:
         quer = [token for token in spider["train"][0]["partial_input"] if token != pad_token]
-        tensor = torch.tensor(quer, dtype=torch.int).reshape(1,-1).to(device)
+        tensor = torch.tensor(quer, dtype=torch.int).reshape(1,-1)
         preds_before = model_query.generate(tensor, max_length=max_input_length+max_output_sequence_length, num_beams = 1, do_sample = False, pad_token_id = tokenizer.pad_token_id)
     start_train_time = time.time()
     trainer.train()
@@ -156,8 +156,6 @@ def preprocess_data_query_NTP(examples, **kwargs):
     #in casual LM, 
     add_execution_result = kwargs['add_execution_result']
     use_simpleSQL = kwargs['use_simple_sql']
-    user_token = kwargs['user_token']
-    assistant_token = kwargs['assistant_token']
     invalid=False
     simpleSQL="NOTHING"
     if use_simpleSQL:
@@ -187,14 +185,10 @@ def preprocess_data_query_NTP(examples, **kwargs):
             column_type = full_schema["column_types"][idx]
             s[t_name][c_idx] = c_name+" "+column_type
     
-    schema_str = str(s)#.replace("'"," ").replace(","," ").replace(":", " ")
+    schema_str = str(s).replace("'"," ").replace(","," ").replace(":", " ")
+    schema_str = " ".join(schema_str.split())#beautiful
     # Execute query
-    model_input_string = user_token
-    model_input_string += "Provide SQL that answers the following question: "+examples["question"]+"\n"
-    model_input_string += "The schema: \n"+schema_str+"\n"#add a newline here so everything is consistent
-    model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
-    #model_input_string += prompt_sql
-
+    model_input_string = examples["question"]+"\n"+schema_str+"\n"#add a newline here so everything is consistent
     exec_result = execute_query(examples["db_id"], examples["query"])
     if exec_result[1]==[]:
         first_tuple = []
@@ -203,21 +197,22 @@ def preprocess_data_query_NTP(examples, **kwargs):
     
     if add_execution_result:
         model_input_string += str(first_tuple[:50]) # 50 characters of execution result (fairly sure [:50] should be outside of string)
-    model_input_string += assistant_token
+    
     if use_simpleSQL and invalid==False:
-        model_inputs = tokenizer(model_input_string + simpleSQL, max_length=max_input_length, truncation=True)
+        model_inputs = tokenizer(model_input_string + "\n" + simpleSQL, max_length=max_input_length, truncation=True, padding='max_length')
     else:
-        model_inputs = tokenizer(model_input_string + examples["query"], max_length=max_input_length, truncation=True)
+        model_inputs = tokenizer(model_input_string + "\n" + examples["query"], max_length=max_input_length, truncation=True, padding='max_length')
         
-    partial_input = tokenizer(model_input_string, max_length=max_input_length, truncation=True)#max_output_sequence_length
+    partial_input = tokenizer(model_input_string + "\n", max_length=max_input_length, truncation=True, padding='max_length')#max_output_sequence_length
     model_inputs["labels"]  = model_inputs["input_ids"]
     model_inputs["schemas"] = str(schemas[examples["db_id"]])
     model_inputs["tooLong"] = False
     model_inputs["simpleSQL"] = simpleSQL
     model_inputs["execution_result"] = str(exec_result)
     model_inputs["partial_input"] = partial_input["input_ids"]
-    if False and (pad_token not in model_inputs["input_ids"] or invalid):
+    if pad_token not in model_inputs["input_ids"] or invalid:
         model_inputs["tooLong"] = True
+    
     return model_inputs
 
 def remove_too_long(spider):
@@ -283,7 +278,7 @@ check_partial_sql                = False#False
 check_example                    = False#only true if check_partial_sql is also true
 enum_part_quer_check             = False#enumerative partial Query checker
 #meta-llama/Meta-Llama-Guard-2-8B
-model_checkpoint                 = "microsoft/phi-1_5"#"Salesforce/codet5-small"#"facebook/bart-base"#"Salesforce/codet5-small"#"facebook/bart-base#"Salesforce/codegen-350M-multi"
+model_checkpoint                 = "meta-llama/Meta-Llama-3-8B"#"Salesforce/codet5-small"#"facebook/bart-base"#"Salesforce/codet5-small"#"facebook/bart-base#"Salesforce/codegen-350M-multi"
 reset_weights                    = False
 save_name                        = model_checkpoint[-7:]+"Examples"+str(add_execution_result)+"SimpleSQL"+str(use_simple_sql)+"NoWeights"*1 # Naming scheme: last6letters of model name. + Examples? + simpleSQL
 use_best_first_search            = True#wether to use beamsearch or bestfirstsearch when doing evaluation
@@ -304,7 +299,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, model_max_length = m
 a,b = model_checkpoint, model_checkpoint
 if train_model_verifier:
     from transformersCoderl.src.transformers.models.t5 import T5ForConditionalGeneration
-    model_verifier = T5ForConditionalGeneration.from_pretrained(model_checkpoint, tuning_mode="critic", clone_rl_head=False).to(device)
+    model_verifier = T5ForConditionalGeneration.from_pretrained(model_checkpoint, tuning_mode="critic", clone_rl_head=False)
 if use_good_checkpoint_query:
     a="./checkpoints/GoodCheckpoint/"+save_name
 if use_good_checkpoint_verifier:
@@ -312,9 +307,9 @@ if use_good_checkpoint_verifier:
     model_verifier.load_state_dict(torch.load(b))
 
 if seq2seq:
-    model_query     = AutoModelForSeq2SeqLM.from_pretrained(a).to(device)
+    model_query     = AutoModelForSeq2SeqLM.from_pretrained(a)
 else:
-    model_query     = AutoModelForCausalLM.from_pretrained(a, token="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").to(device)
+    model_query     = AutoModelForCausalLM.from_pretrained(a, token="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")
 
 if reset_weights:
     reset_params(model_query)
@@ -618,7 +613,7 @@ if False:
             for q in queries_evaluated:#go through the queries.
                 inp     = torch.cuda.LongTensor(q["input_ids"]).reshape(1,-1)#Int
                 inp_att = torch.cuda.BoolTensor(q["attention_mask"]).reshape(1,-1)
-                #dec_att = torch.zeros((1,len(hid[0]))).type(torch.BoolTensor).to(device)
+                #dec_att = torch.zeros((1,len(hid[0]))).type(torch.BoolTensor)
                 hid    = q["pred"][:-1].reshape(1,-1)
                 print(tokenizer.decode(q["pred"],skip_special_tokens=True))
                 reward = q["correct"]
@@ -634,7 +629,7 @@ if False:
                             ret_v = model_verifier(input_ids = inp, attention_mask = inp_att, decoder_input_ids = hid)
                             logs = ret_v.get("logits").reshape(-1) # pass in start token and get distribution.
                             logs_yen = torch.nn.functional.softmax(logs[map_to])
-                            reward = torch.dot(logs_yen,torch.tensor([1.0,0,-1]).to(device))#pass, compile, fail
+                            reward = torch.dot(logs_yen,torch.tensor([1.0,0,-1]))#pass, compile, fail
                             rewards+=reward
                     ###end critic block
                     #tokenizer.decode(torch.argmax(ret.logits,dim=2).tolist()[0])

@@ -11,3 +11,4 @@ torch
 openai
 accelerate
 tensorboardX
+#flash-attn
