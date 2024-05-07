@@ -1,9 +1,0 @@
-1. SELECT COUNT(*) FROM cars_data WHERE horsepower > 150;
-
-2. SELECT COUNT(*) AS count FROM cars_data WHERE horsepower > 150;
-
-3. SELECT year, AVG(weight) FROM cars_data GROUP BY year;
-
-4. SELECT year, AVG(weight) FROM cars_data GROUP BY year;
-
-5. SELECT countries.countryid, countries.countryname FROM countries JOIN car_makers ON countries.countryid = car_makers.country JOIN continents ON countries.continent = continents.contid WHERE continents.continent = 'europe' GROUP BY countries.countryid HAVING COUNT(DISTINCT car_makers.id) >= 3;

@@ -1,9 +1,0 @@
-1. SELECT COUNT(DISTINCT location) FROM shop;
-
-2. SELECT COUNT(DISTINCT location) FROM shop;
-
-3. SELECT COUNT(*) FROM documents;
-
-4. SELECT COUNT(*) FROM documents;
-
-5. SELECT document_id, document_name, document_description FROM documents;

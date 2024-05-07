@@ -1,5 +1,0 @@
-1. SELECT car_makers.fullname, COUNT(DISTINCT model_list.modelid) AS num_models FROM car_makers JOIN model_list ON car_makers.id = model_list.maker GROUP BY car_makers.fullname HAVING num_models > 3;
-2. SELECT DISTINCT car_names.make FROM car_names JOIN model_list ON car_names.makeid = model_list.makeid JOIN cars_data ON model_list.modelid = cars_data.id WHERE car_names.makeid IN (SELECT car_makers.id FROM car_makers WHERE car_makers.fullname = 'General Motors') OR cars_data.weight > 3500;
-3. SELECT DISTINCT model_list.model FROM model_list JOIN cars_data ON model_list.modelid = cars_data.id WHERE model_list.makeid IN (SELECT car_makers.id FROM car_makers WHERE car_makers.fullname = 'General Motors') OR cars_data.weight > 3500;
-4. SELECT DISTINCT cars_data.year FROM cars_data WHERE cars_data.weight BETWEEN 3000 AND 4000;
-5. SELECT DISTINCT cars_data.year FROM cars_data WHERE cars_data.weight < 4000 INTERSECT SELECT DISTINCT cars_data.year FROM cars_data WHERE cars_data.weight > 3000;

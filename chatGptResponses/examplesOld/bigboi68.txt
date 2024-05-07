@@ -1,5 +1,0 @@
-1. SELECT documents.document_name FROM documents JOIN templates ON documents.template_id = templates.template_id WHERE templates.template_type_code = 'BK';
-2. SELECT template_type_code, COUNT(DISTINCT documents.document_id) FROM templates JOIN documents ON templates.template_id = documents.template_id GROUP BY template_type_code;
-3. SELECT template_type_code, COUNT(DISTINCT documents.document_id) FROM templates JOIN documents ON templates.template_id = documents.template_id GROUP BY template_type_code;
-4. SELECT template_type_code FROM templates JOIN documents ON templates.template_id = documents.template_id GROUP BY template_type_code ORDER BY COUNT(DISTINCT documents.document_id) DESC LIMIT 1;
-5. SELECT template_type_code FROM templates JOIN documents ON templates.template_id = documents.template_id GROUP BY template_type_code ORDER BY COUNT(DISTINCT documents.document_id) DESC LIMIT 1;

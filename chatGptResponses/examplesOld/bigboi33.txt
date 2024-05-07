@@ -1,5 +1,0 @@
-1. SELECT model_list.model FROM model_list JOIN cars_data ON model_list.modelid = cars_data.id WHERE cars_data.cylinders = 4 ORDER BY cars_data.horsepower DESC LIMIT 1;
-2. SELECT model_list.model FROM model_list JOIN cars_data ON model_list.modelid = cars_data.id WHERE cars_data.cylinders = 4 AND cars_data.horsepower = (SELECT MAX(cars_data.horsepower) FROM cars_data WHERE cars_data.cylinders = 4);
-3. SELECT car_names.makeid, car_names.make FROM car_names JOIN model_list ON car_names.makeid = model_list.makeid JOIN cars_data ON model_list.modelid = cars_data.id WHERE cars_data.cylinders <= 3 AND cars_data.horsepower > (SELECT MIN(cars_data.horsepower) FROM cars_data);
-4. SELECT car_names.makeid, car_names.make FROM car_names JOIN model_list ON car_names.makeid = model_list.makeid JOIN cars_data ON model_list.modelid = cars_data.id WHERE cars_data.cylinders < 4 AND cars_data.horsepower > (SELECT MIN(cars_data.horsepower) FROM cars_data);
-5. SELECT MAX(cars_data.mpg) FROM cars_data WHERE (cars_data.cylinders = 8 OR cars_data.year < 1980);

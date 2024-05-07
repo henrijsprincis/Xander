@@ -1,6 +1,0 @@
-Here are the SQLite code snippets for the given questions:
-
-1. Find the name of tourney that has more than 10 matches.
-```
-SELECT tourney_name
-

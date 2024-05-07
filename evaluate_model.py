@@ -12,7 +12,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, DataCollatorForSe
 from customTrainer.Seq2SeqTrainer import Seq2SeqTrainer
 import torch.distributions.categorical as cate
 ## Test stuff
-from preprocess.parse_raw_json import get_schemas_from_json
+from preprocess_sql.parse_raw_json import get_schemas_from_json
 from eval.getNumberCorrect import str_to_db_path, execute_query, evaluate_model
 from open_ai.chat_gpt import ask_chatGPT as ask_chatGPT
 from prompts.simple_sql_rules import prompt_sql

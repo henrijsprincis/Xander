@@ -11,8 +11,13 @@ Important comment out the rules
 https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#InstanceDetails:instanceId=i-0a2a0354bbda0183e
 
 
-
+simpleSQL
 Time taken to validate: 48909
 enum_checker True
 check_partial True
-add_exec_result
+add_exec_result True
+
+
+
+SQL
+Time taken to validate: 18335

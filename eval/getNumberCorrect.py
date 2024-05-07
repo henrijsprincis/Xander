@@ -48,7 +48,7 @@ def get_error_type_and_append(error, query, append = False):
     return error_type
 
 def str_to_db_path(db_id):
-    return f".\\database\\{db_id}\\{db_id}.sqlite"
+    return f"./database/{db_id}/{db_id}.sqlite"
 
 def execute_query(db_id, query, print_errors = False, error_logging = True):
     db_path =str_to_db_path(db_id)

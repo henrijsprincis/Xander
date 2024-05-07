@@ -1,9 +1,0 @@
-1. SELECT airlines.country FROM airlines WHERE airlines.airline = 'JetBlue Airways';
-
-2. SELECT airlines.abbreviation FROM airlines WHERE airlines.airline = 'JetBlue Airways';
-
-3. SELECT airlines.abbreviation FROM airlines WHERE airlines.airline = 'JetBlue Airways';
-
-4. SELECT airlines.airline, airlines.abbreviation FROM airlines WHERE airlines.country = 'USA';
-
-5. SELECT airlines.airline, airlines.abbreviation FROM airlines WHERE airlines.country = 'USA';

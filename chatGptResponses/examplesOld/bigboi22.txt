@@ -1,5 +1,0 @@
-1. SELECT COUNT(model_list.modelid) AS num_models, car_makers.id, car_makers.fullname FROM car_makers JOIN model_list ON car_makers.id = model_list.maker GROUP BY car_makers.id;
-2. SELECT cars_data.accelerate FROM cars_data JOIN car_names ON cars_data.id = car_names.makeid WHERE car_names.make = 'amc hornet sportabout (sw)';
-3. SELECT cars_data.accelerate FROM cars_data JOIN car_names ON cars_data.id = car_names.makeid WHERE car_names.make = 'amc hornet sportabout (sw)';
-4. SELECT COUNT(car_makers.id) FROM car_makers JOIN countries ON car_makers.country = countries.countryid WHERE countries.countryname = 'France';
-5. SELECT COUNT(car_makers.id) FROM car_makers JOIN countries ON car_makers.country = countries.countryid WHERE countries.countryname = 'France';

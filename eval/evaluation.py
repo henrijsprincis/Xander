@@ -25,7 +25,7 @@ import sqlite3
 import argparse
 import copy
 
-from process_sql import get_schema, Schema, get_sql, sql_tree_to_SimpleSQL, SimpleSQL_to_SQL, validate_partial_SQL
+from preprocess_sql.process_sql import get_schema, Schema, get_sql, sql_tree_to_SimpleSQL, SimpleSQL_to_SQL, validate_partial_SQL
 from exec_eval import eval_exec_match, eval_exec_match_more
 
 # Flag to disable value evaluation

@@ -1,5 +1,0 @@
-1. SELECT COUNT(DISTINCT nationality) FROM people;
-2. SELECT COUNT(DISTINCT state) FROM area_code_state;
-3. SELECT contestant_number, contestant_name FROM contestants ORDER BY contestant_name DESC;
-4. SELECT vote_id, phone_number, state FROM votes;
-5. SELECT MAX(area_code), MIN(area_code) FROM area_code_state;

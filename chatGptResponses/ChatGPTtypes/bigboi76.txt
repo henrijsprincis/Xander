@@ -1,5 +1,0 @@
-1. SELECT COUNT(*) FROM teacher;
-2. SELECT name FROM teacher ORDER BY age ASC;
-3. SELECT name FROM teacher ORDER BY age ASC;
-4. SELECT age, hometown FROM teacher;
-5. SELECT age, hometown FROM teacher;

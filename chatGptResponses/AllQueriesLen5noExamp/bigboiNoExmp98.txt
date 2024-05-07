@@ -1,9 +1,0 @@
-1. SELECT hand, COUNT(*) AS num_players FROM players GROUP BY hand;
-
-2. SELECT COUNT(*) FROM ship WHERE disposition_of_ship = 'Captured';
-
-3. SELECT name, tonnage FROM ship ORDER BY name DESC;
-
-4. SELECT name, date, result FROM battle;
-
-5. SELECT MAX(killed) AS max_deaths, MIN(killed) AS min_deaths FROM death;

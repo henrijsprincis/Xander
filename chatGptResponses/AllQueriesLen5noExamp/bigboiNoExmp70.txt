@@ -1,6 +1,0 @@
-Here are the SQLite code snippets for the given questions:
-
-1. Return the template type description of the template type with the code AD.
-```
-SELECT template_type_description
-

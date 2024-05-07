@@ -1,0 +1,24 @@
+{
+  "evaluate_generator_model": true,
+  "use_good_checkpoint_query": false,
+  "add_execution_result": false,
+  "save_after_training": true,
+  "use_simple_sql": true,
+  "check_exec_result": true,
+  "check_partial_sql": false,
+  "check_example": false,
+  "enum_part_quer_check": false,
+  "model_checkpoint": "microsoft/Phi-3-mini-128k-instruct",
+  "reset_weights": false,
+  "use_best_first_search": true,
+  "seq2seq": false,
+  "nextTokenPred": true,
+  "query_chat_gpt": false,
+  "max_input_length": 1024,
+  "max_output_sequence_length": 200,
+  "half_precision": false,
+  "lr": 0.00004,
+  "database_path": "./database/tables.json",
+
+  "train_model": true
+}

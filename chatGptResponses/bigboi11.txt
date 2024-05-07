@@ -1,5 +1,0 @@
-1. SELECT COUNT(DISTINCT pettype) FROM pets;
-2. SELECT COUNT(DISTINCT pettype) FROM pets;
-3. SELECT fname FROM student WHERE stuid IN (SELECT stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pettype IN ('cat', 'dog'));
-4. SELECT DISTINCT fname FROM student JOIN has_pet ON student.stuid = has_pet.stuid JOIN pets ON has_pet.petid = pets.petid WHERE pettype IN ('cat', 'dog');
-5. SELECT fname FROM student WHERE stuid IN (SELECT stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pettype = 'cat' INTERSECT SELECT stuid FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pettype = 'dog');

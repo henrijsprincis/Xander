@@ -1,9 +1,0 @@
-1. SELECT COUNT(model_list.modelid) FROM model_list JOIN car_makers ON model_list.maker = car_makers.id JOIN countries ON car_makers.country = countries.countryid WHERE countries.countryname = 'usa';
-
-2. SELECT COUNT(model_list.modelid) AS count FROM model_list JOIN car_makers ON model_list.maker = car_makers.id JOIN countries ON car_makers.country = countries.countryid WHERE countries.countryname = 'United States';
-
-3. SELECT AVG(mpg) FROM cars_data WHERE cylinders = 4;
-
-4. SELECT AVG(mpg) FROM cars_data WHERE cylinders = 4;
-
-5. SELECT MIN(weight)

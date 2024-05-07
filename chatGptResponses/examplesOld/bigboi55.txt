@@ -1,5 +1,0 @@
-1. SELECT shop.name FROM shop WHERE shop.number_products > (SELECT AVG(number_products) FROM shop);
-2. SELECT shop.name FROM shop WHERE shop.number_products > (SELECT AVG(number_products) FROM shop);
-3. SELECT employee.name FROM evaluation JOIN employee ON evaluation.employee_id = employee.employee_id GROUP BY evaluation.employee_id ORDER BY SUM(evaluation.bonus) DESC LIMIT 1;
-4. SELECT employee.name FROM evaluation JOIN employee ON evaluation.employee_id = employee.employee_id GROUP BY evaluation.employee_id ORDER BY SUM(evaluation.bonus) DESC LIMIT 1;
-5. SELECT employee.name FROM evaluation JOIN employee ON evaluation.employee_id = employee.employee_id ORDER BY evaluation.bonus DESC LIMIT 1;

@@ -1,9 +1,0 @@
-1. SELECT country, COUNT(*) FROM singer GROUP BY country;
-
-2. SELECT country, COUNT(*) FROM singer GROUP BY country;
-
-3. SELECT song_name FROM singer WHERE age > (SELECT AVG(age) FROM singer);
-
-4. SELECT song_name FROM singer WHERE age > (SELECT AVG(age) FROM singer);
-
-5. SELECT location, name FROM stadium WHERE capacity BETWEEN 5000 AND 10000;

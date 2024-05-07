@@ -1,9 +1,0 @@
-1. SELECT teacher.name FROM teacher LEFT JOIN course_arrange ON teacher.teacher_id = course_arrange.teacher_id WHERE course_arrange.course_id IS NULL;
-
-2. SELECT COUNT(*) FROM visitor WHERE age < 30;
-
-3. SELECT name, level_of_membership FROM visitor WHERE level_of_membership > 4 ORDER BY level_of_membership DESC;
-
-4. SELECT AVG(age) FROM visitor WHERE level_of_membership <= 4;
-
-5. SELECT name, level_of_membership FROM visitor WHERE level_of_membership > 4 ORDER BY age DESC;

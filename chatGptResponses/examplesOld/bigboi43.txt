@@ -1,5 +1,0 @@
-1. SELECT COUNT(*) FROM flights WHERE airline = 'United Airlines' AND destairport = 'ASY';
-2. SELECT COUNT(*) FROM flights WHERE airline = 'United Airlines' AND destairport = 'ASY';
-3. SELECT COUNT(*) FROM flights WHERE airline = 'United Airlines' AND sourceairport = 'AHD';
-4. SELECT COUNT(*) FROM flights WHERE airline = 'United Airlines' AND sourceairport = 'AHD';
-5. SELECT COUNT(*) FROM flights JOIN airports ON flights.destairport = airports.airportcode WHERE airline = 'United Airlines' AND airports.city = 'Aberdeen';

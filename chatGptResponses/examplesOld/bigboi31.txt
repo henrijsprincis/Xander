@@ -1,5 +1,0 @@
-1. SELECT cars_data.horsepower FROM cars_data ORDER BY cars_data.accelerate DESC LIMIT 1;
-2. SELECT cars_data.horsepower FROM cars_data ORDER BY cars_data.accelerate DESC LIMIT 1;
-3. SELECT MIN(cars_data.cylinders) FROM cars_data JOIN car_names ON cars_data.id = car_names.makeid WHERE car_names.model = 'volvo' ORDER BY cars_data.accelerate ASC LIMIT 1;
-4. SELECT MIN(cars_data.cylinders) FROM cars_data JOIN car_names ON cars_data.id = car_names.makeid WHERE car_names.model = 'volvo' ORDER BY cars_data.accelerate ASC LIMIT 1;
-5. SELECT COUNT(*) FROM cars_data WHERE cars_data.accelerate > (SELECT
