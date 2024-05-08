@@ -27,7 +27,7 @@ def get_user_string_tokenizer(tokenizer):
     return "<|user|>"
     
 def get_assistant_string_tokenizer(tokenizer):
-    return "<|assistant|>"
+    return "<|end|>\n<|assistant|>"
 
 def get_model_input_string(user_token, 
                            assistant_token, 

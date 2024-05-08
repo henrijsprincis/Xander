@@ -1,11 +1,9 @@
 from eval import process_sql
 import json
 from datasets import load_dataset
-#ML STUFF
 import torch
 from transformers import AutoTokenizer, Trainer, AutoModelForCausalLM, DataCollatorForLanguageModeling, TrainingArguments
-## Test stuff
-from preprocess_machine_learning.helper_functions import get_save_name
+from preprocess_machine_learning.helper_functions import get_save_paths
 from preprocess_machine_learning.preprocess_NTP import preprocess_data_query_NTP
 from preprocess_sql.database_class import DatabaseClass
 
@@ -17,15 +15,7 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     simple_sql_fn = process_sql.SimpleSQL_to_SQL if config["use_simple_sql"] else None
     tokenizer = AutoTokenizer.from_pretrained(config["model_checkpoint"], model_max_length = config["max_input_length"])
-    checkpoint_path = config["model_checkpoint"]
-    save_path = "./checkpoints/GoodCheckpoint/"+get_save_name(
-            config["model_checkpoint"],
-            config["add_execution_result"],
-            config["use_simple_sql"])
-
-    if config["use_good_checkpoint_query"]:
-        checkpoint_path = save_path
-
+    checkpoint_path, save_path = get_save_paths(config)
     database_object = DatabaseClass(config["database_path"])
     spider = load_dataset("spider")#spider["train"].select(list(range(0,20)))
     spider = spider.map(

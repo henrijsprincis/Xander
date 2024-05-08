@@ -92,7 +92,7 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
                 do_sample = False, break_early = True, subtract_mean_batch = False, use_prob = False,
                 simple_sql_fn=None, dbs_full_schema = {}, use_best_first_search = True, 
                 check_exec_result = True, check_partial_sql = True, check_example = True,
-                enum_part_quer_check = True, seq2seq = True, demo_mode = False, device = "cpu"):
+                enum_part_quer_check = True, seq2seq = True, device = "cpu"):
     #retokenize => 1. encode whether query executed in label. 2. => add the language models prediction into problem description
     #add_exec_output => only works if retokenize = true ()
     #break early allows to exit loop once the first valid query is found
@@ -104,56 +104,10 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
     nr_completely_correct = 0
     predicted_queries = ""
     queries_labelled = []
-    if use_train:
-        dataset = spider["train"]
-    else:
-        dataset = spider["validation"]
+    dataset = spider["train"] if use_train else spider["validation"]
     total_reward = 0
     batch_reward = 0
     
-    if demo_mode:
-        i=0
-        example_request = copy.deepcopy(dataset[i])
-        db_id = example_request["db_id"]
-        print("Using database with id:", db_id, "\n")
-        sc = dbs_full_schema[db_id]
-        sc_format = schema_to_text(sc)
-        print("The database has the following schema:\n\n"+ sc_format)
-        print("Please enter a question you would like answered.")
-        print("E.g. "+ example_request["question"])
-        print("What is the largest stadium?")
-        print("What are the names and countries of all singers older than 50?")
-        user_question = input(": ")
-        example_request["question"] = user_question
-        print("Tokenizing...")
-        from main import preprocess_data_query_seq2seq
-        tokenized = preprocess_data_query_seq2seq(example_request, add_execution_result = False, use_simple_sql=True)
-        for key in list(example_request.keys()):
-            if key not in list(tokenized.keys()):
-                tokenized[key] = example_request[key]
-        print("Generating a query...")
-        #print(tokenizer.decode(tokenized["input_ids"], skip_special_tokens = True))
-        predictions = bestFirstSearchWithChecks(model, tokenized, tokenizer, simple_sql_fn, bm_size=num_beams, db_full = dbs_full_schema[db_id], 
-                                                        check_exec_result=check_exec_result, check_partial_sql = check_partial_sql, check_example = check_example, seq2seq = seq2seq)
-        prediction = [prediction.squeeze() for prediction in predictions][0]
-        model_generated_query = tokenizer.decode(prediction, skip_special_tokens = True)
-        print("\nThe model has generated the following query: \n"+model_generated_query+"\n")
-        exec_result = execute_query(db_id, model_generated_query)
-        print("This query returned the following resut when executed on the database:")
-        e_res = exec_result[1]
-        if type(e_res) == type([]):
-            if e_res:
-                for idx, item in enumerate(e_res):
-                    print("row "+str(idx)+":",item)
-                    if idx > 5:
-                        print("Truncating output to 6 rows")
-                        break
-            else:
-                print("The query did not return any output.")
-        else:
-            print("Error, the model generated a query that does not have valid SQL syntax!")
-        print("")
-
     for i in range(start_idx, end_idx):#len(dataset)
         db_id = dataset[i]["db_id"]
         try:
