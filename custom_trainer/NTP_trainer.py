@@ -2,7 +2,7 @@ from eval import process_sql
 import json
 from datasets import load_dataset
 import torch
-from transformers import AutoTokenizer, Trainer, AutoModelForCausalLM, DataCollatorForLanguageModeling, TrainingArguments
+from transformers import AutoTokenizer, Trainer, AutoModelForCausalLM, DataCollatorForLanguageModeling, TrainingArguments, PhiForCausalLM
 from preprocess_machine_learning.helper_functions import get_save_paths
 from preprocess_machine_learning.preprocess_NTP import preprocess_data_query_NTP
 from preprocess_sql.database_class import DatabaseClass
@@ -30,7 +30,8 @@ def main():
     print("Total number of queries in validation set: " + str(len(spider["validation"])))
 
     model_query = AutoModelForCausalLM.from_pretrained(checkpoint_path, trust_remote_code=True).to(device)
-    optimizer = torch.optim.Adam(model_query.parameters(), lr=config["lr"])
+    #optimizer = torch.optim.Adam(model_query.parameters(), lr=config["lr"])
+    optimizer = torch.optim.RMSprop(model_query.parameters(), lr=config["lr"])
     lr_scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer,gamma=1)#gamma=0.99999
 
     args = TrainingArguments(
@@ -38,15 +39,15 @@ def main():
         evaluation_strategy="steps",
         eval_steps=7000,
         logging_strategy="steps",
-        logging_steps=10,
+        logging_steps=1,
         save_steps=7000,
         learning_rate=config["lr"],
-        per_device_train_batch_size=6,
-        per_device_eval_batch_size=6,
+        per_device_train_batch_size=10,
+        per_device_eval_batch_size=10,
         weight_decay=0.01,
         save_strategy="no",
         save_total_limit=0,
-        num_train_epochs=50,
+        num_train_epochs=10,
         fp16=config["half_precision"],
         load_best_model_at_end=False,
         report_to="tensorboard")
@@ -59,7 +60,6 @@ def main():
         data_collator=data_collator,
         optimizers=(optimizer, lr_scheduler),
         tokenizer=tokenizer)
-
     trainer.train()
     trainer.save_model(save_path)
 

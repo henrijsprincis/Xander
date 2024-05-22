@@ -111,6 +111,8 @@ def preprocess_data_query_NTP(examples, **kwargs):
                                                 invalid = invalid,
                                                 simpleSQL = simpleSQL,)
     
+
+    tokenizer.pad_token = tokenizer.eos_token
     model_inputs = tokenizer(model_input_string, max_length=config["max_input_length"], truncation=True, padding='max_length')
     partial_input = tokenizer(partial_input_string, max_length=config["max_input_length"], truncation=True)
     model_inputs["labels"]  = model_inputs["input_ids"]
