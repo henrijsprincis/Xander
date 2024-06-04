@@ -1,7 +1,7 @@
-configuration- no simplesql
+configuration- no xander
 
 
-add_execution_result = False
+add_execution_result = False 
 use_simple_sql = False
 check_exec_result = True
 check_partial_sql = False
@@ -15,7 +15,8 @@ simpleSQL
 Time taken to validate: 48909
 enum_checker True
 check_partial True
-add_exec_result True
+check_example True
+add_execution_result True
 
 
 

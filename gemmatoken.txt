@@ -1,3 +1,0 @@
-"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" - gemma token
-
-instructions upload code.zip

@@ -15,6 +15,8 @@ set +a
 ## Run the code
 First train a model, then you can demo it with and without syntax checking
 
+dont forget to import import nltk and nltk.download('punkt')
+
 ```
 python main.py
 ```
@@ -27,17 +29,15 @@ python main.py
 
 (copy results from remote)
 
-scp -i C:/Users/henri/Desktop/githubs/xander/HenrijsKey.pem ubuntu@34.224.166.59:/home/ubuntu/xander/results/phiModelNew4.txt C:/Users/henri/Desktop/githubs/code.zip 
-
-
-
+scp -i C:/Users/henri/Desktop/githubs/xander/HenrijsKey.pem ubuntu@54.160.182.193:/home/ubuntu/xander/results/newLlama5Simple.txt C:/Users/henri/Desktop/githubs/
 
 ## Remote evaluation
 1. Launch ec2 instace
 2. connect via ssh
-ssh -i HenrijsKey.pem ubuntu@34.224.166.59
+ssh -i key.pem ubuntu@XX.XXX.XXX.XXX
+
 3. copy code.zip (seperate terminal)
-scp -i C:/Users/henri/Desktop/githubs/xander/HenrijsKey.pem C:/Users/henri/Desktop/githubs/code.zip ubuntu@34.224.166.59:/home/ubuntu
+scp -i C:/Users/henri/Desktop/githubs/xander/HenrijsKey.pem C:/Users/henri/Desktop/githubs/xander.zip ubuntu@34.224.97.83:/home/ubuntu
 4. install anaconda
 wget https://repo.anaconda.com/archive/Anaconda3-2024.02-1-Linux-x86_64.sh
 ...
@@ -48,3 +48,12 @@ conda activate xander
 https://help.ubuntu.com/community/NvidiaDriversInstallation
 sudo ubuntu-drivers install
 reboot
+
+6. create a swap file (Additional RAM for loading very large models)
+https://askubuntu.com/questions/349156/how-to-use-hard-disk-as-ram-like-in-windows
+
+fallocate -l 10G ~/swapfile
+sudo mkswap ~/swapfile -f && sudo swapon -p 1000 ~/swapfile
+watch -n 1 free -h
+## remove a swap file
+sudo swapoff ~/swapfile

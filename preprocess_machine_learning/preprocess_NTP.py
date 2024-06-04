@@ -39,11 +39,11 @@ def get_model_input_string(user_token,
                            simpleSQL,):
     model_input_string = user_token
     model_input_string += "Provide SQL that answers the following question: "+examples["question"]+"\n"
-    model_input_string += "The schema: \n"+schema_str+"\n"
-    model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
+    model_input_string += "The schema: \n"+schema_str.replace("'","")+"\n"
+    #model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
     #model_input_string += prompt_sql
-    model_input_string += "The schema: \n"+schema_str+"\n"
-    model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
+    #model_input_string += "The schema: \n"+schema_str+"\n"
+    #model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
 
     if config["add_execution_result"]:
         model_input_string += "This is the partial execution result of the query: "+str(first_tuple[:50]) # 50 characters of execution result (fairly sure [:50] should be outside of string)
@@ -115,7 +115,9 @@ def preprocess_data_query_NTP(examples, **kwargs):
     tokenizer.pad_token = tokenizer.eos_token
     model_inputs = tokenizer(model_input_string, max_length=config["max_input_length"], truncation=True, padding='max_length')
     partial_input = tokenizer(partial_input_string, max_length=config["max_input_length"], truncation=True)
-    model_inputs["labels"]  = model_inputs["input_ids"]
+    normalized_length = min(len(partial_input["input_ids"]),config["max_input_length"])
+    model_inputs["labels"] = copy.deepcopy(model_inputs["input_ids"])
+    model_inputs["labels"][:normalized_length] = [-100]*normalized_length
     model_inputs["schemas"] = str(database_object.schemas[examples["db_id"]])
     model_inputs["tooLong"] = False
     model_inputs["simpleSQL"] = simpleSQL

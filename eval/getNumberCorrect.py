@@ -1,8 +1,6 @@
 import torch
 import sqlite3
 import gc
-import copy
-import random
 from eval import process_sql
 #from eval.exec_eval_henrijs import result_eq as result_eq
 from eval.exec_eval_hen import eval_exec_match_more as eval_exec_match_more
@@ -11,10 +9,6 @@ import ast #<- convert str(dict) -> dict
 import queue#<- priority queue
 import time
 #evaluate#nr_exactly_correct = 0
-#### IMPORTANT THESE MUST BE SET TO THE SAME VALUES AS IN THE minimalExampleRLpolicy.py ####
-bos_token = 1
-pad_token = 0
-eos_token = 2
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 rewards = {"correct":1, "executes":0.5, "runTimeError" : -0.5, "syntaxError": -1}#0.5
@@ -67,8 +61,8 @@ def execute_query(db_id, query, print_errors = False, error_logging = True):
         if print_errors:
             print("couldn't execute")
         return str(er), error_type
-    except:#for som reason it be possible to exec again
-        print("exception! ")
+    except Exception as e:#for som reason it be possible to exec again
+        print(f"exception! {e}")
         return -1, "Failed for unknown reason"
 
 def schema_to_text(sc):
@@ -99,6 +93,8 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
     #use_prob - when retokenize and add exec output, samples a subsequence with equal probability of being cut off at any point. (OLD)
     #check_exec_result - True when multiple attempts are allowed (and we check whether example tuple is in the output)
     #check_partial_sql - Whether or not to check partial SQL
+    bos_token = tokenizer.bos_token_id
+    eos_token = tokenizer.eos_token_id
     model.eval()
     nr_syntax_errors = 0
     nr_completely_correct = 0
@@ -203,7 +199,7 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
     model.train()
     return nr_syntax_errors, mean_reward, queries_labelled
 
-def expand_branches(model_query, hids, probs, inp, inp_att, hid, bm_size, seq2seq):
+def expand_branches(model_query, hids, probs, inp, inp_att, hid, bm_size, seq2seq, bos_token, eos_token):
     sft = torch.nn.Softmax(dim=0)
     next_states = []
     next_probs  = []
@@ -281,6 +277,8 @@ def beamSearchWithChecks(model_query, q, tokenizer, bm_size = 2, check_partial_s
 def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size = 2, check_example = True, db_full = {}, 
                               check_exec_result = True, check_partial_sql = True, enum_part_quer_check = True,
                               seq2seq = True, device = "cpu"):
+    bos_token = tokenizer.bos_token_id
+    eos_token = tokenizer.eos_token_id
     schema  = ast.literal_eval(q["schemas"])
     inp     = torch.tensor(q["input_ids"]).reshape(1,-1).to(device)
     inp_att = torch.tensor(q["attention_mask"]).reshape(1,-1).to(device)
@@ -288,10 +286,10 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
     pri_q_sz= 10000#2000
     states  = queue.PriorityQueue(10000)#gets lowest priority element first >:(
     if seq2seq:#add state to PQ
-        states.put((-1, hid))#if i start it at -1, then all next probabilities will be multiplied. This is great!
+        states.put(((-1, time.time()), hid))#if i start it at -1, then all next probabilities will be multiplied. This is great!
     else:
         hid = tokenizer(tokenizer.decode(q["partial_input"],skip_special_tokens=False), return_tensors = "pt")["input_ids"].to(device)
-        states.put((-1, hid))
+        states.put(((-1, time.time()), hid))
     start_time = time.time()
     max_runtime = 60
     number_complete_queries = 0
@@ -304,6 +302,7 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
         #step 1 get highest priority branch (state)
         try:
             prob, state = states.get()
+            prob = prob[0]#get the probability
         except:
             print("excption getting item, continuing")
             continue
@@ -316,6 +315,8 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
                 quer_conv = simple_sql_fn(quer)
             else:
                 quer_conv = quer
+            if quer_conv == "":
+                continue
             g_exec = execute_query(q["db_id"], q["query"])[-1]
             g_exec_set = [set(elem) for elem in g_exec]#list containing sets
             #get close queries
@@ -360,7 +361,7 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
         if state[0][-1] == eos_token:
             continue
         #step 1 expand
-        next_states, probs = expand_branches(model_query, [state], [prob], inp, inp_att, hid, bm_size, seq2seq)
+        next_states, probs = expand_branches(model_query, [state], [prob], inp, inp_att, hid, bm_size, seq2seq, bos_token, eos_token)
         #step 3, filter bad states
         good_states = []
         for idx, partial_state in enumerate(next_states):
@@ -368,7 +369,7 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
             if not seq2seq:
                 substr = cancel_substring(q["partial_input"], substr, tokenizer)
                 lower = substr.lower()
-                if (lower.count(";") == 1) or (lower.count("select") == lower.count("union none") and lower.count("select") > 0):#this code is suspicious. shoulda ended all queries with a semicolon :/. No time gotta submit.
+                if (lower.count(";") == 1) or (lower.count("select") == lower.count("union none") and lower.count("select") > 0):
                     #print(lower)
                     #breakpoint()
                     #the query is done#breakpoint()
@@ -399,7 +400,9 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
         #retain all of them
         for idx, state in enumerate(next_states):
             if states.qsize() < pri_q_sz:
-                states.put((probs[idx], state))
+                priority = (probs[idx], time.time())
+                states.put((priority, state))
+
     print(q["query"])  
     print("We have exhausted priority que with some minimum probability")
     return [torch.tensor([bos_token, 4803, eos_token], dtype=torch.int64, device=device) for i in range(bm_size)]

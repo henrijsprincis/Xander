@@ -13,7 +13,7 @@
   "seq2seq": false,
   "nextTokenPred": true,
   "query_chat_gpt": false,
-  "max_input_length": 1024,
+  "max_input_length": 400,
   "max_output_sequence_length": 200,
   "half_precision": false,
   "lr": 0.00004,
