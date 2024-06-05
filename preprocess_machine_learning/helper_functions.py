@@ -41,8 +41,8 @@ def train_and_time(spider, model_query, tokenizer, trainer, schemas, optimizer, 
             fp.write(write_me)
 
 
-def get_save_name(model_checkpoint, add_execution_result, use_simple_sql):
-    return model_checkpoint[-7:]+"Examples"+str(add_execution_result)+"SimpleSQL"+str(use_simple_sql)+"NoWeights"*1
+def get_save_name(model_checkpoint, add_execution_result, use_simple_sql, no_weights = 0):
+    return model_checkpoint[-7:]+"Examples"+str(add_execution_result)+"SimpleSQL"+str(use_simple_sql)+"NoWeights"*no_weights
 
 def get_save_paths(config):
     checkpoint_path = config["model_checkpoint"]

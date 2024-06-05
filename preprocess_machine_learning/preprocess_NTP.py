@@ -37,28 +37,27 @@ def get_model_input_string(user_token,
                            first_tuple,
                            invalid,
                            simpleSQL,):
-    model_input_string = user_token
-    model_input_string += "Provide SQL that answers the following question: "+examples["question"]+"\n"
-    model_input_string += "The schema: \n"+schema_str.replace("'","")+"\n"
+    task_instructions = user_token
+    task_instructions += "Provide SQL that answers the following question: "+examples["question"]+"\n"
+    task_instructions += "The schema: \n"+schema_str.replace("'","")+"\n"
     #model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
     #model_input_string += prompt_sql
     #model_input_string += "The schema: \n"+schema_str+"\n"
     #model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
 
     if config["add_execution_result"]:
-        model_input_string += "This is the partial execution result of the query: "+str(first_tuple[:50]) # 50 characters of execution result (fairly sure [:50] should be outside of string)
+        task_instructions += "This is the partial execution result of the query: "+str(first_tuple[:50]) # 50 characters of execution result (fairly sure [:50] should be outside of string)
     
-    model_input_string += assistant_token
-    partial_input_string = model_input_string
+    task_instructions += assistant_token
+    desired_output = ""
     if config["use_simple_sql"] and invalid==False:
-        model_input_string += simpleSQL
+        desired_output += simpleSQL
     else:
-        model_input_string += examples["query"]
-
-    return model_input_string, partial_input_string
+        desired_output += examples["query"]
+    task_instruction_answer = task_instructions + desired_output
+    return task_instruction_answer, task_instructions, desired_output
 
 def preprocess_data_query_NTP(examples, **kwargs):
-    #in casual LM, 
     config = kwargs['config']
     tokenizer = kwargs['tokenizer']
     database_object = kwargs['database_object']
@@ -101,23 +100,27 @@ def preprocess_data_query_NTP(examples, **kwargs):
         first_tuple = []
     else:
         first_tuple = exec_result[1][0]
-    
-    model_input_string, partial_input_string = get_model_input_string(user_token = user_token, 
-                                                assistant_token = assistant_token, 
-                                                schema_str = schema_str, 
-                                                examples = examples, 
-                                                config = config, 
-                                                first_tuple = first_tuple,
-                                                invalid = invalid,
-                                                simpleSQL = simpleSQL,)
+    task_instruction_answer, task_instructions, desired_output = get_model_input_string(
+        user_token = user_token, 
+        assistant_token = assistant_token, 
+        schema_str = schema_str, 
+        examples = examples, 
+        config = config, 
+        first_tuple = first_tuple,
+        invalid = invalid,
+        simpleSQL = simpleSQL,)
     
 
     tokenizer.pad_token = tokenizer.eos_token
-    model_inputs = tokenizer(model_input_string, max_length=config["max_input_length"], truncation=True, padding='max_length')
-    partial_input = tokenizer(partial_input_string, max_length=config["max_input_length"], truncation=True)
-    normalized_length = min(len(partial_input["input_ids"]),config["max_input_length"])
-    model_inputs["labels"] = copy.deepcopy(model_inputs["input_ids"])
-    model_inputs["labels"][:normalized_length] = [-100]*normalized_length
+    partial_input = tokenizer(task_instructions, max_length=config["max_input_length"], truncation=True)
+    if config["seq2seq"]:
+        model_inputs = tokenizer(task_instructions, max_length=config["max_input_length"], truncation=True, padding='max_length')
+        model_inputs["labels"] = tokenizer(desired_output, max_length=config["max_output_length"], truncation=True, padding='max_length')["input_ids"]
+    else:#NTP
+        model_inputs = tokenizer(task_instruction_answer, max_length=config["max_input_length"], truncation=True, padding='max_length')
+        normalized_length = min(len(partial_input["input_ids"]),config["max_input_length"])
+        model_inputs["labels"] = copy.deepcopy(model_inputs["input_ids"])
+        model_inputs["labels"][:normalized_length] = [-100]*normalized_length
     model_inputs["schemas"] = str(database_object.schemas[examples["db_id"]])
     model_inputs["tooLong"] = False
     model_inputs["simpleSQL"] = simpleSQL
