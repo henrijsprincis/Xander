@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModelForSeq2SeqLM
 from preprocess_machine_learning.helper_functions import get_save_paths
-from preprocess_machine_learning.preprocess_NTP import preprocess_data_query_NTP
+from preprocess_machine_learning.query_preprocessor import preprocess_query
 from preprocess_sql.database_class import DatabaseClass
 import os
 
@@ -38,7 +38,7 @@ def main():
     spider["train"] = spider["train"].select([i for i in range(0, 10)])
     spider["validation"] = spider["validation"].select([i for i in range(0, 10)])
     spider = spider.map(
-        preprocess_data_query_NTP,
+        preprocess_query,
         fn_kwargs={
             "config":config,
             "tokenizer":tokenizer,

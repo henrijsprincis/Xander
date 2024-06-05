@@ -5,7 +5,7 @@ from datasets import load_dataset
 import torch
 from transformers import AutoTokenizer, Trainer, AutoModelForCausalLM, DataCollatorForLanguageModeling, TrainingArguments
 from preprocess_machine_learning.helper_functions import get_save_paths
-from preprocess_machine_learning.preprocess_NTP import preprocess_data_query_NTP
+from preprocess_machine_learning.query_preprocessor import preprocess_query
 from preprocess_sql.database_class import DatabaseClass
 from eval.getNumberCorrect import evaluate_model
 
@@ -22,7 +22,7 @@ def main():
     database_object = DatabaseClass(config["database_path"])
     spider = load_dataset("spider")
     spider = spider.map(
-        preprocess_data_query_NTP,
+        preprocess_query,
         fn_kwargs={
             "config":config,
             "tokenizer":tokenizer,

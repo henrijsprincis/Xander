@@ -40,10 +40,6 @@ def get_model_input_string(user_token,
     task_instructions = user_token
     task_instructions += "Provide SQL that answers the following question: "+examples["question"]+"\n"
     task_instructions += "The schema: \n"+schema_str.replace("'","")+"\n"
-    #model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
-    #model_input_string += prompt_sql
-    #model_input_string += "The schema: \n"+schema_str+"\n"
-    #model_input_string += "Start your answer with 'SELECT' and end with a semicolon.\n"
 
     if config["add_execution_result"]:
         task_instructions += "This is the partial execution result of the query: "+str(first_tuple[:50]) # 50 characters of execution result (fairly sure [:50] should be outside of string)
@@ -57,7 +53,7 @@ def get_model_input_string(user_token,
     task_instruction_answer = task_instructions + desired_output
     return task_instruction_answer, task_instructions, desired_output
 
-def preprocess_data_query_NTP(examples, **kwargs):
+def preprocess_query(examples, **kwargs):
     config = kwargs['config']
     tokenizer = kwargs['tokenizer']
     database_object = kwargs['database_object']
