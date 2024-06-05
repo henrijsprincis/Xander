@@ -1,5 +1,5 @@
 import json
-from custom_trainer.NTP_trainer import main as NTP_main
+from custom_trainer.custom_trainer import main as NTP_main
 from custom_trainer.evaluate_model import main as evaluate_main
 
 with open("config.json") as f:

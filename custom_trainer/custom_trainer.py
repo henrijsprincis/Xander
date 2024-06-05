@@ -23,7 +23,6 @@ def get_data_loader(spider, config):
     train_loader = DataLoader(train_dataset, batch_size=config["batch_size"], shuffle=True)
     return train_loader
 
-
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     AutoModelForLM = AutoModelForSeq2SeqLM if config["seq2seq"] else AutoModelForCausalLM

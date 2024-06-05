@@ -2,8 +2,7 @@ import torch
 import sqlite3
 import gc
 from eval import process_sql
-#from eval.exec_eval_henrijs import result_eq as result_eq
-from eval.exec_eval_hen import eval_exec_match_more as eval_exec_match_more
+from eval.exec_eval import eval_exec_match_more as eval_exec_match_more
 
 import ast #<- convert str(dict) -> dict
 import queue#<- priority queue
@@ -282,11 +281,11 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
     schema  = ast.literal_eval(q["schemas"])
     inp     = torch.tensor(q["input_ids"]).reshape(1,-1).to(device)
     inp_att = torch.tensor(q["attention_mask"]).reshape(1,-1).to(device)
-    hid     = torch.zeros((1,1), dtype=torch.int64, device=device)
+    hid     = torch.ones((1,1), dtype=torch.int64, device=device)*bos_token
     pri_q_sz= 10000#2000
-    states  = queue.PriorityQueue(10000)#gets lowest priority element first >:(
-    if seq2seq:#add state to PQ
-        states.put(((-1, time.time()), hid))#if i start it at -1, then all next probabilities will be multiplied. This is great!
+    states  = queue.PriorityQueue(10000)#gets lowest priority element first -1 is highest priority.
+    if seq2seq:
+        states.put(((-1, time.time()), hid))#priority, state
     else:
         hid = tokenizer(tokenizer.decode(q["partial_input"],skip_special_tokens=False), return_tensors = "pt")["input_ids"].to(device)
         states.put(((-1, time.time()), hid))
@@ -371,13 +370,12 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
                 lower = substr.lower()
                 if (lower.count(";") == 1) or (lower.count("select") == lower.count("union none") and lower.count("select") > 0):
                     #print(lower)
-                    #breakpoint()
                     #the query is done#breakpoint()
                     next_states[idx] = torch.cat((partial_state, torch.tensor(eos_token, device=device).reshape(1,-1)),dim=1)
 
             if idx==0:
-                print(substr)
-            #    breakpoint()
+                pass
+                #print(substr)
             
             substr_valid = True
             if check_partial_sql:# if we want to perform syntax checking on partial query
@@ -404,5 +402,5 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
                 states.put((priority, state))
 
     print(q["query"])  
-    print("We have exhausted priority que with some minimum probability")
+    print("We have exhausted priority que")
     return [torch.tensor([bos_token, 4803, eos_token], dtype=torch.int64, device=device) for i in range(bm_size)]

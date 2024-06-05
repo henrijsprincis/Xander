@@ -21,6 +21,8 @@ def main():
     _, save_path = get_save_paths(config)
     database_object = DatabaseClass(config["database_path"])
     spider = load_dataset("spider")
+    spider["train"] = spider["train"].select([i for i in range(0, 10)])
+    spider["validation"] = spider["validation"].select([i for i in range(0, 10)])
     spider = spider.map(
         preprocess_query,
         fn_kwargs={
@@ -37,7 +39,8 @@ def main():
     nr_syntax_errors_after, mean_reward, queries_evaluated = evaluate_model(model_query, 
                                                                             tokenizer, 
                                                                             spider, 
-                                                                            start_idx = 0, end_idx = 1034, #
+                                                                            start_idx = 0, 
+                                                                            end_idx = len(spider["validation"]), #
                                                                             save_after_eval = True, 
                                                                             use_train = False, 
                                                                             num_beams = 5,

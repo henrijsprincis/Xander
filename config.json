@@ -20,6 +20,6 @@
   "lr": 0.00004,
   "database_path": "./database/tables.json",
 
-  "train_model": true,
-  "evaluate_model": false
+  "train_model": false,
+  "evaluate_model": true
 }
