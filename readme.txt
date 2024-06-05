@@ -1,33 +1,28 @@
 # Repository for Xander
-Xander is a language model which uses BFS alongside syntax checking to improve upon the result of only using a languagem odel.
+Xander is a language model which uses best first search alongside syntax checking to improve upon the result of only using a languagem model.
 
 ## Setup (Python 3.11 and Ubuntu)
 1. Clone this repository
 2. Unzip database.zip into a folder in the top level directory of xander
 3. Open a terminal and type
+4. Create and populate a .env file following .env_example
+5. Install requirements. Python 3.10 is recommended (alongside conda)
 ```
 pip install -r requirements.txt
-set -a
-. .env
-set +a
 ```
-
-## Run the code
-First train a model, then you can demo it with and without syntax checking
-
-dont forget to import import nltk and nltk.download('punkt')
+6. Download nltk punkt
+```python
+import nltk
+nltk.download('punkt')
+```
+7. Edit the configuration file -- OPTIONAL
+8. Launch main.py
+a. Through VSCode Run&Debug (preffered)
 
 ```
 python main.py
 ```
 
-## Coming soon
-
-- Code refactoring
-
-- Results replication (evaluation of generator and verifier)
-
-(copy results from remote)
 
 scp -i C:/Users/henri/Desktop/githubs/xander/HenrijsKey.pem ubuntu@54.160.182.193:/home/ubuntu/xander/results/newLlama5Simple.txt C:/Users/henri/Desktop/githubs/
 
