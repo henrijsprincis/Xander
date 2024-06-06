@@ -233,12 +233,14 @@ def cancel_substring(input_prompt: torch.tensor, query: str, tokenizer):
     return query.replace(input_prompt,"").strip()
 
 def beamSearchWithChecks(model_query, q, tokenizer, bm_size = 2, check_partial_sql = True):
-    schema = ast.literal_eval(q["schemas"])
+    bos_token = tokenizer.bos_token_id
+    eos_token = tokenizer.eos_token_id
+    schema  = ast.literal_eval(q["schemas"])
     inp     = torch.tensor(q["input_ids"]).reshape(1,-1).to(device)
     inp_att = torch.tensor(q["attention_mask"]).reshape(1,-1).to(device)
-    hid     = torch.zeros((1,1), dtype=torch.int64, device=device)
-    states = [hid]#start off with zeros.
-    probs = [1]#all probs are one
+    hid     = torch.ones((1,1), dtype=torch.int64, device=device)*bos_token
+    states  = [hid]#start off with zeros.
+    probs   = [1]#initially probability is 1
     keep_generating = True
     while keep_generating:
         #step 1 expand
