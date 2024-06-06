@@ -1,6 +1,5 @@
 # Repository for Xander
-Xander is a language model which uses best first search alongside syntax checking to improve upon the result of only using a languagem model.
-
+Xander is a language model which uses best first search alongside syntax checking to improve upon the result of only using a language model.
 ## Setup (Python 3.11 and Ubuntu)
 1. Clone this repository
 2. Unzip database.zip into a folder in the top level directory of xander
@@ -18,11 +17,17 @@ nltk.download('punkt')
 7. Edit the configuration file -- OPTIONAL
 8. Launch main.py
 a. Through VSCode Run&Debug (preffered)
-
+```bash
+python -m main
 ```
-python main.py
+9. Evaluate the results against gold standard to get results in paper.
+```bash
+cd eval
+python evaluation.py --gold ./dev_gold.sql --pred [PRED_FILE_PATH] --etype all --db ../database --table ../tables.json
 ```
 
+
+## 
 
 scp -i C:/Users/henri/Desktop/githubs/xander/HenrijsKey.pem ubuntu@54.160.182.193:/home/ubuntu/xander/results/newLlama5Simple.txt C:/Users/henri/Desktop/githubs/
 

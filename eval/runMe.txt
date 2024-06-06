@@ -10,9 +10,6 @@ python3 evaluation.py --gold ../eval/dev_gold_no_.sql --pred ../results/t5-baseE
 #generative
 python3 evaluation.py --gold ../eval/dev_gold_no__.sql --pred ../results/t5-baseExamplesTrueSimpleSQLFalseMultAttemptsTrueBFSTrueSymbolicCheckerFalseQueryRepairerFalse5.txt --etype all --db ../database --table ../tables.json
 
-#first 50
-python3 evaluation.py --gold ../eval/dev_gold_50.sql --pred ../results/TEMP3.txt --etype all --db ../database --table ../tables.json
-
 #chatgpt
 python3 evaluation.py --gold ../chatGptResponses/dev_gold.sql --pred ../chatGptResponses/allQueriesExamples.txt --etype all --db ../database --table ../tables.json
 
