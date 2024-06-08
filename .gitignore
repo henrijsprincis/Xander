@@ -11,5 +11,5 @@ cache/*
 # use database.zip to get this
 database/* 
 # Need to credit properly
-transformersCoderl/*
+CodeRL/*
 .env

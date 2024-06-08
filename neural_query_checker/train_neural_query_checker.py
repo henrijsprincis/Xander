@@ -1,4 +1,4 @@
-from transformers_CodeRL.src.transformers.models.t5 import T5ForConditionalGeneration
+from CodeRL.src.transformers.models.t5 import T5ForConditionalGeneration
 import torch
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -6,7 +6,7 @@ def to_tensor(list):
     return torch.tensor(list, dtype=torch.int64).to(device).reshape(1, -1)
 
 def train_verifier_model(config, dataset):
-    model_verifier = T5ForConditionalGeneration.from_pretrained("t5-small", tuning_mode="critic", clone_rl_head=False).to(device)
+    model_verifier = T5ForConditionalGeneration.from_pretrained("Salesforce/codet5-small", tuning_mode="critic", clone_rl_head=False).to(device)
     optimizer = torch.optim.Adam(model_verifier.parameters(), lr=config["lr"])
     model_verifier.train()
     for i in range(1):#50 epochs
