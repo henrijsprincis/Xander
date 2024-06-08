@@ -15,8 +15,8 @@ nltk.download('punkt')
 ```
 6. Edit the configuration file -- OPTIONAL (You may provide a different model_checkpoint from hugging face or choose whether NormalizedSQL is used)
 7. Launch main.py
-a. Through VSCode Run&Debug (main)
-b. Through terminal
+    - Through VSCode Run&Debug (main)
+    - Through terminal
 ```bash
 python -m main
 ```
@@ -37,8 +37,8 @@ python evaluation.py --gold ./dev_gold_normalized_sql.sql --pred [PRED_FILE_PATH
 git clone https://github.com/salesforce/CodeRL
 ```
 3. Train and evaluate neural query checker
-a. Through VSCode (neural query checker)
-b. Through terminal
+    - Through VSCode (neural query checker)
+    - Through terminal
 ```bash
 python -m neural_query_checker.main
 ```
