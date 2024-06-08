@@ -36,24 +36,24 @@ def main():
 
     model_query = torch.load(save_path).to(device)
     start_time = time.time()
-    nr_syntax_errors_after, mean_reward, queries_evaluated = evaluate_model(model_query, 
-                                                                            tokenizer, 
-                                                                            spider, 
-                                                                            start_idx = 0, 
-                                                                            end_idx = len(spider["validation"]), #
-                                                                            save_after_eval = True, 
-                                                                            use_train = False, 
-                                                                            num_beams = 5,
-                                                                            retokenize = False, 
-                                                                            debug = True, 
-                                                                            filename = config["model_checkpoint"].replace("/", "_"),
-                                                                            simple_sql_fn = simple_sql_fn, 
-                                                                            dbs_full_schema = database_object.dbs_full_schema, 
-                                                                            use_best_first_search = config["use_best_first_search"], 
-                                                                            check_exec_result = config["check_exec_result"],
-                                                                            check_partial_sql = config["check_partial_sql"],
-                                                                            check_example = config["check_example"],
-                                                                            enum_part_quer_check = config["enum_part_quer_check"], 
-                                                                            seq2seq = config["seq2seq"], 
-                                                                            device = device)
+    nr_syntax_errors_after, queries_evaluated = evaluate_model(model_query, 
+                                                                tokenizer, 
+                                                                spider, 
+                                                                start_idx = 0, 
+                                                                end_idx = len(spider["validation"]), #
+                                                                save_after_eval = True, 
+                                                                use_train = False, 
+                                                                num_beams = 5,
+                                                                retokenize = False, 
+                                                                debug = True, 
+                                                                filename = config["model_checkpoint"].replace("/", "_"),
+                                                                simple_sql_fn = simple_sql_fn, 
+                                                                dbs_full_schema = database_object.dbs_full_schema, 
+                                                                use_best_first_search = config["use_best_first_search"], 
+                                                                check_exec_result = config["check_exec_result"],
+                                                                check_partial_sql = config["check_partial_sql"],
+                                                                check_example = config["check_example"],
+                                                                enum_part_quer_check = config["enum_part_quer_check"], 
+                                                                seq2seq = config["seq2seq"], 
+                                                                device = device)
     print("Total time taken to evaluate model: " + str(time.time() - start_time))

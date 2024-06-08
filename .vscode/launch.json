@@ -11,6 +11,14 @@
             "program": "main.py",
             "console": "integratedTerminal",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "neural query checker",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "neural_query_checker.main",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

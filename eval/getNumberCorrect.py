@@ -1,6 +1,7 @@
 import torch
 import sqlite3
 import gc
+import copy
 from eval import process_sql
 from eval.exec_eval import eval_exec_match_more as eval_exec_match_more
 
@@ -11,6 +12,7 @@ import time
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 rewards = {"correct":1, "executes":0.5, "runTimeError" : -0.5, "syntaxError": -1}#0.5
+reward_labels_one_hot = {"correct": [1, 0, 0, 0], "executes": [0, 1, 0, 0], "runTimeError": [0, 0, 1, 0], "syntaxError": [0, 0, 0, 1]}
 encodings = {1:"y", 0.5:"e", -0.5:"r", -1:"s"}#yes, executes, runtime, syntax
 error_counts = {"syntax": 0, "column": 0, "table":0, "other": 0}
 exact_errors = {"syntax": [], "column": [], "table":[], "other": []}
@@ -79,21 +81,37 @@ def schema_to_text(sc):
         out+="\n"
     return out
 
+def get_error_type_prediction_query(gold_query, predicted_query, simple_sql_fn, tokenizer, config):
+    # This prepares the query for training neural query checker.
+    query_org = tokenizer.decode(predicted_query, skip_special_tokens = True)
+    query_with_error_type = tokenizer(query_org, max_length=config["max_input_length"], truncation=True, padding='max_length')
+    query = query_org.strip()
+    if simple_sql_fn:
+        query = simple_sql_fn(query)
+    query += ";" if query.strip()[-1] != ";" else ""
+
+    _, gold_result = execute_query(gold_query["db_id"], gold_query["query"])
+    e, predicted_result = execute_query(gold_query["db_id"], query)
+    if e != 1:#failed to run
+        if predicted_result == "syntax":
+            query_with_error_type["labels"] =reward_labels_one_hot["syntaxError"]
+        else:
+            query_with_error_type["labels"] =reward_labels_one_hot["runTimeError"]
+    elif predicted_result != gold_result:#TODO: Use distilled test suites instead.
+        query_with_error_type["labels"] =reward_labels_one_hot["executes"]
+    else:
+        query_with_error_type["labels"] =reward_labels_one_hot["correct"]
+    return query_with_error_type
+    
 def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_length=200, 
                 save_after_eval = False, use_train = False, debug = False, start_idx = 0, end_idx = 1, 
-                retokenize = False, add_exec_output = False, filename="predsRLbeam", 
-                do_sample = False, break_early = True, subtract_mean_batch = False, use_prob = False,
+                filename="predsRLbeam", break_early = True,
                 simple_sql_fn=None, dbs_full_schema = {}, use_best_first_search = True, 
                 check_exec_result = True, check_partial_sql = True, check_example = True,
                 enum_part_quer_check = True, seq2seq = True, device = "cpu"):
-    #retokenize => 1. encode whether query executed in label. 2. => add the language models prediction into problem description
-    #add_exec_output => only works if retokenize = true ()
     #break early allows to exit loop once the first valid query is found
-    #use_prob - when retokenize and add exec output, samples a subsequence with equal probability of being cut off at any point. (OLD)
     #check_exec_result - True when multiple attempts are allowed (and we check whether example tuple is in the output)
     #check_partial_sql - Whether or not to check partial SQL
-    bos_token = tokenizer.bos_token_id
-    eos_token = tokenizer.eos_token_id
     model.eval()
     nr_syntax_errors = 0
     nr_completely_correct = 0
@@ -101,7 +119,6 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
     queries_labelled = []
     dataset = spider["train"] if use_train else spider["validation"]
     total_reward = 0
-    batch_reward = 0
     
     for i in range(start_idx, end_idx):#len(dataset)
         db_id = dataset[i]["db_id"]
@@ -110,15 +127,13 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
                 predictions = bestFirstSearchWithChecks(model, dataset[i], tokenizer, simple_sql_fn, bm_size=num_beams, db_full = dbs_full_schema[db_id], 
                                                         check_exec_result=check_exec_result, check_partial_sql = check_partial_sql, 
                                                         check_example = check_example, seq2seq = seq2seq, device=device,
-                                                        enum_part_quer_check=enum_part_quer_check)#
+                                                        enum_part_quer_check=enum_part_quer_check)
             else:
-                predictions = beamSearchWithChecks(model, dataset[i], tokenizer, bm_size=num_beams, check_partial_sql = check_partial_sql, enum_part_quer_check = enum_part_quer_check)#
-            predictions = [prediction.squeeze() for prediction in predictions]#squeeze em
+                predictions = beam_search_with_checks(model, dataset[i], tokenizer, bm_size=num_beams, check_partial_sql = check_partial_sql, enum_part_quer_check = enum_part_quer_check)#
         except Exception as e:
-            print(f"ooopsssies {e}")
-            predictions = [torch.tensor([bos_token, 4803, eos_token], dtype=torch.int64, device=device) for i in range(num_beams)]
-            predictions = [prediction.squeeze() for prediction in predictions]#squeeze em
-        
+            print(f"There was an error generating predictions: {e}")
+            predictions = [torch.tensor(tokenizer.encode("SELECT"), dtype=torch.int64, device=device) for i in range(num_beams)]
+        predictions = [prediction.squeeze() for prediction in predictions]
         #GOLD
         e, gold_result = execute_query(db_id, dataset[i]["query"])
         #try decoding
@@ -132,71 +147,33 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
             e, predicted_result = execute_query(db_id, query)
             d["predicted_result"] = predicted_result
             query += ";" if query.strip()[-1] != ";" else ""
+            predicted_queries += query+"\n"
             if e != 1:#failed to run
                 if predicted_result == "syntax":
                     d["correct"]=rewards["syntaxError"]
                 else:
                     d["correct"]=rewards["runTimeError"]
                 nr_syntax_errors+=1
-                predicted_queries += query+"\n"
                 queries_labelled.append(d)
-                if break_early:
-                    break
-                if debug:
-                    show_debug(dataset, query, i)
             elif predicted_result != gold_result:    
                 d["correct"]=rewards["executes"]
-                predicted_queries += query+"\n"
                 queries_labelled.append(d)
-                if break_early:
-                    break
             else:
                 d["correct"]=rewards["correct"]
-                #print(query)
-                predicted_queries += query+"\n"
                 nr_completely_correct+=1
                 queries_labelled.append(d)
-                if break_early:
-                    break
-            if debug:
-                show_debug(dataset, query, i, valid=True)
-                #if i+1 == num_beams: 
+            if break_early:
+                break
             total_reward += d["correct"]
-            batch_reward += d["correct"] 
-            #retokenize
-            if retokenize:#makes label equal to code stuff. 
-                tokenized_output = tokenizer(query_org, max_length=200, truncation=True, padding='max_length')#hard code 512
-                d["predicted_input_ids"] = tokenized_output["input_ids"]
-        
-        if subtract_mean_batch:
-            for iter in range(num_beams):
-                queries_labelled[-1-iter]["correct"] = queries_labelled[-1-iter]["correct"]-batch_reward/num_beams
-        if retokenize:
-            bad_iters = []
-            for iter in range(num_beams):
-                execute = encodings[queries_labelled[-1-iter]["correct"]]#This code is atrocious
-                queries_labelled[-1-iter]["labels"] = tokenizer(execute, max_length=3, truncation=True, padding='max_length')["input_ids"]#Start token, y token, end token
-                if 0 not in queries_labelled[iter]["input_ids"]:
-                    bad_iters.append(iter)
-                    print("Query too long!")
-            for index in sorted(bad_iters, reverse=True):
-                del queries_labelled[index]
-        batch_reward = 0
         if save_after_eval and i % 10 == 0:
             with open('results/'+filename+str(num_beams)+'PARTIAL.txt', 'w') as f:
                 f.write(predicted_queries)
-    mean_reward = total_reward/(num_beams*(end_idx-start_idx))
-    #cleanup
     del predictions
     gc.collect()
-    #print("Syntax errors: ", nr_syntax_errors)
-    #print("Mean reward!:", mean_reward)
-    #print("Nr completely correct: ", nr_completely_correct)
     if save_after_eval:
         with open('results/'+filename+str(num_beams)+'.txt', 'w') as f:
             f.write(";\n".join([query.replace("\n"," ") for query in predicted_queries.split(";")]))
-    model.train()
-    return nr_syntax_errors, mean_reward, queries_labelled
+    return nr_syntax_errors, queries_labelled
 
 def expand_branches(model_query, hids, probs, inp, inp_att, hid, bm_size, seq2seq, bos_token, eos_token):
     sft = torch.nn.Softmax(dim=0)
@@ -232,7 +209,7 @@ def cancel_substring(input_prompt: torch.tensor, query: str, tokenizer):
     input_prompt = tokenizer.decode( input_prompt, skip_special_tokens = True).strip()
     return query.replace(input_prompt,"").strip()
 
-def beamSearchWithChecks(model_query, q, tokenizer, bm_size = 2, check_partial_sql = True):
+def beam_search_with_checks(model_query, q, tokenizer, config, bm_size = 2, check_partial_sql = True, max_output_length = 200):
     bos_token = tokenizer.bos_token_id
     eos_token = tokenizer.eos_token_id
     schema  = ast.literal_eval(q["schemas"])
@@ -240,14 +217,13 @@ def beamSearchWithChecks(model_query, q, tokenizer, bm_size = 2, check_partial_s
     inp_att = torch.tensor(q["attention_mask"]).reshape(1,-1).to(device)
     hid     = torch.ones((1,1), dtype=torch.int64, device=device)*bos_token
     states  = [hid]#start off with zeros.
-    probs   = [1]#initially probability is 1
+    probs   = [1]#all probs are one
     keep_generating = True
     while keep_generating:
         #step 1 expand
-        states, probs = expand_branches(model_query, states, probs, inp, inp_att, hid, bm_size)
+        states, probs = expand_branches(model_query, states, probs, inp, inp_att, hid, bm_size, config["seq2seq"], bos_token, eos_token)
         #step 2, sort by probs
         sorted, indices = torch.sort(torch.tensor(probs), 0, descending=True)
-        states = [states[idx] for idx in indices]#sorted
         probs = [probs[idx] for idx in indices]
         #step 3, filter bad states
         good_states = []
@@ -271,7 +247,7 @@ def beamSearchWithChecks(model_query, q, tokenizer, bm_size = 2, check_partial_s
         #finally check if we are done
         keep_generating = False
         for current_state in states:
-            if current_state[0][-1] != eos_token:
+            if current_state[0][-1] != eos_token and len(current_state[0])<max_output_length:
                 keep_generating = True
     return states
 
