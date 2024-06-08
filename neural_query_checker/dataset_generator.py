@@ -25,8 +25,8 @@ def get_dataset(config):
         token=os.environ["HF_TOKEN"],)
     tokenizer.pad_token = tokenizer.eos_token
     base_dataset = load_dataset("spider")
-    base_dataset["train"] = base_dataset["train"].select([i for i in range(0, 10)])#comment out this line to use the full dataset
-    base_dataset["validation"] = base_dataset["validation"].select([i for i in range(0, 10)])
+    base_dataset["train"] = base_dataset["train"].select([i for i in range(0, 2)])#comment out this line to use the full dataset
+    base_dataset["validation"] = base_dataset["validation"].select([i for i in range(0, 2)])
     base_dataset = base_dataset.map(
         preprocess_query,
         fn_kwargs={
@@ -46,7 +46,7 @@ def get_dataset(config):
     simple_sql_fn = SimpleSQL_to_SQL if config["use_simple_sql"] else None
     for train_or_validation in ["train", "validation"]:
         for data in base_dataset[train_or_validation]:
-            queries = beam_search_with_checks(model_query, data, tokenizer, config, 4, False, 10)#TODO replace the max output length
+            queries = beam_search_with_checks(model_query, data, tokenizer, config, 4, False, 4)#TODO replace the max output length
             for query in queries:
                 query_labelled = get_error_type_prediction_query(gold_query=data, 
                                                                  predicted_query=query[0], 
@@ -54,5 +54,5 @@ def get_dataset(config):
                                                                  simple_sql_fn=simple_sql_fn,
                                                                  config=config)
                 output_dataset[train_or_validation].append(query_labelled)
-    
+    return output_dataset
     

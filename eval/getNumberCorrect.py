@@ -12,7 +12,7 @@ import time
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 rewards = {"correct":1, "executes":0.5, "runTimeError" : -0.5, "syntaxError": -1}#0.5
-reward_labels_one_hot = {"correct": [1, 0, 0, 0], "executes": [0, 1, 0, 0], "runTimeError": [0, 0, 1, 0], "syntaxError": [0, 0, 0, 1]}
+reward_labels = {"correct": 0, "executes": 1, "runTimeError": 2, "syntaxError": 3}
 encodings = {1:"y", 0.5:"e", -0.5:"r", -1:"s"}#yes, executes, runtime, syntax
 error_counts = {"syntax": 0, "column": 0, "table":0, "other": 0}
 exact_errors = {"syntax": [], "column": [], "table":[], "other": []}
@@ -83,8 +83,13 @@ def schema_to_text(sc):
 
 def get_error_type_prediction_query(gold_query, predicted_query, simple_sql_fn, tokenizer, config):
     # This prepares the query for training neural query checker.
+    # input_ids = task description, decoder_ids = predicted query, error_type = error type
+    query_with_error_type = {}
     query_org = tokenizer.decode(predicted_query, skip_special_tokens = True)
-    query_with_error_type = tokenizer(query_org, max_length=config["max_input_length"], truncation=True, padding='max_length')
+    task_description = tokenizer.decode(gold_query["input_ids"], skip_special_tokens = True)
+    query_with_error_type["input_ids"] = tokenizer.encode(query_org)
+    query_with_error_type["decoder_ids"] = list(predicted_query)
+
     query = query_org.strip()
     if simple_sql_fn:
         query = simple_sql_fn(query)
@@ -94,13 +99,13 @@ def get_error_type_prediction_query(gold_query, predicted_query, simple_sql_fn, 
     e, predicted_result = execute_query(gold_query["db_id"], query)
     if e != 1:#failed to run
         if predicted_result == "syntax":
-            query_with_error_type["labels"] =reward_labels_one_hot["syntaxError"]
+            query_with_error_type["error_type"] =reward_labels["syntaxError"]
         else:
-            query_with_error_type["labels"] =reward_labels_one_hot["runTimeError"]
+            query_with_error_type["error_type"] =reward_labels["runTimeError"]
     elif predicted_result != gold_result:#TODO: Use distilled test suites instead.
-        query_with_error_type["labels"] =reward_labels_one_hot["executes"]
+        query_with_error_type["error_type"] =reward_labels["executes"]
     else:
-        query_with_error_type["labels"] =reward_labels_one_hot["correct"]
+        query_with_error_type["error_type"] =reward_labels["correct"]
     return query_with_error_type
     
 def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_length=200, 
