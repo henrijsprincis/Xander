@@ -1,9 +1,0 @@
-1. SELECT SUM(bonus) FROM evaluation;
-
-2. SELECT * FROM hiring;
-
-3. SELECT * FROM hiring;
-
-4. SELECT district FROM shop WHERE number_products < 3000 INTERSECT SELECT district FROM shop WHERE number_products > 10000;
-
-5. SELECT district FROM shop WHERE number_products < 3000 INTERSECT SELECT district FROM shop WHERE number_products > 10000;

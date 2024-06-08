@@ -1,5 +1,0 @@
-1. SELECT COUNT(*) FROM airlines WHERE airlines.country = 'USA';
-2. SELECT COUNT(*) FROM airlines WHERE airlines.country = 'USA';
-3. SELECT airports.city, airports.country FROM airports WHERE airports.airportcode = 'Alton';
-4. SELECT airports.city, airports.country FROM airports WHERE airports.airportcode = 'Alton';
-5. SELECT airports.airportname FROM airports WHERE airports.airportcode = 'AKO';

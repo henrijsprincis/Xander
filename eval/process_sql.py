@@ -1091,7 +1091,6 @@ def validate_partial_SQL(schema, string, example=(), db_full = {}, return_error_
         if is_complete:#we have a complete subquery that we assume is valid. Replace it with the word valid.
                 #we verify if the subquery is valid.
                 complete_subquery = string[sq_begin+1:sq_begin+end_idx]
-                #print("GOT HERE")
                 error_type = validate_partial_SQL(schema, complete_subquery, example=(), db_full = db_full, return_error_type = True)#pass in the subquery into validate_partial_SQL!    
                 if error_type==0:
                     #let's replace complete_subquery with VALID

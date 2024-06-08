@@ -1,5 +1,0 @@
-1. SELECT tourney_name FROM matches GROUP BY tourney_name HAVING COUNT(*) > 10;
-2. SELECT tourney_name FROM matches GROUP BY tourney_name HAVING COUNT(*) > 10;
-3. SELECT DISTINCT winner_name FROM matches WHERE year IN (2013, 2016) GROUP BY winner_name HAVING COUNT(DISTINCT year) = 2;
-4. SELECT DISTINCT winner_name FROM matches WHERE year IN (2013, 2016) GROUP BY winner_name HAVING COUNT(DISTINCT year) = 2;
-5. SELECT COUNT(*) FROM matches WHERE year IN (2013, 2016);

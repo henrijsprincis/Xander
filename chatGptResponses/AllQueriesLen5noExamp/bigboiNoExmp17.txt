@@ -1,9 +1,0 @@
-1. SELECT AVG(student.age) FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet);
-
-2. SELECT AVG(student.age) FROM student WHERE student.stuid NOT IN (SELECT has_pet.stuid FROM has_pet);
-
-3. SELECT COUNT(*) FROM continents;
-
-4. SELECT COUNT(*) FROM continents;
-
-5. SELECT continents.contid, continents.continent, COUNT(countries.countryid) FROM continents JOIN countries ON continents.continent = countries.continent GROUP BY continents.contid;

@@ -1,5 +1,0 @@
-1. SELECT MAX(cars_data.accelerate), cars_data.cylinders FROM cars_data GROUP BY cars_data.cylinders;
-2. SELECT car_makers.fullname FROM car_makers JOIN model_list ON car_makers.id = model_list.maker JOIN car_names ON model_list.modelid = car_names.modelid GROUP BY car_makers.fullname ORDER BY COUNT(DISTINCT car_names.make) DESC LIMIT 1;
-3. SELECT car_names.model FROM car_names JOIN model_list ON car_names.modelid = model_list.modelid GROUP BY car_names.model ORDER BY COUNT(DISTINCT car_names.make) DESC LIMIT 1;
-4. SELECT COUNT(*) FROM cars_data WHERE cars_data.cylinders > 4;
-5. SELECT COUNT(*) FROM cars_data WHERE cars_data.cylinders > 4;

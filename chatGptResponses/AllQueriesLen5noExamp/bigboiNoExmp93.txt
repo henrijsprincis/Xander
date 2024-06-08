@@ -1,4 +1,0 @@
-Here are the SQLite code snippets for the given questions:
-
-1. Find the name of the winner who has the highest rank points and participated in the Australian Open tourney.
-``

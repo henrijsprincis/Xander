@@ -1,5 +1,0 @@
-1. SELECT airports.airportname FROM airports WHERE airports.airportcode = 'AKO';
-2. SELECT airports.airportname FROM airports WHERE airports.city = 'Aberdeen';
-3. SELECT airports.airportname FROM airports WHERE airports.city = 'Aberdeen';
-4. SELECT COUNT(*) FROM flights WHERE flights.sourceairport = 'APG';
-5. SELECT COUNT(*) FROM flights WHERE flights.sourceairport = 'APG';

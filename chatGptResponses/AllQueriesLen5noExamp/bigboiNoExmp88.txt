@@ -1,9 +1,0 @@
-1. SELECT MAX(loser_rank) FROM matches;
-
-2. SELECT COUNT(DISTINCT country_code) FROM players;
-
-3. SELECT COUNT(DISTINCT country_code) FROM players;
-
-4. SELECT COUNT(DISTINCT loser_name) FROM matches;
-
-5. SELECT COUNT(DISTINCT loser_name) FROM matches;

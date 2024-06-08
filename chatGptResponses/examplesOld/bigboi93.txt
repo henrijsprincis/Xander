@@ -1,5 +1,0 @@
-1. SELECT winner_name FROM matches WHERE tourney_name = 'Australian Open' ORDER BY winner_rank_points DESC LIMIT 1;
-2. SELECT winner_name FROM matches WHERE tourney_name = 'Australian Open' ORDER BY winner_rank_points DESC LIMIT 1;
-3. SELECT loser_name, winner_name FROM matches ORDER BY minutes DESC LIMIT 1;
-4. SELECT loser_name, winner_name FROM matches ORDER BY minutes DESC LIMIT 1;
-5. SELECT AVG(rankings.ranking) AS avg_ranking, players.first_name FROM players JOIN rankings ON players.player_id = rankings.player_id GROUP

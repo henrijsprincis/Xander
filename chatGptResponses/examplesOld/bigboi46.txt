@@ -1,5 +1,0 @@
-1. SELECT airline, COUNT(*) AS num_flights FROM flights GROUP BY airline ORDER BY num_flights DESC LIMIT 1;
-2. SELECT abbreviation, country FROM airlines WHERE uid = (SELECT airline FROM flights GROUP BY airline ORDER BY COUNT(*) ASC LIMIT 1);
-3. SELECT abbreviation, country FROM airlines WHERE uid = (SELECT airline FROM flights GROUP BY airline ORDER BY COUNT(*) ASC LIMIT 1);
-4. SELECT DISTINCT airline FROM flights WHERE sourceairport = 'AHD';
-5. SELECT DISTINCT airline FROM flights WHERE sourceairport = 'AHD';

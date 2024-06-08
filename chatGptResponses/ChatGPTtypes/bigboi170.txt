@@ -1,5 +1,0 @@
-1. SELECT COUNT(*) FROM highschooler;
-2. SELECT COUNT(*) FROM highschooler;
-3. SELECT name, grade FROM highschooler;
-4. SELECT name, grade FROM highschooler;
-5. SELECT DISTINCT grade FROM highschooler;

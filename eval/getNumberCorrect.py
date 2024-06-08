@@ -2,22 +2,17 @@ import torch
 import sqlite3
 import gc
 import copy
-import random
 from eval import process_sql
-#from eval.exec_eval_henrijs import result_eq as result_eq
-from eval.exec_eval_hen import eval_exec_match_more as eval_exec_match_more
+from eval.exec_eval import eval_exec_match_more as eval_exec_match_more
 
 import ast #<- convert str(dict) -> dict
 import queue#<- priority queue
 import time
 #evaluate#nr_exactly_correct = 0
-#### IMPORTANT THESE MUST BE SET TO THE SAME VALUES AS IN THE minimalExampleRLpolicy.py ####
-bos_token = 1
-pad_token = 0
-eos_token = 2
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 rewards = {"correct":1, "executes":0.5, "runTimeError" : -0.5, "syntaxError": -1}#0.5
+reward_labels = {"correct": 0, "executes": 1, "runTimeError": 2, "syntaxError": 3}
 encodings = {1:"y", 0.5:"e", -0.5:"r", -1:"s"}#yes, executes, runtime, syntax
 error_counts = {"syntax": 0, "column": 0, "table":0, "other": 0}
 exact_errors = {"syntax": [], "column": [], "table":[], "other": []}
@@ -48,7 +43,7 @@ def get_error_type_and_append(error, query, append = False):
     return error_type
 
 def str_to_db_path(db_id):
-    return f".\\database\\{db_id}\\{db_id}.sqlite"
+    return f"./database/{db_id}/{db_id}.sqlite"
 
 def execute_query(db_id, query, print_errors = False, error_logging = True):
     db_path =str_to_db_path(db_id)
@@ -67,8 +62,8 @@ def execute_query(db_id, query, print_errors = False, error_logging = True):
         if print_errors:
             print("couldn't execute")
         return str(er), error_type
-    except:#for som reason it be possible to exec again
-        print("exception! ")
+    except Exception as e:#for som reason it be possible to exec again
+        print(f"exception! {e}")
         return -1, "Failed for unknown reason"
 
 def schema_to_text(sc):
@@ -86,17 +81,40 @@ def schema_to_text(sc):
         out+="\n"
     return out
 
+def get_error_type_prediction_query(gold_query, predicted_query, simple_sql_fn, tokenizer, config):
+    # This prepares the query for training neural query checker.
+    # input_ids = task description, decoder_ids = predicted query, error_type = error type
+    query_with_error_type = {}
+    query_org = tokenizer.decode(predicted_query, skip_special_tokens = True)
+    task_description = tokenizer.decode(gold_query["input_ids"], skip_special_tokens = True)
+    query_with_error_type["input_ids"] = tokenizer.encode(query_org)
+    query_with_error_type["decoder_ids"] = list(predicted_query)
+
+    query = query_org.strip()
+    if simple_sql_fn:
+        query = simple_sql_fn(query)
+    query += ";" if query.strip()[-1] != ";" else ""
+
+    _, gold_result = execute_query(gold_query["db_id"], gold_query["query"])
+    e, predicted_result = execute_query(gold_query["db_id"], query)
+    if e != 1:#failed to run
+        if predicted_result == "syntax":
+            query_with_error_type["error_type"] =reward_labels["syntaxError"]
+        else:
+            query_with_error_type["error_type"] =reward_labels["runTimeError"]
+    elif predicted_result != gold_result:#TODO: Use distilled test suites instead.
+        query_with_error_type["error_type"] =reward_labels["executes"]
+    else:
+        query_with_error_type["error_type"] =reward_labels["correct"]
+    return query_with_error_type
+    
 def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_length=200, 
                 save_after_eval = False, use_train = False, debug = False, start_idx = 0, end_idx = 1, 
-                retokenize = False, add_exec_output = False, filename="predsRLbeam", 
-                do_sample = False, break_early = True, subtract_mean_batch = False, use_prob = False,
+                filename="predsRLbeam", break_early = True,
                 simple_sql_fn=None, dbs_full_schema = {}, use_best_first_search = True, 
                 check_exec_result = True, check_partial_sql = True, check_example = True,
-                enum_part_quer_check = True, seq2seq = True, demo_mode = False):
-    #retokenize => 1. encode whether query executed in label. 2. => add the language models prediction into problem description
-    #add_exec_output => only works if retokenize = true ()
+                enum_part_quer_check = True, seq2seq = True, device = "cpu"):
     #break early allows to exit loop once the first valid query is found
-    #use_prob - when retokenize and add exec output, samples a subsequence with equal probability of being cut off at any point. (OLD)
     #check_exec_result - True when multiple attempts are allowed (and we check whether example tuple is in the output)
     #check_partial_sql - Whether or not to check partial SQL
     model.eval()
@@ -104,70 +122,23 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
     nr_completely_correct = 0
     predicted_queries = ""
     queries_labelled = []
-    if use_train:
-        dataset = spider["train"]
-    else:
-        dataset = spider["validation"]
+    dataset = spider["train"] if use_train else spider["validation"]
     total_reward = 0
-    batch_reward = 0
     
-    if demo_mode:
-        i=0
-        example_request = copy.deepcopy(dataset[i])
-        db_id = example_request["db_id"]
-        print("Using database with id:", db_id, "\n")
-        sc = dbs_full_schema[db_id]
-        sc_format = schema_to_text(sc)
-        print("The database has the following schema:\n\n"+ sc_format)
-        print("Please enter a question you would like answered.")
-        print("E.g. "+ example_request["question"])
-        print("What is the largest stadium?")
-        print("What are the names and countries of all singers older than 50?")
-        user_question = input(": ")
-        example_request["question"] = user_question
-        print("Tokenizing...")
-        from main import preprocess_data_query_seq2seq
-        tokenized = preprocess_data_query_seq2seq(example_request, add_execution_result = False, use_simple_sql=True)
-        for key in list(example_request.keys()):
-            if key not in list(tokenized.keys()):
-                tokenized[key] = example_request[key]
-        print("Generating a query...")
-        #print(tokenizer.decode(tokenized["input_ids"], skip_special_tokens = True))
-        predictions = bestFirstSearchWithChecks(model, tokenized, tokenizer, simple_sql_fn, bm_size=num_beams, db_full = dbs_full_schema[db_id], 
-                                                        check_exec_result=check_exec_result, check_partial_sql = check_partial_sql, check_example = check_example, seq2seq = seq2seq)
-        prediction = [prediction.squeeze() for prediction in predictions][0]
-        model_generated_query = tokenizer.decode(prediction, skip_special_tokens = True)
-        print("\nThe model has generated the following query: \n"+model_generated_query+"\n")
-        exec_result = execute_query(db_id, model_generated_query)
-        print("This query returned the following resut when executed on the database:")
-        e_res = exec_result[1]
-        if type(e_res) == type([]):
-            if e_res:
-                for idx, item in enumerate(e_res):
-                    print("row "+str(idx)+":",item)
-                    if idx > 5:
-                        print("Truncating output to 6 rows")
-                        break
-            else:
-                print("The query did not return any output.")
-        else:
-            print("Error, the model generated a query that does not have valid SQL syntax!")
-        print("")
-
     for i in range(start_idx, end_idx):#len(dataset)
         db_id = dataset[i]["db_id"]
         try:
             if use_best_first_search:
                 predictions = bestFirstSearchWithChecks(model, dataset[i], tokenizer, simple_sql_fn, bm_size=num_beams, db_full = dbs_full_schema[db_id], 
-                                                        check_exec_result=check_exec_result, check_partial_sql = check_partial_sql, check_example = check_example, seq2seq = seq2seq)#
+                                                        check_exec_result=check_exec_result, check_partial_sql = check_partial_sql, 
+                                                        check_example = check_example, seq2seq = seq2seq, device=device,
+                                                        enum_part_quer_check=enum_part_quer_check)
             else:
-                predictions = beamSearchWithChecks(model, dataset[i], tokenizer, bm_size=num_beams, check_partial_sql = check_partial_sql, enum_part_quer_check = enum_part_quer_check)#
-            predictions = [prediction.squeeze() for prediction in predictions]#squeeze em
-        except:
-            print("ooopsssies")
-            predictions = [torch.tensor([bos_token, 4803, eos_token], dtype=torch.int64, device=device) for i in range(num_beams)]
-            predictions = [prediction.squeeze() for prediction in predictions]#squeeze em
-        
+                predictions = beam_search_with_checks(model, dataset[i], tokenizer, bm_size=num_beams, check_partial_sql = check_partial_sql, enum_part_quer_check = enum_part_quer_check)#
+        except Exception as e:
+            print(f"There was an error generating predictions: {e}")
+            predictions = [torch.tensor(tokenizer.encode("SELECT"), dtype=torch.int64, device=device) for i in range(num_beams)]
+        predictions = [prediction.squeeze() for prediction in predictions]
         #GOLD
         e, gold_result = execute_query(db_id, dataset[i]["query"])
         #try decoding
@@ -180,73 +151,36 @@ def evaluate_model(model, tokenizer, spider, num_beams=1, max_output_sequence_le
             d["pred"]=predictions[b]
             e, predicted_result = execute_query(db_id, query)
             d["predicted_result"] = predicted_result
+            query += ";" if query.strip()[-1] != ";" else ""
+            predicted_queries += query+"\n"
             if e != 1:#failed to run
                 if predicted_result == "syntax":
                     d["correct"]=rewards["syntaxError"]
                 else:
                     d["correct"]=rewards["runTimeError"]
                 nr_syntax_errors+=1
-                predicted_queries += query+"\n"
                 queries_labelled.append(d)
-                if break_early:
-                    break
-                if debug:
-                    show_debug(dataset, query, i)
             elif predicted_result != gold_result:    
                 d["correct"]=rewards["executes"]
-                predicted_queries += query+"\n"
                 queries_labelled.append(d)
-                if break_early:
-                    break
             else:
                 d["correct"]=rewards["correct"]
-                #print(query)
-                predicted_queries += query+"\n"
                 nr_completely_correct+=1
                 queries_labelled.append(d)
-                if break_early:
-                    break
-            if debug:
-                show_debug(dataset, query, i, valid=True)
-                #if i+1 == num_beams: 
+            if break_early:
+                break
             total_reward += d["correct"]
-            batch_reward += d["correct"] 
-            #retokenize
-            if retokenize:#makes label equal to code stuff. 
-                tokenized_output = tokenizer(query_org, max_length=200, truncation=True, padding='max_length')#hard code 512
-                d["predicted_input_ids"] = tokenized_output["input_ids"]
-        
-        if subtract_mean_batch:
-            for iter in range(num_beams):
-                queries_labelled[-1-iter]["correct"] = queries_labelled[-1-iter]["correct"]-batch_reward/num_beams
-        if retokenize:
-            bad_iters = []
-            for iter in range(num_beams):
-                execute = encodings[queries_labelled[-1-iter]["correct"]]#This code is atrocious
-                queries_labelled[-1-iter]["labels"] = tokenizer(execute, max_length=3, truncation=True, padding='max_length')["input_ids"]#Start token, y token, end token
-                if 0 not in queries_labelled[iter]["input_ids"]:
-                    bad_iters.append(iter)
-                    print("Query too long!")
-            for index in sorted(bad_iters, reverse=True):
-                del queries_labelled[index]
-        batch_reward = 0
         if save_after_eval and i % 10 == 0:
-            with open('results/'+filename+str(num_beams)+'.txt', 'w') as f:
+            with open('results/'+filename+str(num_beams)+'PARTIAL.txt', 'w') as f:
                 f.write(predicted_queries)
-    mean_reward = total_reward/(num_beams*(end_idx-start_idx))
-    #cleanup
     del predictions
     gc.collect()
-    #print("Syntax errors: ", nr_syntax_errors)
-    #print("Mean reward!:", mean_reward)
-    #print("Nr completely correct: ", nr_completely_correct)
     if save_after_eval:
         with open('results/'+filename+str(num_beams)+'.txt', 'w') as f:
-            f.write(predicted_queries)
-    model.train()
-    return nr_syntax_errors, mean_reward, queries_labelled
+            f.write(";\n".join([query.replace("\n"," ") for query in predicted_queries.split(";")]))
+    return nr_syntax_errors, queries_labelled
 
-def expand_branches(model_query, hids, probs, inp, inp_att, hid, bm_size, seq2seq):
+def expand_branches(model_query, hids, probs, inp, inp_att, hid, bm_size, seq2seq, bos_token, eos_token):
     sft = torch.nn.Softmax(dim=0)
     next_states = []
     next_probs  = []
@@ -261,7 +195,7 @@ def expand_branches(model_query, hids, probs, inp, inp_att, hid, bm_size, seq2se
                 if seq2seq:
                     ret = model_query(input_ids = inp, attention_mask = inp_att, decoder_input_ids = hid)
                 else:
-                    inp_att = torch.ones((hid.shape)).to("cuda")#, attention_mask = inp_att
+                    inp_att = torch.ones((hid.shape)).to(device)#, attention_mask = inp_att
                     ret = model_query(input_ids = hid, attention_mask = inp_att)
                     #breakpoint()
                 latest_logit = sft(ret.logits[0,-1,:])
@@ -277,23 +211,24 @@ def expand_branches(model_query, hids, probs, inp, inp_att, hid, bm_size, seq2se
 
 def cancel_substring(input_prompt: torch.tensor, query: str, tokenizer):
     #in the case we are doing casual language modelling, we want to cancel the substring
-    input_prompt = tokenizer.decode( input_prompt, skip_special_tokens = True)
+    input_prompt = tokenizer.decode( input_prompt, skip_special_tokens = True).strip()
     return query.replace(input_prompt,"").strip()
 
-def beamSearchWithChecks(model_query, q, tokenizer, bm_size = 2, check_partial_sql = True):
-    schema = ast.literal_eval(q["schemas"])
+def beam_search_with_checks(model_query, q, tokenizer, config, bm_size = 2, check_partial_sql = True, max_output_length = 200):
+    bos_token = tokenizer.bos_token_id
+    eos_token = tokenizer.eos_token_id
+    schema  = ast.literal_eval(q["schemas"])
     inp     = torch.tensor(q["input_ids"]).reshape(1,-1).to(device)
     inp_att = torch.tensor(q["attention_mask"]).reshape(1,-1).to(device)
-    hid     = torch.zeros((1,1), dtype=torch.int64, device=device)
-    states = [hid]#start off with zeros.
-    probs = [1]#all probs are one
+    hid     = torch.ones((1,1), dtype=torch.int64, device=device)*bos_token
+    states  = [hid]#start off with zeros.
+    probs   = [1]#all probs are one
     keep_generating = True
     while keep_generating:
         #step 1 expand
-        states, probs = expand_branches(model_query, states, probs, inp, inp_att, hid, bm_size)
+        states, probs = expand_branches(model_query, states, probs, inp, inp_att, hid, bm_size, config["seq2seq"], bos_token, eos_token)
         #step 2, sort by probs
         sorted, indices = torch.sort(torch.tensor(probs), 0, descending=True)
-        states = [states[idx] for idx in indices]#sorted
         probs = [probs[idx] for idx in indices]
         #step 3, filter bad states
         good_states = []
@@ -317,24 +252,26 @@ def beamSearchWithChecks(model_query, q, tokenizer, bm_size = 2, check_partial_s
         #finally check if we are done
         keep_generating = False
         for current_state in states:
-            if current_state[0][-1] != eos_token:
+            if current_state[0][-1] != eos_token and len(current_state[0])<max_output_length:
                 keep_generating = True
     return states
 
 def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size = 2, check_example = True, db_full = {}, 
                               check_exec_result = True, check_partial_sql = True, enum_part_quer_check = True,
-                              seq2seq = True):
+                              seq2seq = True, device = "cpu"):
+    bos_token = tokenizer.bos_token_id
+    eos_token = tokenizer.eos_token_id
     schema  = ast.literal_eval(q["schemas"])
     inp     = torch.tensor(q["input_ids"]).reshape(1,-1).to(device)
     inp_att = torch.tensor(q["attention_mask"]).reshape(1,-1).to(device)
-    hid     = torch.zeros((1,1), dtype=torch.int64, device=device)
+    hid     = torch.ones((1,1), dtype=torch.int64, device=device)*bos_token
     pri_q_sz= 10000#2000
-    states  = queue.PriorityQueue(10000)#gets lowest priority element first >:(
-    if seq2seq:#add state to PQ
-        states.put((-1, hid))#if i start it at -1, then all next probabilities will be multiplied. This is great!
+    states  = queue.PriorityQueue(10000)#gets lowest priority element first -1 is highest priority.
+    if seq2seq:
+        states.put(((-1, time.time()), hid))#priority, state
     else:
-        hid = tokenizer(tokenizer.decode(q["partial_input"],skip_special_tokens=True), return_tensors = "pt")["input_ids"].to("cuda")
-        states.put((-1, hid))
+        hid = tokenizer(tokenizer.decode(q["partial_input"],skip_special_tokens=False), return_tensors = "pt")["input_ids"].to(device)
+        states.put(((-1, time.time()), hid))
     start_time = time.time()
     max_runtime = 60
     number_complete_queries = 0
@@ -347,6 +284,7 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
         #step 1 get highest priority branch (state)
         try:
             prob, state = states.get()
+            prob = prob[0]#get the probability
         except:
             print("excption getting item, continuing")
             continue
@@ -354,11 +292,13 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
             quer = tokenizer.decode(state.squeeze(), skip_special_tokens=True)
             if not seq2seq:
                 quer = cancel_substring(q["partial_input"], quer, tokenizer)
-            
+                quer = quer.replace("<s>","").replace("</s>","")
             if simple_sql_fn:#if we r using simple SQL
                 quer_conv = simple_sql_fn(quer)
             else:
                 quer_conv = quer
+            if quer_conv == "":
+                continue
             g_exec = execute_query(q["db_id"], q["query"])[-1]
             g_exec_set = [set(elem) for elem in g_exec]#list containing sets
             #get close queries
@@ -403,7 +343,7 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
         if state[0][-1] == eos_token:
             continue
         #step 1 expand
-        next_states, probs = expand_branches(model_query, [state], [prob], inp, inp_att, hid, bm_size, seq2seq)
+        next_states, probs = expand_branches(model_query, [state], [prob], inp, inp_att, hid, bm_size, seq2seq, bos_token, eos_token)
         #step 3, filter bad states
         good_states = []
         for idx, partial_state in enumerate(next_states):
@@ -411,15 +351,14 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
             if not seq2seq:
                 substr = cancel_substring(q["partial_input"], substr, tokenizer)
                 lower = substr.lower()
-                if (lower.count(";") == 1) or (lower.count("select") == lower.count("union none") and lower.count("select") > 0):#this code is suspicious. shoulda ended all queries with a semicolon :/. No time gotta submit.
+                if (lower.count(";") == 1) or (lower.count("select") == lower.count("union none") and lower.count("select") > 0):
                     #print(lower)
-                    #breakpoint()
                     #the query is done#breakpoint()
                     next_states[idx] = torch.cat((partial_state, torch.tensor(eos_token, device=device).reshape(1,-1)),dim=1)
 
-            #if idx==0:
-            #    print(substr)
-            #    breakpoint()
+            if idx==0:
+                pass
+                #print(substr)
             
             substr_valid = True
             if check_partial_sql:# if we want to perform syntax checking on partial query
@@ -430,11 +369,11 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
                     substr_valid = process_sql.validate_partial_SQL(schema, substr)
             if substr_valid:#substr_valid
                 good_states.append(idx)
-            #else:
-            #    print("question: ", tokenizer.decode(partial_state.squeeze(), skip_special_tokens=True))
-            #    print("schema: ", schema)
-            #    print("substr: ", substr)
-            #    print(example)
+            else:
+                print("question: ", tokenizer.decode(partial_state.squeeze(), skip_special_tokens=True))
+                print("schema: ", schema)
+                print("substr: ", substr)
+                x=10
             #    breakpoint()
         #step 4, get rid of bad states
         next_states = [next_states[idx] for idx in good_states]
@@ -442,7 +381,9 @@ def bestFirstSearchWithChecks(model_query, q, tokenizer, simple_sql_fn, bm_size 
         #retain all of them
         for idx, state in enumerate(next_states):
             if states.qsize() < pri_q_sz:
-                states.put((probs[idx], state))
+                priority = (probs[idx], time.time())
+                states.put((priority, state))
+
     print(q["query"])  
-    print("We have exhausted priority que with some minimum probability")
+    print("We have exhausted priority que")
     return [torch.tensor([bos_token, 4803, eos_token], dtype=torch.int64, device=device) for i in range(bm_size)]

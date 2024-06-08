@@ -1,9 +1,0 @@
-1. SELECT COUNT(*) FROM flights WHERE flights.destairport = 'ATO';
-
-2. SELECT COUNT(*) FROM flights WHERE flights.destairport = 'ATO';
-
-3. SELECT COUNT(*) FROM flights JOIN airports ON flights.sourceairport = airports.airportcode WHERE airports.city = 'Aberdeen';
-
-4. SELECT COUNT(*) FROM flights JOIN airports ON flights.sourceairport = airports.airportcode WHERE airports.city = 'Aberdeen';
-
-5. SELECT COUNT(*) FROM flights JOIN airports ON flights.destairport = airports.airportcode WHERE airports.city = 'Aberdeen';

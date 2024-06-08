@@ -1,5 +1,0 @@
-1. SELECT city FROM employee WHERE age < 30 GROUP BY city HAVING COUNT(*) > 1;
-2. SELECT city FROM employee WHERE age < 30 GROUP BY city HAVING COUNT(*) > 1;
-3. SELECT COUNT(*) AS num_shops, location FROM shop GROUP BY location;
-4. SELECT COUNT(*) AS num_shops, location FROM shop GROUP BY location;
-5. SELECT manager_name, district FROM

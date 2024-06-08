@@ -1,5 +1,0 @@
-1. SELECT DISTINCT airline FROM flights WHERE sourceairport = 'CVO' AND airline NOT IN (SELECT airline FROM flights WHERE sourceairport = 'APG');
-2. SELECT airline FROM flights GROUP BY airline HAVING COUNT(*) >= 10;
-3. SELECT airline FROM flights GROUP BY airline HAVING COUNT(*) >= 10;
-4. SELECT airline FROM flights GROUP BY airline HAVING COUNT(*) < 200;
-5. SELECT airline FROM flights GROUP BY airline HAVING COUNT(*) < 200;

@@ -1,5 +1,0 @@
-1. SELECT MAX(cars_data.mpg) FROM cars_data WHERE cars_data.cylinders = 8 OR cars_data.year < 1980;
-2. SELECT DISTINCT car_names.model FROM car_names JOIN cars_data ON car_names.makeid = cars_data.id WHERE cars_data.weight < 3500 AND car_names.make != 'Ford Motor Company';
-3. SELECT DISTINCT car_names.model FROM car_names JOIN cars_data ON car_names.makeid = cars_data.id WHERE cars_data.weight < 3500 AND car_names.make != 'Ford Motor Company';
-4. SELECT DISTINCT countries.countryname FROM countries LEFT JOIN car_makers ON countries.countryid = car_makers.country WHERE car_makers.id IS NULL;
-5. SELECT DISTINCT countries.countryname FROM countries LEFT JOIN car_makers ON countries.countryid = car_makers.country WHERE car_makers.id IS NULL;

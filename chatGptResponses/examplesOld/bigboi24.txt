@@ -1,5 +1,0 @@
-1. SELECT MIN(cars_data.weight) FROM cars_data WHERE cars_data.cylinders = 8 AND cars_data.year = 1974;
-2. SELECT car_makers.id, car_makers.maker FROM car_makers JOIN model_list ON car_makers.id = model_list.maker GROUP BY car_makers.id;
-3. SELECT car_makers.id, car_makers.maker FROM car_makers JOIN model_list ON car_makers.id = model_list.maker GROUP BY car_makers.id;
-4. SELECT DISTINCT countries.countryname, countries.countryid FROM countries JOIN car_makers ON countries.countryid = car_makers.country;
-5. SELECT DISTINCT countries.countryname, countries.countryid FROM countries JOIN car_makers ON countries.countryid = car_makers.country;

@@ -1,9 +1,0 @@
-1. SELECT museum_id, name FROM museum ORDER BY num_of_staff DESC LIMIT 1;
-
-2. SELECT AVG(num_of_staff) FROM museum WHERE open_year < 2009;
-
-3. SELECT open_year, num_of_staff FROM museum WHERE name = 'Plaza Museum';
-
-4. SELECT name FROM museum WHERE num_of_staff > (SELECT MIN(num_of_staff) FROM museum WHERE open_year > 2010);
-
-5. SELECT visitor.id, visitor.name, visitor.age FROM
