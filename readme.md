@@ -20,6 +20,7 @@ nltk.download('punkt')
 ```bash
 python -m main
 ```
+NB: By default the results will be saved in results directory results/model_checkpoint_name.txt
 8. Evaluate the results against gold standard to get results in paper.
 ```bash
 cd eval
