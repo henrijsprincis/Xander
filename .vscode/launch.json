@@ -19,6 +19,14 @@
             "module": "neural_query_checker.main",
             "console": "integratedTerminal",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "chatGPT",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "training_and_evaluation.evaluate_chatgpt",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

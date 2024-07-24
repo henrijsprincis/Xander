@@ -1,8 +1,8 @@
 {
   "use_good_checkpoint_query": false,
-  "add_execution_result": false,
+  "add_execution_result": true,
   "save_after_training": true,
-  "use_simple_sql": true,
+  "use_simple_sql": false,
   "check_exec_result": true,
   "check_partial_sql": false,
   "check_example": false,
