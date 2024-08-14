@@ -5,7 +5,6 @@ import copy
 ## Test stuff
 from eval.getNumberCorrect import str_to_db_path, execute_query, evaluate_model
 from open_ai.chat_gpt import ask_chatGPT as ask_chatGPT
-from prompts.simple_sql_rules import prompt_sql
 
 def remove_too_long(spider):
     len_train = len(spider["train"])

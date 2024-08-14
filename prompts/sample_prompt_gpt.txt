@@ -1,0 +1,6 @@
+Provide SQL that answers the following question: How many singers do we have?
+The schema: 
+{stadium: [stadium_id number, location text, name text, capacity number, highest number, lowest number, average number], singer: [singer_id number, name text, country text, song_name text, song_release_year text, age number, is_male others], concert: [concert_id number, concert_name text, theme text, stadium_id text, year text], singer_in_concert: [concert_id number, singer_id text]}
+This is the partial execution result of the query: (6,)
+
+Only output the SQL query without an explanation and without the triple quotes.
