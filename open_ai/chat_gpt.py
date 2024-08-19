@@ -2,10 +2,10 @@ import time
 from openai import OpenAI
 client = OpenAI()
 
-def ask_chatGPT(query):
+def ask_chatGPT(query, model = "gpt-4o-mini"):
     try:
         completion = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model= model,
             messages=[{"role": "user", "content": query}],
             temperature=0,
             top_p=0.01,

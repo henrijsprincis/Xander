@@ -35,7 +35,7 @@ def main():
         chat_gpt_prompts.append(chat_gpt_prompt)
     start_time = time.time()
     for i, prompt in enumerate(chat_gpt_prompts):
-        chat_gpt_output = ask_chatGPT(prompt).replace("\n", " ")# Remove newlines
+        chat_gpt_output = ask_chatGPT(prompt, "gpt-3.5-turbo").replace("\n", " ")# Remove newlines. Model choices "gpt-4o", "gpt-4o-mini", "gpt-3.5-turbo"
         chat_gpt_outputs.append(chat_gpt_output)
         print(i)
         if i%10 == 0:
